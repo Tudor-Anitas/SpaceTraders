@@ -19,6 +19,10 @@ class Agent extends Equatable {
     required this.shipCount,
   });
 
+  factory Agent.empty() {
+    return Agent.fromMap(const {});
+  }
+
   Agent copyWith({
     String? accountId,
     String? symbol,
@@ -50,18 +54,19 @@ class Agent extends Equatable {
 
   factory Agent.fromMap(Map<String, dynamic> map) {
     return Agent(
-      accountId: map['accountId'] as String,
-      symbol: map['symbol'] as String,
-      headquarters: map['headquarters'] as String,
-      credits: map['credits'] as int,
-      startingFaction: map['startingFaction'] as String,
-      shipCount: map['shipCount'] as int,
+      accountId: map['accountId'] ?? '' ,
+      symbol: map['symbol'] ?? '',
+      headquarters: map['headquarters'] ?? '',
+      credits: map['credits'] ?? 0,
+      startingFaction: map['startingFaction'] ?? '',
+      shipCount: map['shipCount'] ?? 0,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Agent.fromJson(String source) => Agent.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Agent.fromJson(String source) =>
+      Agent.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

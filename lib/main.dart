@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/api/dio.dart';
-import 'package:space_traders/pages/home_page.dart/home.dart';
+import 'package:space_traders/blocs/cubit/home_cubit.dart';
+import 'package:space_traders/router.dart';
 import 'package:space_traders/theme.dart';
-
 
 void main() async {
   dio.interceptors.add(networkInterceptor);
-
-  // ApiService().showMyAgent();
-
   runApp(const MainApp());
 }
 
@@ -17,9 +15,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: themeData,
-      home: const HomePage()
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => HomeCubit())],
+      child: MaterialApp.router(
+        theme: themeData,
+        routerConfig: router,
+      ),
     );
   }
 }

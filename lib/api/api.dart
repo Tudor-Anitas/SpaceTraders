@@ -15,10 +15,15 @@ class ApiService {
     );
   }
 
-  Future<void> showMyAgent() async {
-    Response response = await dio.get('/my/agent');
-    Agent agent = Agent.fromMap(response.data['data']);
+  Future<Agent> getMyAgentStats() async {
+    try {
+      Response response = await dio.get('/my/agent');
+      Agent agent = Agent.fromMap(response.data['data']);
 
-    debugPrint('Agent details: ${agent.toString()}');
+      debugPrint('Agent details: ${agent.toString()}');
+      return agent;
+    } catch (e) {
+      return Agent.empty();
+    }
   }
 }
