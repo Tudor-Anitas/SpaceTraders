@@ -1,8 +1,6 @@
+// ignore_for_file: constant_identifier_names
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
-
-import 'package:space_traders/models/cargo.dart';
 import 'package:space_traders/models/cooldown.dart';
 import 'package:space_traders/models/crew.dart';
 import 'package:space_traders/models/engine.dart';
@@ -13,6 +11,7 @@ import 'package:space_traders/models/mount.dart';
 import 'package:space_traders/models/nav.dart';
 import 'package:space_traders/models/reactor.dart';
 import 'package:space_traders/models/registrations.dart';
+import 'package:space_traders/models/ship_cargo.dart';
 
 class Ship extends Equatable {
   final String symbol;
@@ -25,7 +24,7 @@ class Ship extends Equatable {
   final Cooldown cooldown;
   final List<Module> modules;
   final List<Mount> mounts;
-  final Cargo cargo;
+  final ShipCargo cargo;
   final Fuel fuel;
   const Ship({
     required this.symbol,
@@ -53,7 +52,7 @@ class Ship extends Equatable {
     Cooldown? cooldown,
     List<Module>? modules,
     List<Mount>? mounts,
-    Cargo? cargo,
+    ShipCargo? cargo,
     Fuel? fuel,
   }) {
     return Ship(
@@ -101,7 +100,7 @@ class Ship extends Equatable {
       cooldown: Cooldown.fromMap(map['cooldown']),
       modules: List<Module>.from(map['modules']?.map((x) => Module.fromMap(x))),
       mounts: List<Mount>.from(map['mounts']?.map((x) => Mount.fromMap(x))),
-      cargo: Cargo.fromMap(map['cargo']),
+      cargo: ShipCargo.fromMap(map['cargo']),
       fuel: Fuel.fromMap(map['fuel']),
     );
   }
@@ -132,4 +131,19 @@ class Ship extends Equatable {
       fuel,
     ];
   }
+}
+
+enum ShipType {
+  SHIP_PROBE,
+  SHIP_MINING_DRONE,
+  SHIP_SIPHON_DRONE,
+  SHIP_INTERCEPTOR,
+  SHIP_LIGHT_HAULER,
+  SHIP_COMMAND_FRIGATE,
+  SHIP_EXPLORER,
+  SHIP_HEAVY_FREIGHTER,
+  SHIP_LIGHT_SHUTTLE,
+  SHIP_ORE_HOUND,
+  SHIP_REFINING_FREIGHTER,
+  SHIP_SURVEYOR,
 }

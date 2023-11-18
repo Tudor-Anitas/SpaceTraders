@@ -2,26 +2,26 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class Cargo extends Equatable {
+class ContractDeliverGood extends Equatable {
   final String tradeSymbol;
   final String destinationSymbol;
   final int unitsRequired;
   final int unitsFulfilled;
 
-  const Cargo({
+  const ContractDeliverGood({
     required this.tradeSymbol,
     required this.destinationSymbol,
     required this.unitsRequired,
     required this.unitsFulfilled,
   });
 
-  Cargo copyWith({
+  ContractDeliverGood copyWith({
     String? tradeSymbol,
     String? destinationSymbol,
     int? unitsRequired,
     int? unitsFulfilled,
   }) {
-    return Cargo(
+    return ContractDeliverGood(
       tradeSymbol: tradeSymbol ?? this.tradeSymbol,
       destinationSymbol: destinationSymbol ?? this.destinationSymbol,
       unitsRequired: unitsRequired ?? this.unitsRequired,
@@ -38,8 +38,8 @@ class Cargo extends Equatable {
     };
   }
 
-  factory Cargo.fromMap(Map<String, dynamic> map) {
-    return Cargo(
+  factory ContractDeliverGood.fromMap(Map<String, dynamic> map) {
+    return ContractDeliverGood(
       tradeSymbol: map['tradeSymbol'] ?? '',
       destinationSymbol: map['destinationSymbol'] ?? '',
       unitsRequired: map['unitsRequired']?.toInt() ?? 0,
@@ -49,7 +49,7 @@ class Cargo extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory Cargo.fromJson(String source) => Cargo.fromMap(json.decode(source));
+  factory ContractDeliverGood.fromJson(String source) => ContractDeliverGood.fromMap(json.decode(source));
 
   @override
   String toString() {

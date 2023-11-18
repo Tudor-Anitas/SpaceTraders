@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:space_traders/api/dio.dart';
-import 'package:space_traders/models/cargo.dart';
+import 'package:space_traders/models/contract_deliver_good.dart';
 import 'package:space_traders/models/contract.dart';
 
 class ContractsApi {
@@ -30,8 +30,8 @@ class ContractsApi {
     return Contract.fromMap(response.data['contract']);
   }
 
-  /// returns a updated [Contract] and updated [Cargo] of the ship that delivered
-  Future<(Contract, Cargo)> deliverGoodsToContract(String contractId,
+  /// returns a updated [Contract] and updated [ContractDeliverGood] of the ship that delivered
+  Future<(Contract, ContractDeliverGood)> deliverGoodsToContract(String contractId,
       String shipSymbol, String tradeSymbol, int units) async {
     Response response = await dio.post(
       '/my/contracts/$contractId/deliver',
@@ -42,7 +42,7 @@ class ContractsApi {
 
     return (
       Contract.fromMap(response.data['data']['contract']),
-      Cargo.fromMap(response.data['data']['cargo'])
+      ContractDeliverGood.fromMap(response.data['data']['cargo'])
     );
   }
 

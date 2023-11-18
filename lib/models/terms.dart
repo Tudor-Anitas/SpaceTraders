@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:space_traders/models/cargo.dart';
+import 'package:space_traders/models/contract_deliver_good.dart';
 import 'package:space_traders/models/payment.dart';
 
 class Terms extends Equatable {
   final String deadline;
   final Payment payment;
-  final List<Cargo> deliver;
+  final List<ContractDeliverGood> deliver;
 
   const Terms({
     required this.deadline,
@@ -19,7 +19,7 @@ class Terms extends Equatable {
   Terms copyWith({
     String? deadline,
     Payment? payment,
-    List<Cargo>? deliver,
+    List<ContractDeliverGood>? deliver,
   }) {
     return Terms(
       deadline: deadline ?? this.deadline,
@@ -40,7 +40,7 @@ class Terms extends Equatable {
     return Terms(
       deadline: map['deadline'] ?? '',
       payment: Payment.fromMap(map['payment']),
-      deliver: List<Cargo>.from(map['deliver']?.map((x) => Cargo.fromMap(x))),
+      deliver: List<ContractDeliverGood>.from(map['deliver']?.map((x) => ContractDeliverGood.fromMap(x))),
     );
   }
 
