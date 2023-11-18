@@ -20,6 +20,7 @@ class _ContractsPageState extends State<ContractsPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     HomeState state = context.watch<HomeCubit>().state;
     xPosition = state.isDetailsPage ? -screenWidth : 0;
     List<Contract> contracts = state.contracts;
@@ -27,9 +28,8 @@ class _ContractsPageState extends State<ContractsPage> {
       duration: 300.ms,
       curve: Curves.fastEaseInToSlowEaseOut,
       transform: Matrix4.translationValues(xPosition, 0, 0),
-      height: MediaQuery.of(context).size.height * 0.8,
-      padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.1),
+      height: screenHeight * 0.8,
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
       child: ListView.builder(
         itemCount: contracts.length,
         itemBuilder: (context, index) => Row(
@@ -53,7 +53,7 @@ class _ContractsPageState extends State<ContractsPage> {
                 ),
                 onPressed: () => context
                     .read<HomeCubit>()
-                    .mockAcceptContract(contracts[index].id),
+                    .acceptContract(contracts[index].id),
               ),
             )
           ],

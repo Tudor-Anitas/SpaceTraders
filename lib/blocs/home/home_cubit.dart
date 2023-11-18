@@ -6,6 +6,7 @@ import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/contract.dart';
+import 'package:space_traders/models/ship.dart';
 
 part 'home_state.dart';
 
@@ -16,6 +17,7 @@ class HomeCubit extends Cubit<HomeState> {
               agent: Agent.empty(),
               message: StateMessage(key: UniqueKey(), text: ''),
               contracts: const [],
+              ships: const [],
               isDetailsPage: false,
               selectedContractIndex: 0),
         );
@@ -30,11 +32,19 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  Future<void> listShips() async {
+    emit(
+      state.copyWith(
+        ships: await ActionsRepository().listShips(),
+      ),
+    );
+  }
+
   Future<void> viewContracts() async {
     emit(
       state.copyWith(
         contracts: state.contracts.isEmpty
-            ? await ContractsApi().viewContracts()
+            ? await ContractsApi().listContracts()
             : state.contracts,
       ),
     );
@@ -45,20 +55,6 @@ class HomeCubit extends Cubit<HomeState> {
     List<Contract> contracts = List.from(state.contracts);
     int indexOfOldContract = contracts.indexOf(
         contracts.firstWhere((contract) => contract.id == updatedContract.id));
-    contracts[indexOfOldContract] = updatedContract;
-
-    emit(state.copyWith(contracts: contracts));
-  }
-
-  mockAcceptContract(String id) {
-    List<Contract> contracts = List.from(state.contracts);
-
-    int indexOfOldContract =
-        contracts.indexOf(contracts.firstWhere((element) => element.id == id));
-
-    Contract updatedContract =
-        contracts[indexOfOldContract].copyWith(accepted: true);
-
     contracts[indexOfOldContract] = updatedContract;
 
     emit(state.copyWith(contracts: contracts));
