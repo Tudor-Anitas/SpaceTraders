@@ -19,7 +19,7 @@ InterceptorsWrapper networkInterceptor = InterceptorsWrapper(
   },
   onResponse: (response, handler) {
     debugPrint(
-        '[${response.requestOptions.path}] => [${response.statusCode}] => Body [${response.data}]');
+        '[${response.requestOptions.path}] => [${response.statusCode}]');
     return handler.next(response);
   },
   onError: (error, handler) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_traders/blocs/cubit/home_cubit.dart';
+import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/popup.dart';
 

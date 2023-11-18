@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_traders/api/actions_repository.dart';
 import 'package:space_traders/api/dio.dart';
-import 'package:space_traders/blocs/cubit/home_cubit.dart';
+import 'package:space_traders/blocs/home/home_cubit.dart';
+
 import 'package:space_traders/router.dart';
 import 'package:space_traders/theme.dart';
 
 void main() async {
   dio.interceptors.add(networkInterceptor);
+  await ActionsRepository().listShips();
   runApp(const MainApp());
 }
 
