@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:space_traders/api/dio.dart';
 import 'package:space_traders/models/agent.dart';
+import 'package:space_traders/models/chart.dart';
 import 'package:space_traders/models/cooldown.dart';
 import 'package:space_traders/models/nav.dart';
 import 'package:space_traders/models/produce.dart';
@@ -10,6 +11,7 @@ import 'package:space_traders/models/refining_goods.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/ship_cargo.dart';
 import 'package:space_traders/models/transaction.dart';
+import 'package:space_traders/models/waypoint.dart';
 
 class FleetApi {
   Future<List<Ship>> listShips() async {
@@ -71,6 +73,17 @@ class FleetApi {
       Cooldown.fromMap(data['cooldown']),
       RefiningGoods.fromMap(data['produces']),
       RefiningGoods.fromMap(data['consumed'])
+    );
+  }
+
+  Future<(Chart, Waypoint)> createChart(String shipSymbol) async {
+    Response response = await dio.post('/my/ships/$shipSymbol/chart');
+    Map data = response.data['data'];
+    return (
+      Chart.fromMap(data['chart']),
+      Waypoint.fromMap(
+        data['waypoint'],
+      ),
     );
   }
 }
