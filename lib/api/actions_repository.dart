@@ -2,15 +2,25 @@ import 'package:space_traders/api/agent_api.dart';
 import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/api/fleet_api.dart';
 import 'package:space_traders/models/agent.dart';
+import 'package:space_traders/models/chart.dart';
 import 'package:space_traders/models/contract_deliver_good.dart';
 import 'package:space_traders/models/contract.dart';
 import 'package:space_traders/models/cooldown.dart';
+import 'package:space_traders/models/extraction.dart';
+import 'package:space_traders/models/fuel.dart';
+import 'package:space_traders/models/mount.dart';
 import 'package:space_traders/models/nav.dart';
 import 'package:space_traders/models/produce.dart';
 import 'package:space_traders/models/refining_goods.dart';
+import 'package:space_traders/models/scanned_ship.dart';
+import 'package:space_traders/models/scanned_system.dart';
+import 'package:space_traders/models/scanned_waypoint.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/ship_cargo.dart';
+import 'package:space_traders/models/siphon.dart';
+import 'package:space_traders/models/survey.dart';
 import 'package:space_traders/models/transaction.dart';
+import 'package:space_traders/models/waypoint.dart';
 
 class ActionsRepository {
   // Agent methods
@@ -70,5 +80,115 @@ class ActionsRepository {
   Future<(ShipCargo, Cooldown, RefiningGoods, RefiningGoods)> shipRefine(
       String shipSymbol, Produce produceToMake) async {
     return await FleetApi().shipRefine(shipSymbol, produceToMake);
+  }
+
+  Future<(Chart, Waypoint)> createChart(String shipSymbol) async {
+    return await FleetApi().createChart(shipSymbol);
+  }
+
+  Future<Cooldown> getCooldown(String shipSymbol) async {
+    return await FleetApi().getCooldown(shipSymbol);
+  }
+
+  Future<Nav> dockShip(String shipSymbol) async {
+    return await FleetApi().dockShip(shipSymbol);
+  }
+
+  Future<(Cooldown, List<Survey>)> createSurvey(String shipSymbol) async {
+    return await FleetApi().createSurvey(shipSymbol);
+  }
+
+  Future<(Cooldown, Extraction, ShipCargo)> extractResources(
+      String shipSymbol, Survey survey) async {
+    return await FleetApi().extractResources(shipSymbol, survey);
+  }
+
+  Future<(Cooldown, Siphon, ShipCargo)> siphonResources(
+      String shipSymbol) async {
+    return await FleetApi().siphonResources(shipSymbol);
+  }
+
+  Future<(Cooldown, Extraction, ShipCargo)> extractResourcesWithSurvery(
+      String shipSymbol, Survey survey) async {
+    return await FleetApi().extractResourcesWithSurvery(shipSymbol, survey);
+  }
+
+  Future<ShipCargo> jettisonCargo(
+      String shipSymbol, String goodsSymbol, int units) async {
+    return await FleetApi().jettisonCargo(shipSymbol, goodsSymbol, units);
+  }
+
+  Future<(Nav, Cooldown, Transaction)> jumpShip(
+      String shipSymbol, Waypoint waypoint) async {
+    return await FleetApi().jumpShip(shipSymbol, waypoint);
+  }
+
+  Future<(Fuel, Nav)> navigateShip(String shipSymbol, Waypoint waypoint) async {
+    return await FleetApi().navigateShip(shipSymbol, waypoint);
+  }
+
+  Future<Nav> patchShipNav(String shipSymbol, Nav nav) async {
+    return await FleetApi().patchShipNav(shipSymbol, nav);
+  }
+
+  Future<Nav> getShipNav(String shipSymbol) async {
+    return await FleetApi().getShipNav(shipSymbol);
+  }
+
+  Future<(Fuel, Nav)> warpShip(String shipSymbol, Waypoint waypoint) async {
+    return await FleetApi().warpShip(shipSymbol, waypoint);
+  }
+
+  Future<(Agent, ShipCargo, Transaction)> sellCargo(
+      String shipSymbol, String goodsSymbol, int units) async {
+    return await FleetApi().sellCargo(shipSymbol, goodsSymbol, units);
+  }
+
+  Future<(Cooldown, List<ScannedSystem>)> scanSytems(String shipSymbol) async {
+    return await FleetApi().scanSystems(shipSymbol);
+  }
+
+  Future<(Cooldown, List<ScannedWaypoint>)> scanWaypoints(
+      String shipSymbol) async {
+    return FleetApi().scanWaypoints(shipSymbol);
+  }
+
+  Future<(Cooldown, List<ScannedShip>)> scanShips(String shipSymbol) async {
+    return await FleetApi().scanShips(shipSymbol);
+  }
+
+  Future<(Agent, Fuel, Transaction)> refuelShip(
+      String shipSymbol, int units, bool? shouldRefuelFromCargo) async {
+    return await FleetApi()
+        .refuelShip(shipSymbol, units, shouldRefuelFromCargo);
+  }
+
+  Future<(Agent, ShipCargo, Transaction)> purchaseCargo(
+      String shipSymbol, String goodsSymbol, int units) async {
+    return await FleetApi().purchaseCargo(shipSymbol, goodsSymbol, units);
+  }
+
+  Future<ShipCargo> transferCargo(String shipSymbol, String tradeSymbol,
+      int units, String shipSymbolToTransferTo) async {
+    return await FleetApi()
+        .transferCargo(shipSymbol, tradeSymbol, units, shipSymbolToTransferTo);
+  }
+
+  Future<Contract> negotiateContract(String shipSymbol) async {
+    return await FleetApi().negotiateContract(shipSymbol);
+  }
+
+  Future<List<Mount>> getMounts(String shipSymbol) async {
+    return await FleetApi().getMounts(shipSymbol);
+  }
+
+  Future<(Agent, List<Mount>, ShipCargo, Transaction)> installMount(
+      String shipSymbol, Mount mountToInstall) async {
+    return await FleetApi().installMount(shipSymbol, mountToInstall);
+  }
+
+  Future<(Agent, List<Mount>, ShipCargo, Transaction)> removeMount(
+      String shipSymbol, Mount mountToInstall) async {
+    return await FleetApi().removeMount(shipSymbol, mountToInstall);
   }
 }
