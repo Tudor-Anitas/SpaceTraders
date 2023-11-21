@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -81,4 +83,12 @@ class Reactor extends Equatable {
       requirements,
     ];
   }
+}
+
+enum ReactorSymbol {
+  REACTOR_SOLAR_I,
+  REACTOR_FUSION_I,
+  REACTOR_FISSION_I,
+  REACTOR_CHEMICAL_I,
+  REACTOR_ANTIMATTER_I,
 }

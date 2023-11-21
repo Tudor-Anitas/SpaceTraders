@@ -1,13 +1,19 @@
 import 'package:space_traders/api/agent_api.dart';
 import 'package:space_traders/api/contracts_api.dart';
+import 'package:space_traders/api/factions_api.dart';
 import 'package:space_traders/api/fleet_api.dart';
+import 'package:space_traders/api/systems_api.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/chart.dart';
+import 'package:space_traders/models/construction.dart';
 import 'package:space_traders/models/contract_deliver_good.dart';
 import 'package:space_traders/models/contract.dart';
 import 'package:space_traders/models/cooldown.dart';
 import 'package:space_traders/models/extraction.dart';
+import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/fuel.dart';
+import 'package:space_traders/models/jump_gate.dart';
+import 'package:space_traders/models/market.dart';
 import 'package:space_traders/models/mount.dart';
 import 'package:space_traders/models/nav.dart';
 import 'package:space_traders/models/produce.dart';
@@ -17,10 +23,14 @@ import 'package:space_traders/models/scanned_system.dart';
 import 'package:space_traders/models/scanned_waypoint.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/ship_cargo.dart';
+import 'package:space_traders/models/shipyard.dart';
 import 'package:space_traders/models/siphon.dart';
 import 'package:space_traders/models/survey.dart';
+import 'package:space_traders/models/system.dart';
 import 'package:space_traders/models/transaction.dart';
 import 'package:space_traders/models/waypoint.dart';
+import 'package:space_traders/models/waypoint_trait.dart';
+import 'package:space_traders/models/waypoint_type.dart';
 
 class ActionsRepository {
   // Agent methods
@@ -190,5 +200,66 @@ class ActionsRepository {
   Future<(Agent, List<Mount>, ShipCargo, Transaction)> removeMount(
       String shipSymbol, Mount mountToInstall) async {
     return await FleetApi().removeMount(shipSymbol, mountToInstall);
+  }
+
+  Future<List<Faction>> listFactions() async {
+    return await FactionsApi().listFactions();
+  }
+
+  Future<Faction> getFaction(String factionSymbol) async {
+    return await FactionsApi().getFaction(factionSymbol);
+  }
+
+  Future<List<System>> listSystems(
+      int? limitPerPage, int? pageToRequest) async {
+    return await SystemsApi().listSystems(limitPerPage, pageToRequest);
+  }
+
+  Future<System> getSystem(String systemSymbol) async {
+    return await SystemsApi().getSystem(systemSymbol);
+  }
+
+  Future<List<Waypoint>> listWaypointsInSystem(
+      String systemSymbol,
+      int? limitPerPage,
+      int? pageToRequest,
+      WaypointTraitSymbol? trait,
+      WaypointType? type) async {
+    return await SystemsApi().listWaypointsInSystem(
+        systemSymbol, limitPerPage, pageToRequest, trait, type);
+  }
+
+  Future<Waypoint> getWaypoint(
+      String systemSymbol, String waypointSymbol) async {
+    return await SystemsApi().getWaypoint(systemSymbol, waypointSymbol);
+  }
+
+  Future<Market> getMarket(String systemSymbol, String waypointSymbol) async {
+    return await SystemsApi().getMarket(systemSymbol, waypointSymbol);
+  }
+
+  Future<Shipyard> getShipyard(
+      String systemSymbol, String waypointSymbol) async {
+    return await SystemsApi().getShipyard(systemSymbol, waypointSymbol);
+  }
+
+  Future<JumpGate> getJumpGate(
+      String systemSymbol, String waypointSymbol) async {
+    return await SystemsApi().getJumpGate(systemSymbol, waypointSymbol);
+  }
+
+  Future<Construction> getConstructionSite(
+      String systemSymbol, String waypointSymbol) async {
+    return await SystemsApi().getConstructionSite(systemSymbol, waypointSymbol);
+  }
+
+  Future<(Construction, ShipCargo)> supplyConstructionSite(
+      String systemSymbol,
+      String waypointSymbol,
+      String shipSymbol,
+      String tradeSymbol,
+      int units) async {
+    return await SystemsApi().supplyConstructionSite(
+        systemSymbol, waypointSymbol, shipSymbol, tradeSymbol, units);
   }
 }

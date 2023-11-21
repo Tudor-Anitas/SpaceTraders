@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -80,4 +82,11 @@ class Engine extends Equatable {
       requirements,
     ];
   }
+}
+
+enum EngineSymbol {
+  ENGINE_IMPULSE_DRIVE_I,
+  ENGINE_ION_DRIVE_I,
+  ENGINE_ION_DRIVE_II,
+  ENGINE_HYPER_DRIVE_I,
 }
