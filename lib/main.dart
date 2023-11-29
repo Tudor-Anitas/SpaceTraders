@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [BlocProvider(create: (context) => HomeCubit())],
       child: MaterialApp.router(
-        theme: themeData,
+        theme: themeData(),
         routerConfig: router,
       ),
     );
