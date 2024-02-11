@@ -7,7 +7,7 @@ import 'package:space_traders/models/contract_deliver_good.dart';
 import 'package:space_traders/models/contract.dart';
 
 class ContractsApi {
-  Future<List<Contract>> listContracts() async {
+  Future<(int, List<Contract>)> listContracts() async {
     try {
       Response response = await dio.get('/my/contracts');
 
@@ -18,21 +18,24 @@ class ContractsApi {
         ),
       );
 
-      return contracts;
-    } catch (e) {
+      return (response.statusCode ?? 200, contracts);
+    } on DioException catch (e) {
       debugPrint(e.toString());
-      return List<Contract>.empty();
+      return (e.response?.statusCode ?? 400, List<Contract>.empty());
     }
   }
 
-  Future<Contract> acceptContract(String id) async {
+  Future<(int, Contract)> acceptContract(String id) async {
     Response response = await dio.post('/my/contracts/$id/accept');
-    return Contract.fromMap(response.data['contract']);
+    return (response.statusCode!, Contract.fromMap(response.data['contract']));
   }
 
   /// returns a updated [Contract] and updated [ContractDeliverGood] of the ship that delivered
-  Future<(Contract, ContractDeliverGood)> deliverGoodsToContract(String contractId,
-      String shipSymbol, String tradeSymbol, int units) async {
+  Future<(int, Contract, ContractDeliverGood)> deliverGoodsToContract(
+      String contractId,
+      String shipSymbol,
+      String tradeSymbol,
+      int units) async {
     Response response = await dio.post(
       '/my/contracts/$contractId/deliver',
       data: json.encode(
@@ -41,12 +44,14 @@ class ContractsApi {
     );
 
     return (
+      response.statusCode!,
       Contract.fromMap(response.data['data']['contract']),
       ContractDeliverGood.fromMap(response.data['data']['cargo'])
     );
   }
 
-  Future<void> fulfillContract(String contractId) async {
-    await dio.post('/my/contracts/$contractId/fulfill');
+  Future<int> fulfillContract(String contractId) async {
+    Response response = await dio.post('/my/contracts/$contractId/fulfill');
+    return response.statusCode!;
   }
 }

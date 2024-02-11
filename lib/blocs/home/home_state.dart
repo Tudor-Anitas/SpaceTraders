@@ -2,7 +2,7 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   final Agent agent;
-  final StateMessage message;
+  final StateError message;
   final List<Contract> contracts;
   final List<Ship> ships;
   final bool isDetailsPage;
@@ -21,7 +21,7 @@ class HomeState extends Equatable {
 
   HomeState copyWith(
       {Agent? agent,
-      StateMessage? message,
+      StateError? message,
       List<Contract>? contracts,
       List<Ship>? ships,
       bool? isDetailsPage,

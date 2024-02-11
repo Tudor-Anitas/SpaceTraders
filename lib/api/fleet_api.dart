@@ -23,17 +23,17 @@ import 'package:space_traders/models/transaction.dart';
 import 'package:space_traders/models/waypoint.dart';
 
 class FleetApi {
-  Future<List<Ship>> listShips() async {
+  Future<(int, List<Ship>)> listShips() async {
     Response response = await dio.get('/my/ships');
     List<Ship> ships = [];
     for (var element in response.data['data']) {
       Ship ship = Ship.fromMap(element);
       ships.add(ship);
     }
-    return ships;
+    return (response.statusCode!, ships);
   }
 
-  Future<(Agent, Ship, Transaction)> purchaseShip(
+  Future<(int, Agent, Ship, Transaction)> purchaseShip(
       ShipType shipType, String waypointSymbol) async {
     Response response = await dio.post(
       '/my/ships',
@@ -43,30 +43,31 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Agent.fromMap(data['agent']),
       Ship.fromMap(data['ship']),
       Transaction.fromMap(data['transaction'])
     );
   }
 
-  Future<Ship> getShip(String shipSymbol) async {
+  Future<(int, Ship)> getShip(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol');
 
-    return Ship.fromMap(response.data['data']);
+    return (response.statusCode!, Ship.fromMap(response.data['data']));
   }
 
-  Future<ShipCargo> getShipCargo(String shipSymbol) async {
+  Future<(int, ShipCargo)> getShipCargo(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/cargo');
 
-    return ShipCargo.fromMap(response.data['data']);
+    return (response.statusCode!, ShipCargo.fromMap(response.data['data']));
   }
 
-  Future<Nav> orbitShip(String shipSymbol) async {
+  Future<(int, Nav)> orbitShip(String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/orbit');
-    return Nav.fromMap(response.data['data']);
+    return (response.statusCode!, Nav.fromMap(response.data['data']));
   }
 
-  Future<(ShipCargo, Cooldown, RefiningGoods, RefiningGoods)> shipRefine(
+  Future<(int, ShipCargo, Cooldown, RefiningGoods, RefiningGoods)> shipRefine(
       String shipSymbol, Produce produceToMake) async {
     Response response = await dio.post(
       '/my/ships/$shipSymbol/refine',
@@ -78,6 +79,7 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       ShipCargo.fromMap(data['cargo']),
       Cooldown.fromMap(data['cooldown']),
       RefiningGoods.fromMap(data['produces']),
@@ -85,10 +87,11 @@ class FleetApi {
     );
   }
 
-  Future<(Chart, Waypoint)> createChart(String shipSymbol) async {
+  Future<(int, Chart, Waypoint)> createChart(String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/chart');
     Map data = response.data['data'];
     return (
+      response.statusCode!,
       Chart.fromMap(data['chart']),
       Waypoint.fromMap(
         data['waypoint'],
@@ -96,20 +99,21 @@ class FleetApi {
     );
   }
 
-  Future<Cooldown> getCooldown(String shipSymbol) async {
+  Future<(int, Cooldown)> getCooldown(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/cooldown');
-    return Cooldown.fromMap(response.data['data']);
+    return (response.statusCode!, Cooldown.fromMap(response.data['data']));
   }
 
-  Future<Nav> dockShip(String shipSymbol) async {
+  Future<(int, Nav)> dockShip(String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/dock');
-    return Nav.fromMap(response.data['data']);
+    return (response.statusCode!, Nav.fromMap(response.data['data']));
   }
 
-  Future<(Cooldown, List<Survey>)> createSurvey(String shipSymbol) async {
+  Future<(int, Cooldown, List<Survey>)> createSurvey(String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/survey');
     Map data = response.data['data'];
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       List.from(
         data['surveys'].map(
@@ -119,7 +123,7 @@ class FleetApi {
     );
   }
 
-  Future<(Cooldown, Extraction, ShipCargo)> extractResources(
+  Future<(int, Cooldown, Extraction, ShipCargo)> extractResources(
       String shipSymbol, Survey survey) async {
     Response response = await dio.post(
       '/my/ships/$shipSymbol/extract',
@@ -131,26 +135,28 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       Extraction.fromMap(data['extraction']),
       ShipCargo.fromMap(data['cargo']),
     );
   }
 
-  Future<(Cooldown, Siphon, ShipCargo)> siphonResources(
+  Future<(int, Cooldown, Siphon, ShipCargo)> siphonResources(
       String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/siphon');
 
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       Siphon.fromMap(data['siphon']),
       ShipCargo.fromMap(data['cargo']),
     );
   }
 
-  Future<(Cooldown, Extraction, ShipCargo)> extractResourcesWithSurvery(
+  Future<(int, Cooldown, Extraction, ShipCargo)> extractResourcesWithSurvery(
       String shipSymbol, Survey survey) async {
     Response response = await dio.post(
       '/my/ships/$shipSymbol/extract/survey',
@@ -168,13 +174,14 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       Extraction.fromMap(data['extraction']),
       ShipCargo.fromMap(data['cargo']),
     );
   }
 
-  Future<ShipCargo> jettisonCargo(
+  Future<(int, ShipCargo)> jettisonCargo(
       String shipSymbol, String goodsSymbol, int units) async {
     Response response = await dio.post(
       '/my/ships/$shipSymbol/jettison',
@@ -182,10 +189,10 @@ class FleetApi {
         {'symbol': goodsSymbol, 'units': units},
       ),
     );
-    return ShipCargo.fromMap(response.data['data']);
+    return (response.statusCode!, ShipCargo.fromMap(response.data['data']));
   }
 
-  Future<(Nav, Cooldown, Transaction)> jumpShip(
+  Future<(int, Nav, Cooldown, Transaction)> jumpShip(
       String shipSymbol, Waypoint waypoint) async {
     Response response = await dio.post('/my/ships/$shipSymbol/jump',
         data: json.encode({'waypointSymbol': waypoint.symbol}));
@@ -193,50 +200,55 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Nav.fromMap(data['nav']),
       Cooldown.fromMap(data['cooldown']),
       Transaction.fromMap(data['transaction'])
     );
   }
 
-  Future<(Fuel, Nav)> navigateShip(String shipSymbol, Waypoint waypoint) async {
+  Future<(int, Fuel, Nav)> navigateShip(
+      String shipSymbol, Waypoint waypoint) async {
     Response response = await dio.post('/my/ships/$shipSymbol/navigate',
         data: json.encode({'waypointSymbol': waypoint.symbol}));
 
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Fuel.fromMap(data['fuel']),
       Nav.fromMap(data['nav']),
     );
   }
 
-  Future<Nav> patchShipNav(String shipSymbol, Nav nav) async {
+  Future<(int, Nav)> patchShipNav(String shipSymbol, Nav nav) async {
     Response response = await dio.patch('/my/ships/$shipSymbol/nav',
         data: json.encode({'flightMode': nav.flightMode}));
 
-    return Nav.fromMap(response.data['data']);
+    return (response.statusCode!, Nav.fromMap(response.data['data']));
   }
 
-  Future<Nav> getShipNav(String shipSymbol) async {
+  Future<(int, Nav)> getShipNav(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/nav');
 
-    return Nav.fromMap(response.data['data']);
+    return (response.statusCode!, Nav.fromMap(response.data['data']));
   }
 
-  Future<(Fuel, Nav)> warpShip(String shipSymbol, Waypoint waypoint) async {
+  Future<(int, Fuel, Nav)> warpShip(
+      String shipSymbol, Waypoint waypoint) async {
     Response response = await dio.post('/my/ships/$shipSymbol/warp',
         data: json.encode({'waypointSymbol': waypoint.symbol}));
 
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Fuel.fromMap(data['fuel']),
       Nav.fromMap(data['nav']),
     );
   }
 
-  Future<(Agent, ShipCargo, Transaction)> sellCargo(
+  Future<(int, Agent, ShipCargo, Transaction)> sellCargo(
       String shipSymbol, String goodsSymbol, int units) async {
     Response response = await dio.post('/my/ships/$shipSymbol/sell',
         data: json.encode({
@@ -247,17 +259,20 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Agent.fromMap(data['agent']),
       ShipCargo.fromMap(data['cargo']),
       Transaction.fromMap(data['transaction'])
     );
   }
 
-  Future<(Cooldown, List<ScannedSystem>)> scanSystems(String shipSymbol) async {
+  Future<(int, Cooldown, List<ScannedSystem>)> scanSystems(
+      String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/scan/systems');
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       List.from(
         data['systems'].map(
@@ -267,29 +282,32 @@ class FleetApi {
     );
   }
 
-  Future<(Cooldown, List<ScannedWaypoint>)> scanWaypoints(
+  Future<(int, Cooldown, List<ScannedWaypoint>)> scanWaypoints(
       String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/scan/waypoints');
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       List.from(data['waypoints'].map((x) => ScannedWaypoint.fromMap(x)))
           as List<ScannedWaypoint>,
     );
   }
 
-  Future<(Cooldown, List<ScannedShip>)> scanShips(String shipSymbol) async {
+  Future<(int, Cooldown, List<ScannedShip>)> scanShips(
+      String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/scan/ships');
     Map data = response.data['data'];
     return (
+      response.statusCode!,
       Cooldown.fromMap(data['cooldown']),
       List.from(data['ships'].map((x) => ScannedShip.fromMap(x)))
           as List<ScannedShip>
     );
   }
 
-  Future<(Agent, Fuel, Transaction)> refuelShip(
+  Future<(int, Agent, Fuel, Transaction)> refuelShip(
       String shipSymbol, int units, bool? shouldRefuelFromCargo) async {
     Response response = await dio.post('/my/ships/$shipSymbol/refuel',
         data: json.encode(
@@ -298,26 +316,28 @@ class FleetApi {
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Agent.fromMap(data['agent']),
       Fuel.fromMap(data['fuel']),
       Transaction.fromMap(data['transaction']),
     );
   }
 
-  Future<(Agent, ShipCargo, Transaction)> purchaseCargo(
+  Future<(int, Agent, ShipCargo, Transaction)> purchaseCargo(
       String shipSymbol, String goodsSymbol, int units) async {
     Response response = await dio.post('/my/ships/$shipSymbol/purchase',
         data: json.encode({'symbol': goodsSymbol, 'units': units}));
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Agent.fromMap(data['agent']),
       ShipCargo.fromMap(data['cargo']),
       Transaction.fromMap(data['transaction'])
     );
   }
 
-  Future<ShipCargo> transferCargo(String shipSymbol, String tradeSymbol,
+  Future<(int, ShipCargo)> transferCargo(String shipSymbol, String tradeSymbol,
       int units, String shipSymbolToTransferTo) async {
     Response response = await dio.post('/my/ships/$shipSymbol/transfer',
         data: json.encode({
@@ -326,27 +346,38 @@ class FleetApi {
           'shipSymbol': shipSymbolToTransferTo
         }));
 
-    return ShipCargo.fromMap(response.data['data']['cargo']);
+    return (
+      response.statusCode!,
+      ShipCargo.fromMap(response.data['data']['cargo'])
+    );
   }
 
-  Future<Contract> negotiateContract(String shipSymbol) async {
+  Future<(int, Contract)> negotiateContract(String shipSymbol) async {
     Response response =
         await dio.post('/my/ships/$shipSymbol/negotiate/contract');
-    return Contract.fromMap(response.data['data']['contract']);
+    return (
+      response.statusCode!,
+      Contract.fromMap(response.data['data']['contract'])
+    );
   }
 
-  Future<List<Mount>> getMounts(String shipSymbol) async {
+  Future<(int, List<Mount>)> getMounts(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/mounts');
-    return List.from(response.data['data'].map((x) => Mount.fromMap(x)));
+    return (
+      response.statusCode!,
+      List.from(response.data['data'].map((x) => Mount.fromMap(x)))
+          as List<Mount>
+    );
   }
 
-  Future<(Agent, List<Mount>, ShipCargo, Transaction)> installMount(
+  Future<(int, Agent, List<Mount>, ShipCargo, Transaction)> installMount(
       String shipSymbol, Mount mountToInstall) async {
     Response response = await dio.post('/my/ships/$shipSymbol/mounts/install',
         data: json.encode({'symbol': mountToInstall.symbol}));
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Agent.fromMap(data['agent']),
       List.from(
         data['mounts'].map((x) => Mount.fromMap(x)),
@@ -356,13 +387,14 @@ class FleetApi {
     );
   }
 
-  Future<(Agent, List<Mount>, ShipCargo, Transaction)> removeMount(
+  Future<(int, Agent, List<Mount>, ShipCargo, Transaction)> removeMount(
       String shipSymbol, Mount mountToBeRemoved) async {
     Response response = await dio.post('/my/ships/$shipSymbol/mounts/remove',
         data: json.encode({'symbol': mountToBeRemoved.symbol}));
     Map data = response.data['data'];
 
     return (
+      response.statusCode!,
       Agent.fromMap(data['agent']),
       List.from(
         data['mounts'].map((x) => Mount.fromMap(x)),

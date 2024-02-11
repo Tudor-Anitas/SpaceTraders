@@ -15,7 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
       : super(
           HomeState(
               agent: Agent.empty(),
-              message: StateMessage(key: UniqueKey(), text: ''),
+              message: StateError(key: UniqueKey(), text: ''),
               contracts: const [],
               ships: const [],
               isDetailsPage: false,
@@ -23,41 +23,58 @@ class HomeCubit extends Cubit<HomeState> {
         );
 
   Future<void> getMyAgentStats() async {
-    Agent agent = await ActionsRepository().getMyAgentStats();
+    final (statusCode, agent) = await ActionsRepository().getMyAgentStats();
     emit(
       state.copyWith(
-          agent: agent,
-          message:
-              StateMessage(text: States.myCharacter.name, key: UniqueKey())),
+          agent: statusCode == 200 ? agent : state.agent,
+          message: statusCode == 200
+              ? state.message
+              : StateError(text: '', key: UniqueKey())),
     );
   }
 
   Future<void> listShips() async {
-    emit(
-      state.copyWith(
-        ships: await ActionsRepository().listShips(),
-      ),
-    );
+    var (code, ships) = await ActionsRepository().listShips();
+    if (code == 200) {
+      emit(
+        state.copyWith(
+          ships: ships,
+        ),
+      );
+    }
   }
 
   Future<void> viewContracts() async {
-    emit(
-      state.copyWith(
-        contracts: state.contracts.isEmpty
-            ? await ContractsApi().listContracts()
-            : state.contracts,
-      ),
-    );
+    int result = 0;
+    List<Contract> contracts = [];
+
+    if (state.contracts.isEmpty) {
+      (result, contracts) = await ContractsApi().listContracts();
+    } else {
+      contracts = state.contracts;
+    }
+
+    if (result == 0 || (result != 0 && result == 200)) {
+      emit(
+        state.copyWith(
+          contracts: contracts,
+        ),
+      );
+    }
   }
 
   Future<void> acceptContract(String id) async {
-    Contract updatedContract = await ActionsRepository().acceptContract(id);
-    List<Contract> contracts = List.from(state.contracts);
-    int indexOfOldContract = contracts.indexOf(
-        contracts.firstWhere((contract) => contract.id == updatedContract.id));
-    contracts[indexOfOldContract] = updatedContract;
+    final (statusCode, updatedContract) =
+        await ActionsRepository().acceptContract(id);
 
-    emit(state.copyWith(contracts: contracts));
+    if (statusCode == 200) {
+      List<Contract> contracts = List.from(state.contracts);
+      int indexOfOldContract = contracts.indexOf(contracts
+          .firstWhere((contract) => contract.id == updatedContract.id));
+      contracts[indexOfOldContract] = updatedContract;
+
+      emit(state.copyWith(contracts: contracts));
+    }
   }
 
   changePage({int? contractIndex}) {

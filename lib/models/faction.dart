@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -82,4 +84,26 @@ class Faction extends Equatable {
       isRecruiting,
     ];
   }
+}
+
+enum FactionSymbol {
+  COSMIC,
+  VOID,
+  GALACTIC,
+  QUANTUM,
+  DOMINION,
+  ASTRO,
+  CORSAIRS,
+  OBSIDIAN,
+  AEGIS,
+  UNITED,
+  SOLITARY,
+  COBALT,
+  OMEGA,
+  ECHO,
+  LORDS,
+  CULT,
+  ANCIENTS,
+  SHADOW,
+  ETHEREAL,
 }
