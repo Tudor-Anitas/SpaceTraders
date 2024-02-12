@@ -7,7 +7,6 @@ import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/headline.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/pages/contracts/contracts.dart';
-import 'package:space_traders/pages/home_page/my_character.dart';
 import 'package:space_traders/pages/ships/ships.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,7 +59,11 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: Sizes.small,
                       ),
-                      if (isRegistered) const MyCharacter(),
+                      if (isRegistered)
+                        CustomButton(
+                          onPressed: () => context.push('/myCharacter'),
+                          text: 'my character',
+                        ),
                       const SizedBox(
                         height: Sizes.small,
                       ),

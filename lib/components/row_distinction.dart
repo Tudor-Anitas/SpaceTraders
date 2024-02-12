@@ -8,7 +8,7 @@ class RowDistinction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: color ?? Theme.of(context).canvasColor,
+      color: color ?? Theme.of(context).focusColor,
       child: child,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:space_traders/pages/home_page/home.dart';
+import 'package:space_traders/pages/home_page/my_character.dart';
 import 'package:space_traders/pages/home_page/register.dart';
 
 final router = GoRouter(
@@ -11,6 +12,10 @@ final router = GoRouter(
     GoRoute(
       path: '/register',
       builder: (context, state) => const Register(),
+    ),
+    GoRoute(
+      path: '/myCharacter',
+      builder: (context, state) => const MyCharacter(),
     ),
   ],
 );
