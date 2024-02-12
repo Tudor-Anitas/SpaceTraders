@@ -6,6 +6,7 @@ import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/contract.dart';
+import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/ship.dart';
 
 part 'home_state.dart';
@@ -31,6 +32,23 @@ class HomeCubit extends Cubit<HomeState> {
               ? state.message
               : StateError(text: '', key: UniqueKey())),
     );
+  }
+
+  Future<bool> register(String name, FactionSymbol factionSymbol) async {
+    final (statusCode, agent, contract, _, ship) =
+        await ActionsRepository().register(name, factionSymbol);
+
+    if (statusCode == 201) {
+      emit(
+        state.copyWith(
+          agent: agent,
+          contracts: [contract],
+          ships: [ship],
+        ),
+      );
+      return true;
+    }
+    return false;
   }
 
   Future<void> listShips() async {

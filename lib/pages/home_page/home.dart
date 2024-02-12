@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:space_traders/asset_strings.dart';
+import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/headline.dart';
 import 'package:space_traders/components/sizes.dart';
-import 'package:space_traders/pages/home_page/contracts/contracts.dart';
+import 'package:space_traders/pages/contracts/contracts.dart';
 import 'package:space_traders/pages/home_page/my_character.dart';
-import 'package:space_traders/pages/home_page/register.dart';
-import 'package:space_traders/pages/home_page/ships/ships.dart';
+import 'package:space_traders/pages/ships/ships.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().getMyAgentStats();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,47 +35,43 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AssetStrings.background),
-          ),
+              image: AssetImage(AssetStrings.background), fit: BoxFit.cover),
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
+            const Expanded(
               flex: 10,
               child: SizedBox(),
             ),
-            Expanded(flex: 10, child: Headline(title: 'Space Invaders')),
+            const Expanded(flex: 10, child: Headline(title: 'Space Invaders')),
             Expanded(
               flex: 80,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Register(),
-                  Row(
+              child: BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  bool isRegistered = state.agent.accountId.isNotEmpty;
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MyCharacter(),
-                      SizedBox(
-                        width: Sizes.space_10,
+                      CustomButton(
+                        onPressed: () => context.push('/register'),
+                        text: 'Register',
                       ),
-                      MyContacts()
-                    ],
-                  ),
-                  SizedBox(
-                    height: Sizes.space_10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MyShips(),
-                      SizedBox(
-                        width: Sizes.space_10,
+                      const SizedBox(
+                        height: Sizes.small,
                       ),
-                      // MyContacts()
+                      if (isRegistered) const MyCharacter(),
+                      const SizedBox(
+                        height: Sizes.small,
+                      ),
+                      if (isRegistered) const MyContacts(),
+                      const SizedBox(
+                        height: Sizes.small,
+                      ),
+                      if (isRegistered) const MyShips(),
                     ],
-                  ),
-                ],
+                  );
+                },
               ),
             )
           ],

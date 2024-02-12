@@ -5,14 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:space_traders/models/engine.dart';
 import 'package:space_traders/models/frame.dart';
 import 'package:space_traders/models/mount.dart';
-import 'package:space_traders/models/nav.dart';
+import 'package:space_traders/models/ship_nav.dart';
 import 'package:space_traders/models/reactor.dart';
 import 'package:space_traders/models/registrations.dart';
 
 class ScannedShip extends Equatable {
   final String symbol;
   final Registration registration;
-  final Nav nav;
+  final ShipNav nav;
   final Frame? frame;
   final Reactor? reactor;
   final Engine engine;
@@ -30,7 +30,7 @@ class ScannedShip extends Equatable {
   ScannedShip copyWith({
     String? symbol,
     Registration? registration,
-    Nav? nav,
+    ShipNav? nav,
     Frame? frame,
     Reactor? reactor,
     Engine? engine,
@@ -63,7 +63,7 @@ class ScannedShip extends Equatable {
     return ScannedShip(
       symbol: map['symbol'] ?? '',
       registration: Registration.fromMap(map['registration']),
-      nav: Nav.fromMap(map['nav']),
+      nav: ShipNav.fromMap(map['nav']),
       frame: map['frame'] != null ? Frame.fromMap(map['frame']) : null,
       reactor: map['reactor'] != null ? Reactor.fromMap(map['reactor']) : null,
       engine: Engine.fromMap(map['engine']),

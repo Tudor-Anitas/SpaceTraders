@@ -4,8 +4,8 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/popup.dart';
 
-import 'package:space_traders/pages/home_page/contracts/contracts_page.dart';
-import 'package:space_traders/pages/home_page/contracts/details_page.dart';
+import 'package:space_traders/pages/contracts/contracts_page.dart';
+import 'package:space_traders/pages/contracts/details_page.dart';
 
 class MyContacts extends StatelessWidget {
   const MyContacts({super.key});

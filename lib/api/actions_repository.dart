@@ -16,7 +16,7 @@ import 'package:space_traders/models/fuel.dart';
 import 'package:space_traders/models/jump_gate.dart';
 import 'package:space_traders/models/market.dart';
 import 'package:space_traders/models/mount.dart';
-import 'package:space_traders/models/nav.dart';
+import 'package:space_traders/models/ship_nav.dart';
 import 'package:space_traders/models/produce.dart';
 import 'package:space_traders/models/refining_goods.dart';
 import 'package:space_traders/models/scanned_ship.dart';
@@ -39,13 +39,13 @@ class ActionsRepository {
   }
 
   // Agent methods
-  Future<(int, Agent, Contract, Faction, Ship, String)> register(
+  Future<(int, Agent, Contract, Faction, Ship)> register(
       String name, FactionSymbol factionSymbol) async {
-    var (statusCode, agent, contracts, faction, ship, token) =
+    var (statusCode, agent, contract, faction, ship, token) =
         await AgentApi().register(name, factionSymbol);
 
     await LocalStorage().storeToken(token);
-    return (statusCode, agent, contracts, faction, ship, token);
+    return (statusCode, agent, contract, faction, ship);
   }
 
   Future<(int, Agent)> getMyAgentStats() async {
@@ -93,7 +93,7 @@ class ActionsRepository {
     return await FleetApi().getShipCargo(shipSymbol);
   }
 
-  Future<(int, Nav)> orbitShip(String shipSymbol) async {
+  Future<(int, ShipNav)> orbitShip(String shipSymbol) async {
     return await FleetApi().orbitShip(shipSymbol);
   }
 
@@ -110,7 +110,7 @@ class ActionsRepository {
     return await FleetApi().getCooldown(shipSymbol);
   }
 
-  Future<(int, Nav)> dockShip(String shipSymbol) async {
+  Future<(int, ShipNav)> dockShip(String shipSymbol) async {
     return await FleetApi().dockShip(shipSymbol);
   }
 
@@ -138,25 +138,25 @@ class ActionsRepository {
     return await FleetApi().jettisonCargo(shipSymbol, goodsSymbol, units);
   }
 
-  Future<(int, Nav, Cooldown, Transaction)> jumpShip(
+  Future<(int, ShipNav, Cooldown, Transaction)> jumpShip(
       String shipSymbol, Waypoint waypoint) async {
     return await FleetApi().jumpShip(shipSymbol, waypoint);
   }
 
-  Future<(int, Fuel, Nav)> navigateShip(
+  Future<(int, Fuel, ShipNav)> navigateShip(
       String shipSymbol, Waypoint waypoint) async {
     return await FleetApi().navigateShip(shipSymbol, waypoint);
   }
 
-  Future<(int, Nav)> patchShipNav(String shipSymbol, Nav nav) async {
+  Future<(int, ShipNav)> patchShipNav(String shipSymbol, ShipNav nav) async {
     return await FleetApi().patchShipNav(shipSymbol, nav);
   }
 
-  Future<(int, Nav)> getShipNav(String shipSymbol) async {
+  Future<(int, ShipNav)> getShipNav(String shipSymbol) async {
     return await FleetApi().getShipNav(shipSymbol);
   }
 
-  Future<(int, Fuel, Nav)> warpShip(
+  Future<(int, Fuel, ShipNav)> warpShip(
       String shipSymbol, Waypoint waypoint) async {
     return await FleetApi().warpShip(shipSymbol, waypoint);
   }

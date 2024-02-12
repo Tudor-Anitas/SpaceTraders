@@ -58,7 +58,7 @@ class Faction extends Equatable {
       description: map['description'] ?? '',
       headquarters: map['headquarters'] ?? '',
       traits: List<FactionTrait>.from(
-          map['traits']?.map((x) => FactionTrait.fromMap(x))),
+          map['traits']?.map((x) => FactionTrait.fromMap(x)) ?? {}),
       isRecruiting: map['isRecruiting'] ?? false,
     );
   }

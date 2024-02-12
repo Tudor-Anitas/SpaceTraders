@@ -12,7 +12,7 @@ class Contract extends Equatable {
   final bool accepted;
   final bool fulfilled;
   final String expiration;
-  final String deadlineToAccept;
+  final DateTime deadlineToAccept;
 
   const Contract({
     required this.id,
@@ -33,7 +33,7 @@ class Contract extends Equatable {
     bool? accepted,
     bool? fulfilled,
     String? expiration,
-    String? deadlineToAccept,
+    DateTime? deadlineToAccept,
   }) {
     return Contract(
       id: id ?? this.id,
@@ -65,11 +65,11 @@ class Contract extends Equatable {
       id: map['id'] ?? '',
       factionSymbol: map['factionSymbol'] ?? '',
       type: map['type'] ?? '',
-      terms: Terms.fromMap(map['terms']),
+      terms: Terms.fromMap(map['terms'] ?? {}),
       accepted: map['accepted'] ?? false,
       fulfilled: map['fulfilled'] ?? false,
       expiration: map['expiration'] ?? '',
-      deadlineToAccept: map['deadlineToAccept'] ?? '',
+      deadlineToAccept: DateTime.parse(map['deadlineToAccept'] ?? ''),
     );
   }
 

@@ -8,7 +8,7 @@ import 'package:space_traders/models/frame.dart';
 import 'package:space_traders/models/fuel.dart';
 import 'package:space_traders/models/module.dart';
 import 'package:space_traders/models/mount.dart';
-import 'package:space_traders/models/nav.dart';
+import 'package:space_traders/models/ship_nav.dart';
 import 'package:space_traders/models/reactor.dart';
 import 'package:space_traders/models/registrations.dart';
 import 'package:space_traders/models/ship_cargo.dart';
@@ -16,7 +16,7 @@ import 'package:space_traders/models/ship_cargo.dart';
 class Ship extends Equatable {
   final String symbol;
   final Registration registration;
-  final Nav nav;
+  final ShipNav nav;
   final Crew crew;
   final Frame frame;
   final Reactor reactor;
@@ -44,7 +44,7 @@ class Ship extends Equatable {
   Ship copyWith({
     String? symbol,
     Registration? registration,
-    Nav? nav,
+    ShipNav? nav,
     Crew? crew,
     Frame? frame,
     Reactor? reactor,
@@ -91,17 +91,19 @@ class Ship extends Equatable {
   factory Ship.fromMap(Map<String, dynamic> map) {
     return Ship(
       symbol: map['symbol'] ?? '',
-      registration: Registration.fromMap(map['registration']),
-      nav: Nav.fromMap(map['nav']),
-      crew: Crew.fromMap(map['crew']),
-      frame: Frame.fromMap(map['frame']),
-      reactor: Reactor.fromMap(map['reactor']),
-      engine: Engine.fromMap(map['engine']),
-      cooldown: Cooldown.fromMap(map['cooldown']),
-      modules: List<Module>.from(map['modules']?.map((x) => Module.fromMap(x))),
-      mounts: List<Mount>.from(map['mounts']?.map((x) => Mount.fromMap(x))),
-      cargo: ShipCargo.fromMap(map['cargo']),
-      fuel: Fuel.fromMap(map['fuel']),
+      registration: Registration.fromMap(map['registration'] ?? {}),
+      nav: ShipNav.fromMap(map['nav'] ?? {}),
+      crew: Crew.fromMap(map['crew'] ?? {}),
+      frame: Frame.fromMap(map['frame'] ?? {}),
+      reactor: Reactor.fromMap(map['reactor'] ?? {}),
+      engine: Engine.fromMap(map['engine'] ?? {}),
+      cooldown: Cooldown.fromMap(map['cooldown'] ?? {}),
+      modules: List<Module>.from(
+          map['modules']?.map((x) => Module.fromMap(x)) ?? {}),
+      mounts:
+          List<Mount>.from(map['mounts']?.map((x) => Mount.fromMap(x)) ?? {}),
+      cargo: ShipCargo.fromMap(map['cargo'] ?? {}),
+      fuel: Fuel.fromMap(map['fuel'] ?? {}),
     );
   }
 

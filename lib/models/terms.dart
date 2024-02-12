@@ -6,7 +6,7 @@ import 'package:space_traders/models/contract_deliver_good.dart';
 import 'package:space_traders/models/payment.dart';
 
 class Terms extends Equatable {
-  final String deadline;
+  final DateTime deadline;
   final Payment payment;
   final List<ContractDeliverGood> deliver;
 
@@ -17,7 +17,7 @@ class Terms extends Equatable {
   });
 
   Terms copyWith({
-    String? deadline,
+    DateTime? deadline,
     Payment? payment,
     List<ContractDeliverGood>? deliver,
   }) {
@@ -38,9 +38,11 @@ class Terms extends Equatable {
 
   factory Terms.fromMap(Map<String, dynamic> map) {
     return Terms(
-      deadline: map['deadline'] ?? '',
-      payment: Payment.fromMap(map['payment']),
-      deliver: List<ContractDeliverGood>.from(map['deliver']?.map((x) => ContractDeliverGood.fromMap(x))),
+      deadline: DateTime.parse(map['deadline'] ?? ''),
+      payment: Payment.fromMap(map['payment'] ?? {}),
+      deliver: List<ContractDeliverGood>.from(map['deliver'] != null
+          ? map['deliver']?.map((x) => ContractDeliverGood.fromMap(x))
+          : {}),
     );
   }
 
@@ -49,7 +51,8 @@ class Terms extends Equatable {
   factory Terms.fromJson(String source) => Terms.fromMap(json.decode(source));
 
   @override
-  String toString() => 'deadline: $deadline\npayment: $payment\ndeliver: $deliver';
+  String toString() =>
+      'deadline: $deadline\npayment: $payment\ndeliver: $deliver';
 
   @override
   List<Object> get props => [deadline, payment, deliver];

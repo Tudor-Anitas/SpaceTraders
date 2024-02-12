@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/components/row_distinction.dart';
 import 'package:space_traders/methods/duration.dart';
+import 'package:space_traders/pages/contracts/contract_terms.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -42,20 +44,25 @@ class _DetailsPageState extends State<DetailsPage> {
                 mainAxisAlignment: alignment,
                 children: [
                   const Text('Id:'),
-                  Text(state.contracts.isEmpty
-                      ? ''
-                      : state.contracts[state.selectedContractIndex].id)
+                  SizedBox(
+                    width: screenWidth * .3,
+                    child: Text(state.contracts.isEmpty
+                        ? ''
+                        : state.contracts[state.selectedContractIndex].id),
+                  )
                 ],
               ),
-              Row(
-                mainAxisAlignment: alignment,
-                children: [
-                  const Text('Faction symbol:'),
-                  Text(state.contracts.isEmpty
-                      ? ''
-                      : state
-                          .contracts[state.selectedContractIndex].factionSymbol)
-                ],
+              RowDistinction(
+                child: Row(
+                  mainAxisAlignment: alignment,
+                  children: [
+                    const Text('Faction symbol:'),
+                    Text(state.contracts.isEmpty
+                        ? ''
+                        : state.contracts[state.selectedContractIndex]
+                            .factionSymbol)
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: alignment,
@@ -66,17 +73,16 @@ class _DetailsPageState extends State<DetailsPage> {
                       : state.contracts[state.selectedContractIndex].type)
                 ],
               ),
-              Row(
-                mainAxisAlignment: alignment,
-                children: [
-                  const Text('Terms:'),
-                  Flexible(
-                    child: Text(state.contracts.isEmpty
-                        ? ''
-                        : state.contracts[state.selectedContractIndex].terms
-                            .toString()),
-                  )
-                ],
+              RowDistinction(
+                child: Row(
+                  mainAxisAlignment: alignment,
+                  children: [
+                    const Text('Terms:'),
+                    ContractTerms(
+                        terms:
+                            state.contracts[state.selectedContractIndex].terms)
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: alignment,
@@ -88,15 +94,17 @@ class _DetailsPageState extends State<DetailsPage> {
                           .toString())
                 ],
               ),
-              Row(
-                mainAxisAlignment: alignment,
-                children: [
-                  const Text('Fulfilled:'),
-                  Text(state.contracts.isEmpty
-                      ? ''
-                      : state.contracts[state.selectedContractIndex].fulfilled
-                          .toString())
-                ],
+              RowDistinction(
+                child: Row(
+                  mainAxisAlignment: alignment,
+                  children: [
+                    const Text('Fulfilled:'),
+                    Text(state.contracts.isEmpty
+                        ? ''
+                        : state.contracts[state.selectedContractIndex].fulfilled
+                            .toString())
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: alignment,
@@ -107,15 +115,20 @@ class _DetailsPageState extends State<DetailsPage> {
                       : state.contracts[state.selectedContractIndex].expiration)
                 ],
               ),
-              Row(
-                mainAxisAlignment: alignment,
-                children: [
-                  const Text('Deadline to accept:'),
-                  Text(state.contracts.isEmpty
-                      ? ''
-                      : state.contracts[state.selectedContractIndex]
-                          .deadlineToAccept)
-                ],
+              RowDistinction(
+                child: Row(
+                  mainAxisAlignment: alignment,
+                  children: [
+                    const Text('Deadline to accept:'),
+                    Text(
+                      state.contracts.isEmpty
+                          ? ''
+                          : formatDate(state
+                              .contracts[state.selectedContractIndex]
+                              .deadlineToAccept),
+                    )
+                  ],
+                ),
               ),
             ],
           )
