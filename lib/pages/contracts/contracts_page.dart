@@ -19,17 +19,10 @@ class _ContractsPageState extends State<ContractsPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     HomeState state = context.watch<HomeCubit>().state;
-    xPosition = state.isDetailsPage ? -screenWidth : 0;
     List<Contract> contracts = state.contracts;
-    return AnimatedContainer(
-      duration: 300.ms,
-      curve: Curves.fastEaseInToSlowEaseOut,
-      transform: Matrix4.translationValues(xPosition, 0, 0),
-      height: screenHeight * 0.8,
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
       child: ListView.builder(
         itemCount: contracts.length,
         itemBuilder: (context, index) => Row(
@@ -38,8 +31,9 @@ class _ContractsPageState extends State<ContractsPage> {
               flex: 80,
               child: CustomButton(
                 text: contracts[index].factionSymbol,
-                onPressed: () =>
-                    context.read<HomeCubit>().changePage(contractIndex: index),
+                onPressed: () => context
+                    .read<HomeCubit>()
+                    .selectContract(contractIndex: index),
               ),
             ),
             Expanded(
@@ -51,9 +45,8 @@ class _ContractsPageState extends State<ContractsPage> {
                       ? Colors.green
                       : Colors.grey,
                 ),
-                onPressed: () => context
-                    .read<HomeCubit>()
-                    .acceptContract(contracts[index].id),
+                onPressed: () =>
+                    context.read<HomeCubit>().acceptContract(contracts[index].id),
               ),
             )
           ],

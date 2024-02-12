@@ -5,19 +5,18 @@ class HomeState extends Equatable {
   final StateError message;
   final List<Contract> contracts;
   final List<Ship> ships;
-  final bool isDetailsPage;
+
   final int selectedContractIndex;
   const HomeState(
       {required this.agent,
       required this.message,
       required this.contracts,
       required this.ships,
-      required this.isDetailsPage,
       required this.selectedContractIndex});
 
   @override
   List<Object> get props =>
-      [agent, message, contracts, ships, isDetailsPage, selectedContractIndex];
+      [agent, message, contracts, ships, selectedContractIndex];
 
   HomeState copyWith(
       {Agent? agent,
@@ -31,7 +30,6 @@ class HomeState extends Equatable {
         message: message ?? this.message,
         contracts: contracts ?? this.contracts,
         ships: ships ?? this.ships,
-        isDetailsPage: isDetailsPage ?? this.isDetailsPage,
         selectedContractIndex:
             selectedContractIndex ?? this.selectedContractIndex);
   }

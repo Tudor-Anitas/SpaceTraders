@@ -6,7 +6,7 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/headline.dart';
 import 'package:space_traders/components/sizes.dart';
-import 'package:space_traders/pages/contracts/contracts.dart';
+
 import 'package:space_traders/pages/ships/ships.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getMyAgentStats();
+    context.read<HomeCubit>().getLoginData();
   }
 
   @override
@@ -67,7 +67,11 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: Sizes.small,
                       ),
-                      if (isRegistered) const MyContacts(),
+                      if (isRegistered)
+                        CustomButton(
+                          onPressed: () => context.push('/contracts'),
+                          text: 'view contracts',
+                        ),
                       const SizedBox(
                         height: Sizes.small,
                       ),

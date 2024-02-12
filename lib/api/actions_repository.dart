@@ -48,6 +48,17 @@ class ActionsRepository {
     return (statusCode, agent, contract, faction, ship);
   }
 
+  Future<(Agent?, List<Contract>?, List<Ship>?)> getLoginData() async {
+    final (agentCode, agent) = await AgentApi().getMyAgentStats();
+    if (agentCode != 200) return (null, null, null);
+    final (contractsCode, contracts) = await ContractsApi().listContracts();
+    if (contractsCode != 200) return (agent, null, null);
+    final (shipsCode, fleet) = await FleetApi().listShips();
+    if (shipsCode != 200) return (agent, contracts, null);
+
+    return (agent, contracts, fleet);
+  }
+
   Future<(int, Agent)> getMyAgentStats() async {
     return await AgentApi().getMyAgentStats();
   }

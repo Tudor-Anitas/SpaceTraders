@@ -22,7 +22,6 @@ class _DetailsPageState extends State<DetailsPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     HomeState state = context.watch<HomeCubit>().state;
-    xPosition = state.isDetailsPage ? 0 : screenWidth;
     MainAxisAlignment alignment = MainAxisAlignment.spaceBetween;
     return AnimatedContainer(
       duration: 300.ms,
@@ -32,7 +31,7 @@ class _DetailsPageState extends State<DetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () => context.read<HomeCubit>().changePage(),
+            onTap: () => context.read<HomeCubit>().selectContract(),
             child: const Icon(Icons.arrow_back_ios),
           ),
           SizedBox(

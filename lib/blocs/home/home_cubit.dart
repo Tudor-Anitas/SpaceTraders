@@ -19,19 +19,15 @@ class HomeCubit extends Cubit<HomeState> {
               message: StateError(key: UniqueKey(), text: ''),
               contracts: const [],
               ships: const [],
-              isDetailsPage: false,
               selectedContractIndex: 0),
         );
 
-  Future<void> getMyAgentStats() async {
-    final (statusCode, agent) = await ActionsRepository().getMyAgentStats();
-    emit(
-      state.copyWith(
-          agent: statusCode == 200 ? agent : state.agent,
-          message: statusCode == 200
-              ? state.message
-              : StateError(text: '', key: UniqueKey())),
-    );
+  Future<void> getLoginData() async {
+    final (agent, contracts, fleet) = await ActionsRepository().getLoginData();
+    emit(state.copyWith(
+        agent: agent ?? Agent.empty(),
+        contracts: contracts ?? [],
+        ships: fleet ?? []));
   }
 
   Future<bool> register(String name, FactionSymbol factionSymbol) async {
@@ -95,9 +91,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  changePage({int? contractIndex}) {
-    emit(state.copyWith(
-        isDetailsPage: !state.isDetailsPage,
-        selectedContractIndex: contractIndex ?? 0));
+  selectContract({int? contractIndex}) {
+    emit(state.copyWith(selectedContractIndex: contractIndex ?? 0));
   }
 }
