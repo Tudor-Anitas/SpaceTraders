@@ -11,6 +11,6 @@ extension TimeDuration on int {
 }
 
 String formatDate(DateTime time) {
-  DateFormat format = DateFormat('HH:mm, dd:MM:yyyy');
+  DateFormat format = DateFormat('HH:mm, dd.MM.yyyy');
   return format.format(time).toString();
 }

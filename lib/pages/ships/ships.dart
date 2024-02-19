@@ -1,94 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:space_traders/asset_strings.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
-import 'package:space_traders/components/custom_button.dart';
-import 'package:space_traders/components/display_row.dart';
-import 'package:space_traders/components/popup.dart';
+import 'package:space_traders/components/app_bar.dart';
+import 'package:space_traders/components/sizes.dart';
+import 'package:space_traders/pages/ships/shipyard.dart';
 
-class MyShips extends StatelessWidget {
+class MyShips extends StatefulWidget {
   const MyShips({super.key});
 
+  @override
+  State<MyShips> createState() => _MyShipsState();
+}
+
+class _MyShipsState extends State<MyShips> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    return CustomButton(
-      onPressed: () async {
-        await context.read<HomeCubit>().listShips();
-        if (context.mounted) {
-          return showDialog(
-            context: context,
-            builder: (context) => CustomDialog(
-              title: 'My ships',
-              child: Stack(
-                children: [
-                  Container(
-                    height: screenHeight * 0.8,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-                    child: ListView.builder(
-                      itemCount: context.watch<HomeCubit>().state.ships.length,
-                      itemBuilder: (context, index) {
-                        HomeState state = context.watch<HomeCubit>().state;
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          margin: const EdgeInsets.only(bottom: 20),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).canvasColor,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Column(
-                            children: [
-                              DisplayRow(
-                                  title: 'Symbol:',
-                                  value: state.ships[index].symbol),
-                              DisplayRow(
-                                  title: 'Registration :',
-                                  value: state.ships[index].registration
-                                      .toString()),
-                              DisplayRow(
-                                  title: 'Nav:',
-                                  value: state.ships[index].nav.toString()),
-                              DisplayRow(
-                                  title: 'Crew:',
-                                  value: state.ships[index].crew.toString()),
-                              DisplayRow(
-                                  title: 'Frame:',
-                                  value: state.ships[index].frame.toString()),
-                              DisplayRow(
-                                  title: 'Reactor:',
-                                  value: state.ships[index].reactor.toString()),
-                              DisplayRow(
-                                  title: 'Engine:',
-                                  value: state.ships[index].engine.toString()),
-                              DisplayRow(
-                                  title: 'Cooldown:',
-                                  value:
-                                      state.ships[index].cooldown.toString()),
-                              DisplayRow(
-                                  title: 'Modules:',
-                                  value: state.ships[index].modules.toString()),
-                              DisplayRow(
-                                  title: 'Mounts:',
-                                  value: state.ships[index].mounts.toString()),
-                              DisplayRow(
-                                  title: 'Cargo:',
-                                  value: state.ships[index].cargo.toString()),
-                              DisplayRow(
-                                  title: 'Fuel:',
-                                  value: state.ships[index].fuel.toString()),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+    return Scaffold(
+      appBar: customAppBar(context, 'My Ships'),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          builder: (context) => const ShipYardPage(),
+        ),
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        child: const Icon(Icons.add),
+      ),
+      body: Stack(
+        children: [
+          Container(
+            height: screenHeight * 0.8,
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.02, vertical: Spacing.medium),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemCount: context.watch<HomeCubit>().state.ships.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => context.push('/shipDetails', extra: index),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        getRandomSpaceShip(),
+                        fit: BoxFit.fill,
+                        height: 50,
+                        width: 50,
+                      ),
+                      Hero(
+                        tag: index,
+                        child: Text(
+                          context.watch<HomeCubit>().state.ships[index].symbol,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        }
-      },
-      text: 'My Ships',
+          ),
+        ],
+      ),
     );
   }
 }

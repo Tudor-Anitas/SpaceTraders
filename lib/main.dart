@@ -11,6 +11,9 @@ void main() async {
   runApp(const MainApp());
 }
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -20,6 +23,7 @@ class MainApp extends StatelessWidget {
       providers: [BlocProvider(create: (context) => HomeCubit())],
       child: MaterialApp.router(
         theme: themeData(),
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
         routerConfig: router,
       ),
     );

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:space_traders/api/actions_repository.dart';
 import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/blocs/state_message.dart';
+import 'package:space_traders/main.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/contract.dart';
 import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/ship.dart';
+import 'package:space_traders/models/shipyard.dart';
 
 part 'home_state.dart';
 
@@ -93,5 +95,37 @@ class HomeCubit extends Cubit<HomeState> {
 
   selectContract({int? contractIndex}) {
     emit(state.copyWith(selectedContractIndex: contractIndex ?? 0));
+  }
+
+  Future<List<String>> findLocalShipyard(String systemSymbol) async {
+    var (responseCode, waypointSymbols) =
+        await ActionsRepository().findLocalShipyards(systemSymbol);
+
+    if (responseCode >= 400) {
+      _showSnackbarError('Could not find shipyards, some error occurred');
+      return [];
+    } else {
+      return waypointSymbols;
+    }
+  }
+
+  Future getShipyard(String systemSymbol, String waypointSymbol) async {
+    var (responseCode, shipyard) =
+        await ActionsRepository().getShipyard(systemSymbol, waypointSymbol);
+
+    if (responseCode >= 400) {
+      _showSnackbarError('Cannot get ships from this shipyard :(');
+      return Shipyard.fromMap(const {});
+    } else {
+      return shipyard;
+    }
+  }
+
+  _showSnackbarError(String errorTxt) {
+    rootScaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Text(errorTxt),
+      ),
+    );
   }
 }

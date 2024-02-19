@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
         children: [
           const Text('Name your character'),
           const SizedBox(
-            height: Sizes.medium,
+            height: Spacing.medium,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -51,7 +51,7 @@ class _RegisterState extends State<Register> {
                 ],
               ),
               const SizedBox(
-                height: Sizes.small,
+                height: Spacing.small,
               ),
               DropdownMenu(
                 label: const Text('Faction'),
@@ -66,7 +66,7 @@ class _RegisterState extends State<Register> {
                 ],
               ),
               const SizedBox(
-                height: Sizes.small,
+                height: Spacing.small,
               ),
               CustomButton(
                 text: 'Register',

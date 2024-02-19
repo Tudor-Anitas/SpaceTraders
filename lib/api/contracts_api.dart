@@ -27,7 +27,7 @@ class ContractsApi {
 
   Future<(int, Contract)> acceptContract(String id) async {
     Response response = await dio.post('/my/contracts/$id/accept');
-    return (response.statusCode!, Contract.fromMap(response.data['contract']));
+    return (response.statusCode!, Contract.fromMap(response.data['data']['contract']));
   }
 
   /// returns a updated [Contract] and updated [ContractDeliverGood] of the ship that delivered

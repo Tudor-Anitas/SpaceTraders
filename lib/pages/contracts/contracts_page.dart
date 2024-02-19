@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/custom_button.dart';
-import 'package:space_traders/methods/duration.dart';
+
 import 'package:space_traders/models/contract.dart';
 
 class ContractsPage extends StatefulWidget {
@@ -15,8 +15,6 @@ class ContractsPage extends StatefulWidget {
 }
 
 class _ContractsPageState extends State<ContractsPage> {
-  double xPosition = 0;
-
   @override
   Widget build(BuildContext context) {
     HomeState state = context.watch<HomeCubit>().state;
@@ -45,8 +43,9 @@ class _ContractsPageState extends State<ContractsPage> {
                       ? Colors.green
                       : Colors.grey,
                 ),
-                onPressed: () =>
-                    context.read<HomeCubit>().acceptContract(contracts[index].id),
+                onPressed: () => context
+                    .read<HomeCubit>()
+                    .acceptContract(contracts[index].id),
               ),
             )
           ],

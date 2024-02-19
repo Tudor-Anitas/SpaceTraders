@@ -1,8 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:space_traders/pages/contracts/contracts.dart';
+import 'package:space_traders/pages/contracts/details_page.dart';
 import 'package:space_traders/pages/home_page/home.dart';
 import 'package:space_traders/pages/home_page/my_character.dart';
 import 'package:space_traders/pages/home_page/register.dart';
+import 'package:space_traders/pages/ships/ship_details.dart';
+import 'package:space_traders/pages/ships/ships.dart';
 
 final router = GoRouter(
   routes: [
@@ -21,6 +24,20 @@ final router = GoRouter(
     GoRoute(
       path: '/contracts',
       builder: (context, state) => const MyContracts(),
+    ),
+    GoRoute(
+      path: '/contractDetails',
+      builder: (context, state) => const ContractDetails(),
+    ),
+    GoRoute(
+      path: '/myShips',
+      builder: (context, state) => const MyShips(),
+    ),
+    GoRoute(
+      path: '/shipDetails',
+      builder: (context, state) => ShipDetails(
+        index: state.extra! as int,
+      ),
     ),
   ],
 );

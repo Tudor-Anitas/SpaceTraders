@@ -19,7 +19,7 @@ class _MyCharacterState extends State<MyCharacter> {
     return Scaffold(
       appBar: customAppBar(context, 'my character'),
       body: Padding(
-        padding: const EdgeInsets.all(Sizes.medium),
+        padding: const EdgeInsets.all(Spacing.medium),
         child: Column(
           children: [
             Row(

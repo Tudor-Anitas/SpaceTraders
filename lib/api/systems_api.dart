@@ -108,4 +108,22 @@ class SystemsApi {
       ShipCargo.fromMap(data['cargo'])
     );
   }
+
+  Future<(int, List<String>)> findLocalShipyards(String systemSymbol) async {
+    Response response =
+        await dio.get('/systems/$systemSymbol/waypoints?traits=SHIPYARD');
+
+    List data = [];
+    for (var waypoint in response.data['data']) {
+      data.add(Waypoint.fromMap(waypoint));
+    }
+    // stores the symbols from all the waypoints of the system
+    // each symbol (waypoint) might have a different shipyard
+    List<String> symbols = [];
+    for (var element in data) {
+      symbols.add(element.symbol);
+    }
+
+    return (response.statusCode!, symbols);
+  }
 }

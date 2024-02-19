@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:space_traders/components/row_distinction.dart';
+import 'package:space_traders/components/custom_card.dart';
+import 'package:space_traders/components/progress_bar.dart';
+import 'package:space_traders/components/sizes.dart';
+import 'package:space_traders/components/spacer.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/terms.dart';
 
@@ -12,76 +15,91 @@ class ContractTerms extends StatelessWidget {
     var alignment = MainAxisAlignment.spaceBetween;
     return Column(
       children: [
+        Text(
+          'Terms',
+          style: Theme.of(context).textTheme.displaySmall,
+        ),
         Row(
           mainAxisAlignment: alignment,
-          children: [const Text('Deadline:'), Text(formatDate(terms.deadline), textAlign: TextAlign.end,)],
+          children: [
+            const Text('Deadline:'),
+            Text(
+              formatDate(terms.deadline),
+              textAlign: TextAlign.end,
+            )
+          ],
         ),
-        RowDistinction(
-          color: Theme.of(context).highlightColor,
-          child: Row(
-            mainAxisAlignment: alignment,
+        const CustomSpacer(),
+        CustomCard(
+          child: Column(
             children: [
-              const Text('Payment:'),
-              Column(
+              Text(
+                'Payment',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Row(
+                mainAxisAlignment: alignment,
                 children: [
-                  Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('On accepted:'),
-                      Text(terms.payment.onAccepted.toString())
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('On fullfilled:'),
-                      Text(terms.payment.onFulfilled.toString())
-                    ],
-                  ),
+                  const Text('On accepted: '),
+                  Text('${terms.payment.onAccepted} G')
                 ],
-              )
+              ),
+              Row(
+                mainAxisAlignment: alignment,
+                children: [
+                  const Text('On fullfilled: '),
+                  Text('${terms.payment.onFulfilled} G')
+                ],
+              ),
             ],
           ),
         ),
+        const CustomSpacer(),
+        Text(
+          'Deliver',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
         for (var good in terms.deliver)
-          Row(
-            mainAxisAlignment: alignment,
-            children: [
-              const Text('Deliver'),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: alignment,
+          CustomCard(
+            child: Row(
+              mainAxisAlignment: alignment,
+              children: [
+                Expanded(
+                  flex: 40,
+                  child: Text(
+                    good.tradeSymbol,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                Expanded(
+                  flex: 60,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Text('symbol:'),
-                      Text(good.tradeSymbol),
+                      const Text('units required'),
+                      Row(
+                        children: [
+                          CustomProgressBar(
+                              currentValue: good.unitsFulfilled,
+                              maxValue: good.unitsRequired),
+                          const SizedBox(
+                            width: Spacing.xs,
+                          ),
+                          Text('${good.unitsFulfilled}/${good.unitsRequired}')
+                        ],
+                      ),
+                      const SizedBox(
+                        height: Spacing.medium,
+                      ),
+                      const Text('Destination'),
+                      Text(good.destinationSymbol)
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('destination:'),
-                      Text(good.destinationSymbol),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('units required:'),
-                      Text(good.unitsRequired.toString()),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('units fullfilled:'),
-                      Text(good.unitsFulfilled.toString()),
-                    ],
-                  ),
-                ],
-              )
-            ],
-          )
+                )
+              ],
+            ),
+          ),
+        const CustomSpacer(),
       ],
     );
   }

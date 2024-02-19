@@ -7,8 +7,6 @@ import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/headline.dart';
 import 'package:space_traders/components/sizes.dart';
 
-import 'package:space_traders/pages/ships/ships.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -57,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                         text: 'Register',
                       ),
                       const SizedBox(
-                        height: Sizes.small,
+                        height: Spacing.small,
                       ),
                       if (isRegistered)
                         CustomButton(
@@ -65,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                           text: 'my character',
                         ),
                       const SizedBox(
-                        height: Sizes.small,
+                        height: Spacing.small,
                       ),
                       if (isRegistered)
                         CustomButton(
@@ -73,9 +71,13 @@ class _HomePageState extends State<HomePage> {
                           text: 'view contracts',
                         ),
                       const SizedBox(
-                        height: Sizes.small,
+                        height: Spacing.small,
                       ),
-                      if (isRegistered) const MyShips(),
+                      if (isRegistered)
+                        CustomButton(
+                          onPressed: () => context.push('/myShips'),
+                          text: 'my ships',
+                        ),
                     ],
                   );
                 },

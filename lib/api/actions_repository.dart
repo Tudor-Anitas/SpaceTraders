@@ -38,7 +38,7 @@ class ActionsRepository {
     return await LocalStorage().getToken();
   }
 
-  // Agent methods
+  //! Agent methods
   Future<(int, Agent, Contract, Faction, Ship)> register(
       String name, FactionSymbol factionSymbol) async {
     var (statusCode, agent, contract, faction, ship, token) =
@@ -63,7 +63,7 @@ class ActionsRepository {
     return await AgentApi().getMyAgentStats();
   }
 
-  // Contract methods
+  // !Contract methods
   Future<(int, List<Contract>)> listContracts() async {
     return await ContractsApi().listContracts();
   }
@@ -85,7 +85,7 @@ class ActionsRepository {
     return await ContractsApi().fulfillContract(contractId);
   }
 
-  // Fleet methods
+  // !Fleet methods
   Future<(int, List<Ship>)> listShips() async {
     return await FleetApi().listShips();
   }
@@ -287,5 +287,9 @@ class ActionsRepository {
       int units) async {
     return await SystemsApi().supplyConstructionSite(
         systemSymbol, waypointSymbol, shipSymbol, tradeSymbol, units);
+  }
+
+  Future<(int, List<String>)> findLocalShipyards(String systemSymbol) async {
+    return await SystemsApi().findLocalShipyards(systemSymbol);
   }
 }
