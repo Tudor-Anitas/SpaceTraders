@@ -48,9 +48,9 @@ class Route extends Equatable {
 
   factory Route.fromMap(Map<String, dynamic> map) {
     return Route(
-      destination: Destination.fromMap(map['destination']),
-      departure: Departure.fromMap(map['departure']),
-      origin: Origin.fromMap(map['origin']),
+      destination: Destination.fromMap(map['destination'] ?? {}),
+      departure: Departure.fromMap(map['departure'] ?? {}),
+      origin: Origin.fromMap(map['origin'] ?? {}),
       departureTime: map['departureTime'] ?? '',
       arrival: map['arrival'] ?? '',
     );

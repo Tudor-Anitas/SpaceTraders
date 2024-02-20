@@ -24,6 +24,7 @@ class _MyShipsState extends State<MyShips> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
           context: context,
+          isScrollControlled: true,
           builder: (context) => const ShipYardPage(),
         ),
         backgroundColor: Theme.of(context).secondaryHeaderColor,
@@ -46,10 +47,10 @@ class _MyShipsState extends State<MyShips> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        getRandomSpaceShip(),
+                        AssetStrings.explorer,
                         fit: BoxFit.fill,
-                        height: 50,
-                        width: 50,
+                        height: 70,
+                        width: 70,
                       ),
                       Hero(
                         tag: index,
@@ -63,7 +64,7 @@ class _MyShipsState extends State<MyShips> {
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );

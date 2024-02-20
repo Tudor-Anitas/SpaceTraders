@@ -58,7 +58,7 @@ class Engine extends Equatable {
       description: map['description'] ?? '',
       condition: map['condition']?.toInt() ?? 0,
       speed: map['speed']?.toInt() ?? 0,
-      requirements: Requirements.fromMap(map['requirements']),
+      requirements: Requirements.fromMap(map['requirements'] ?? {}),
     );
   }
 

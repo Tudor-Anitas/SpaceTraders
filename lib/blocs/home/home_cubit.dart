@@ -10,6 +10,7 @@ import 'package:space_traders/models/contract.dart';
 import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/shipyard.dart';
+import 'package:space_traders/models/transaction.dart';
 
 part 'home_state.dart';
 
@@ -21,6 +22,7 @@ class HomeCubit extends Cubit<HomeState> {
               message: StateError(key: UniqueKey(), text: ''),
               contracts: const [],
               ships: const [],
+              transactions: const [],
               selectedContractIndex: 0),
         );
 
@@ -102,29 +104,65 @@ class HomeCubit extends Cubit<HomeState> {
         await ActionsRepository().findLocalShipyards(systemSymbol);
 
     if (responseCode >= 400) {
-      _showSnackbarError('Could not find shipyards, some error occurred');
+      _showSnackbarText('Could not find shipyards, some error occurred');
       return [];
     } else {
       return waypointSymbols;
     }
   }
 
-  Future getShipyard(String systemSymbol, String waypointSymbol) async {
+  Future<Shipyard> getShipyard(
+      String systemSymbol, String waypointSymbol) async {
     var (responseCode, shipyard) =
         await ActionsRepository().getShipyard(systemSymbol, waypointSymbol);
 
     if (responseCode >= 400) {
-      _showSnackbarError('Cannot get ships from this shipyard :(');
+      _showSnackbarText('Cannot get ships from this shipyard :(');
       return Shipyard.fromMap(const {});
     } else {
       return shipyard;
     }
   }
 
-  _showSnackbarError(String errorTxt) {
+  Future purchaseShip(ShipType shipType, String waypointSymbol) async {
+    var (statusCode, agent, ship, transaction) =
+        await ActionsRepository().purchaseShip(shipType, waypointSymbol);
+
+    if (statusCode >= 400) return;
+
+    emit(
+      state.copyWith(
+        agent: agent,
+        ships: [...state.ships, ship],
+        transactions: [...state.transactions, transaction],
+      ),
+    );
+
+    _showBannerText('New ship aquired!');
+  }
+
+  _showSnackbarText(String errorTxt) {
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: Text(errorTxt),
+      ),
+    );
+  }
+
+  _showBannerText(String text) {
+    // remove any other banner before showing a new one
+    rootScaffoldMessengerKey.currentState?.removeCurrentMaterialBanner();
+    rootScaffoldMessengerKey.currentState?.showMaterialBanner(
+      MaterialBanner(
+        content: Text(text),
+        actions: [
+          TextButton(
+              onPressed: () {
+                rootScaffoldMessengerKey.currentState
+                    ?.removeCurrentMaterialBanner();
+              },
+              child: const Text('dismiss'))
+        ],
       ),
     );
   }

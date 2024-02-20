@@ -70,7 +70,7 @@ class Frame extends Equatable {
       moduleSlots: map['moduleSlots']?.toInt() ?? 0,
       mountingPoints: map['mountingPoints']?.toInt() ?? 0,
       fuelCapacity: map['fuelCapacity']?.toInt() ?? 0,
-      requirements: Requirements.fromMap(map['requirements']),
+      requirements: Requirements.fromMap(map['requirements'] ?? {}),
     );
   }
 

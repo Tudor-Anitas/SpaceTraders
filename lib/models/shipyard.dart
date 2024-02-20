@@ -8,8 +8,8 @@ import 'package:space_traders/models/shipyard_transaction.dart';
 class Shipyard extends Equatable {
   final String symbol;
   final List<String> shipTypes;
-  final List<ShipyardTransaction> transactions;
-  final List<ShipyardShip> ships;
+  final List<ShipyardTransaction>? transactions;
+  final List<ShipyardShip>? ships;
   final int modificationFee;
   const Shipyard({
     required this.symbol,
@@ -39,8 +39,8 @@ class Shipyard extends Equatable {
     return {
       'symbol': symbol,
       'shipTypes': shipTypes,
-      'transactions': transactions.map((x) => x.toMap()).toList(),
-      'ships': ships.map((x) => x.toMap()).toList(),
+      'transactions': transactions?.map((x) => x.toMap()).toList(),
+      'ships': ships?.map((x) => x.toMap()).toList(),
       'modificationFee': modificationFee,
     };
   }
@@ -48,11 +48,16 @@ class Shipyard extends Equatable {
   factory Shipyard.fromMap(Map<String, dynamic> map) {
     return Shipyard(
       symbol: map['symbol'] ?? '',
-      shipTypes: List<String>.from(map['shipTypes']),
-      transactions: List<ShipyardTransaction>.from(
-          map['transactions']?.map((x) => ShipyardTransaction.fromMap(x))),
-      ships: List<ShipyardShip>.from(
-          map['ships']?.map((x) => ShipyardShip.fromMap(x))),
+      shipTypes:
+          List<String>.from((map['shipTypes'] as List).map((e) => e['type'])),
+      transactions: map['transactions'] != null
+          ? List<ShipyardTransaction>.from(
+              map['transactions']?.map((x) => ShipyardTransaction.fromMap(x)))
+          : null,
+      ships: map['ships'] != null
+          ? List<ShipyardShip>.from(
+              map['ships']?.map((x) => ShipyardShip.fromMap(x)))
+          : null,
       modificationFee: map['modificationFee']?.toInt() ?? 0,
     );
   }
@@ -68,7 +73,7 @@ class Shipyard extends Equatable {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       symbol,
       shipTypes,

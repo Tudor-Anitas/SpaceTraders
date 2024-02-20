@@ -20,7 +20,7 @@ class ShipyardShip extends Equatable {
   final Engine engine;
   final List<Module> modules;
   final List<Mount> mounts;
-  final List<ShipyardCrew> crew;
+  final ShipyardCrew crew;
   const ShipyardShip({
     required this.type,
     required this.name,
@@ -48,7 +48,7 @@ class ShipyardShip extends Equatable {
     Engine? engine,
     List<Module>? modules,
     List<Mount>? mounts,
-    List<ShipyardCrew>? crew,
+    ShipyardCrew? crew,
   }) {
     return ShipyardShip(
       type: type ?? this.type,
@@ -79,7 +79,7 @@ class ShipyardShip extends Equatable {
       'engine': engine.toMap(),
       'modules': modules.map((x) => x.toMap()).toList(),
       'mounts': mounts.map((x) => x.toMap()).toList(),
-      'crew': crew.map((x) => x.toMap()).toList(),
+      'crew': crew.toMap(),
     };
   }
 
@@ -96,8 +96,7 @@ class ShipyardShip extends Equatable {
       engine: Engine.fromMap(map['engine']),
       modules: List<Module>.from(map['modules']?.map((x) => Module.fromMap(x))),
       mounts: List<Mount>.from(map['mounts']?.map((x) => Mount.fromMap(x))),
-      crew: List<ShipyardCrew>.from(
-          map['crew']?.map((x) => ShipyardCrew.fromMap(x))),
+      crew: ShipyardCrew.fromMap(map['crew']),
     );
   }
 

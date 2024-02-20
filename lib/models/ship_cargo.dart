@@ -38,8 +38,10 @@ class ShipCargo extends Equatable {
     return ShipCargo(
       capacity: map['capacity']?.toInt() ?? 0,
       units: map['units']?.toInt() ?? 0,
-      inventory: List<Inventory>.from(
-          map['inventory']?.map((x) => Inventory.fromMap(x))),
+      inventory: map['inventory'] != null
+          ? List<Inventory>.from(
+              map['inventory']?.map((x) => Inventory.fromMap(x)))
+          : [],
     );
   }
 

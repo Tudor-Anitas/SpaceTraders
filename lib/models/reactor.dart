@@ -58,7 +58,7 @@ class Reactor extends Equatable {
       description: map['description'] ?? '',
       condition: map['condition']?.toInt() ?? 0,
       powerOutput: map['powerOutput']?.toInt() ?? 0,
-      requirements: Requirements.fromMap(map['requirements']),
+      requirements: Requirements.fromMap(map['requirements'] ?? {}),
     );
   }
 

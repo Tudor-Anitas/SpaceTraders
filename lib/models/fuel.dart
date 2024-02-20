@@ -38,7 +38,7 @@ class Fuel extends Equatable {
     return Fuel(
       current: map['current']?.toInt() ?? 0,
       capacity: map['capacity']?.toInt() ?? 0,
-      consumed: Consumed.fromMap(map['consumed']),
+      consumed: Consumed.fromMap(map['consumed'] ?? {}),
     );
   }
 

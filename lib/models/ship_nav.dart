@@ -48,7 +48,7 @@ class ShipNav extends Equatable {
     return ShipNav(
       systemSymbol: map['systemSymbol'] ?? '',
       waypointSymbol: map['waypointSymbol'] ?? '',
-      route: Route.fromMap(map['route'] ?? ''),
+      route: Route.fromMap(map['route'] ?? {}),
       status: map['status'] ?? '',
       flightMode: map['flightMode'] ?? '',
     );

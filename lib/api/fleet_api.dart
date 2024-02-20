@@ -37,8 +37,8 @@ class FleetApi {
       ShipType shipType, String waypointSymbol) async {
     Response response = await dio.post(
       '/my/ships',
-      data:
-          json.encode({'shipType': shipType, 'waypointSymbol': waypointSymbol}),
+      data: json.encode(
+          {'shipType': shipType.name, 'waypointSymbol': waypointSymbol}),
     );
     Map data = response.data['data'];
 
