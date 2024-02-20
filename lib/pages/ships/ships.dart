@@ -47,7 +47,12 @@ class _MyShipsState extends State<MyShips> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        AssetStrings.explorer,
+                        getShipImage(context
+                            .watch<HomeCubit>()
+                            .state
+                            .ships[index]
+                            .frame
+                            .symbol),
                         fit: BoxFit.fill,
                         height: 70,
                         width: 70,

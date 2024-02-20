@@ -35,6 +35,7 @@ class FleetApi {
 
   Future<(int, Agent, Ship, Transaction)> purchaseShip(
       ShipType shipType, String waypointSymbol) async {
+        print('mata');
     Response response = await dio.post(
       '/my/ships',
       data: json.encode(

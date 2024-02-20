@@ -11,6 +11,8 @@ import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/shipyard.dart';
 import 'package:space_traders/models/transaction.dart';
+import 'package:space_traders/models/waypoint.dart';
+import 'package:space_traders/models/waypoint_type.dart';
 
 part 'home_state.dart';
 
@@ -139,6 +141,14 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     _showBannerText('New ship aquired!');
+  }
+
+  Future<List<Waypoint>> findAsteroids(String systemSymbol) async {
+    var (statusCode, asteroidWaypoints) = await ActionsRepository()
+        .listWaypointsInSystem(systemSymbol,
+            type: WaypointType.ENGINEERED_ASTEROID);
+
+    return statusCode >= 400 ? [] : asteroidWaypoints;
   }
 
   _showSnackbarText(String errorTxt) {

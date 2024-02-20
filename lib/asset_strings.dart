@@ -16,29 +16,29 @@ class AssetStrings {
 
 getShipImage(String shipType) {
   switch (shipType) {
-    case 'SHIP_PROBE':
+    case 'SHIP_PROBE' || 'FRAME_PROBE':
       return AssetStrings.probe;
-    case 'SHIP_MINING_DRONE':
+    case 'SHIP_MINING_DRONE' || 'FRAME_MINER':
       return AssetStrings.miningDrone;
-    case 'SHIP_SIPHON_DRONE':
+    case 'SHIP_SIPHON_DRONE' || 'FRAME_DRONE':
       return AssetStrings.siphonDrone;
-    case 'SHIP_INTERCEPTOR':
+    case 'SHIP_INTERCEPTOR' || 'FRAME_INTERCEPTOR':
       return AssetStrings.interceptor;
-    case 'SHIP_LIGHT_HAULER':
+    case 'SHIP_LIGHT_HAULER' || 'FRAME_RACER':
       return AssetStrings.lightHauler;
-    case 'SHIP_COMMAND_FRIGATE':
+    case 'SHIP_COMMAND_FRIGATE' || 'FRAME_FRIGATE' || 'FRAME_DESTROYER':
       return AssetStrings.commandFrigate;
-    case 'SHIP_EXPLORER':
+    case 'SHIP_EXPLORER' || 'FRAME_EXPLORER':
       return AssetStrings.explorer;
-    case 'SHIP_HEAVY_FREIGHTER':
+    case 'SHIP_HEAVY_FREIGHTER' || 'FRAME_FIGHTER' || 'FRAME_HEAVY_FREIGHTER':
       return AssetStrings.heavyFreighter;
-    case 'SHIP_LIGHT_SHUTTLE':
+    case 'SHIP_LIGHT_SHUTTLE' || 'FRAME_SHUTTLE':
       return AssetStrings.lightShuttle;
-    case 'SHIP_ORE_HOUND':
+    case 'SHIP_ORE_HOUND' || 'FRAME_TRANSPORT':
       return AssetStrings.oreHound;
-    case 'SHIP_REFINING_FREIGHTER':
+    case 'SHIP_REFINING_FREIGHTER' || 'FRAME_LIGHT_FREIGHTER':
       return AssetStrings.refiningFreighter;
-    case 'SHIP_SURVEYOR':
+    case 'SHIP_SURVEYOR' || 'FRAME_CRUISER' || 'FRAME_CARRIER':
       return AssetStrings.surveyor;
   }
 }

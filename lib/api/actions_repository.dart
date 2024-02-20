@@ -227,6 +227,8 @@ class ActionsRepository {
     return await FleetApi().removeMount(shipSymbol, mountToInstall);
   }
 
+  //! System methods
+
   Future<(int, List<Faction>)> listFactions() async {
     return await FactionsApi().listFactions();
   }
@@ -244,12 +246,11 @@ class ActionsRepository {
     return await SystemsApi().getSystem(systemSymbol);
   }
 
-  Future<(int, List<Waypoint>)> listWaypointsInSystem(
-      String systemSymbol,
-      int? limitPerPage,
+  Future<(int, List<Waypoint>)> listWaypointsInSystem(String systemSymbol,
+      {int? limitPerPage,
       int? pageToRequest,
       WaypointTraitSymbol? trait,
-      WaypointType? type) async {
+      WaypointType? type}) async {
     return await SystemsApi().listWaypointsInSystem(
         systemSymbol, limitPerPage, pageToRequest, trait, type);
   }
