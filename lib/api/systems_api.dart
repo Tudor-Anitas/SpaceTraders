@@ -44,10 +44,11 @@ class SystemsApi {
 
     Response response = await dio.get(
         '/systems/$systemSymbol/waypoints?$page&$limit&$traitFilter&$typeFilter');
-    return (
-      response.statusCode!,
-      List.from(response.data['data']) as List<Waypoint>
-    );
+    List<Waypoint> asteroidWaypoints = [];
+    for (var data in response.data['data']) {
+      asteroidWaypoints.add(Waypoint.fromMap(data));
+    }
+    return (response.statusCode!, asteroidWaypoints);
   }
 
   Future<(int, Waypoint)> getWaypoint(

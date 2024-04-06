@@ -4,7 +4,7 @@ import 'package:space_traders/pages/contracts/details_page.dart';
 import 'package:space_traders/pages/home_page/home.dart';
 import 'package:space_traders/pages/home_page/my_character.dart';
 import 'package:space_traders/pages/home_page/register.dart';
-import 'package:space_traders/pages/ships/ship_details.dart';
+import 'package:space_traders/pages/ships/ship_details/ship_details.dart';
 import 'package:space_traders/pages/ships/ships.dart';
 
 final router = GoRouter(

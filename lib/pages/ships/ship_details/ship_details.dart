@@ -4,6 +4,7 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/display_row.dart';
 import 'package:space_traders/components/sizes.dart';
+import 'package:space_traders/pages/ships/ship_details/ship_actions.dart';
 
 class ShipDetails extends StatefulWidget {
   final int index;
@@ -65,6 +66,9 @@ class _ShipDetailsState extends State<ShipDetails> {
               DisplayPanel(
                   title: 'Fuel:',
                   value: state.ships[widget.index].fuel.toString()),
+              ShipActions(
+                systemSymbol: state.ships[widget.index].nav.systemSymbol,
+              )
             ],
           ),
         ),
