@@ -130,8 +130,8 @@ class ActionsRepository {
   }
 
   Future<(int, Cooldown, Extraction, ShipCargo)> extractResources(
-      String shipSymbol, Survey survey) async {
-    return await FleetApi().extractResources(shipSymbol, survey);
+      String shipSymbol) async {
+    return await FleetApi().extractResources(shipSymbol);
   }
 
   Future<(int, Cooldown, Siphon, ShipCargo)> siphonResources(
@@ -155,8 +155,8 @@ class ActionsRepository {
   }
 
   Future<(int, Fuel, ShipNav)> navigateShip(
-      String shipSymbol, Waypoint waypoint) async {
-    return await FleetApi().navigateShip(shipSymbol, waypoint);
+      String shipSymbol, String waypointSymbol) async {
+    return await FleetApi().navigateShip(shipSymbol, waypointSymbol);
   }
 
   Future<(int, ShipNav)> patchShipNav(String shipSymbol, ShipNav nav) async {
@@ -193,9 +193,9 @@ class ActionsRepository {
   }
 
   Future<(int, Agent, Fuel, Transaction)> refuelShip(
-      String shipSymbol, int units, bool? shouldRefuelFromCargo) async {
-    return await FleetApi()
-        .refuelShip(shipSymbol, units, shouldRefuelFromCargo);
+      String shipSymbol, int? units, bool? shouldRefuelFromCargo) async {
+    return await FleetApi().refuelShip(shipSymbol,
+        units: units, shouldRefuelFromCargo: shouldRefuelFromCargo);
   }
 
   Future<(int, Agent, ShipCargo, Transaction)> purchaseCargo(
@@ -225,6 +225,12 @@ class ActionsRepository {
   Future<(int, Agent, List<Mount>, ShipCargo, Transaction)> removeMount(
       String shipSymbol, Mount mountToInstall) async {
     return await FleetApi().removeMount(shipSymbol, mountToInstall);
+  }
+
+  Future finishTransit(String shipSymbol) async {
+    await FleetApi().dockShip(shipSymbol);
+    await FleetApi().refuelShip(shipSymbol);
+    await FleetApi().orbitShip(shipSymbol);
   }
 
   //! System methods

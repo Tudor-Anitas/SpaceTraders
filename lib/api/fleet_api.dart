@@ -35,7 +35,7 @@ class FleetApi {
 
   Future<(int, Agent, Ship, Transaction)> purchaseShip(
       ShipType shipType, String waypointSymbol) async {
-        print('mata');
+    print('mata');
     Response response = await dio.post(
       '/my/ships',
       data: json.encode(
@@ -125,12 +125,9 @@ class FleetApi {
   }
 
   Future<(int, Cooldown, Extraction, ShipCargo)> extractResources(
-      String shipSymbol, Survey survey) async {
+      String shipSymbol) async {
     Response response = await dio.post(
       '/my/ships/$shipSymbol/extract',
-      data: json.encode(
-        {'survey': survey},
-      ),
     );
 
     Map data = response.data['data'];
@@ -209,9 +206,9 @@ class FleetApi {
   }
 
   Future<(int, Fuel, ShipNav)> navigateShip(
-      String shipSymbol, Waypoint waypoint) async {
+      String shipSymbol, String waypointSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/navigate',
-        data: json.encode({'waypointSymbol': waypoint.symbol}));
+        data: json.encode({'waypointSymbol': waypointSymbol}));
 
     Map data = response.data['data'];
 
@@ -308,11 +305,12 @@ class FleetApi {
     );
   }
 
-  Future<(int, Agent, Fuel, Transaction)> refuelShip(
-      String shipSymbol, int units, bool? shouldRefuelFromCargo) async {
+  Future<(int, Agent, Fuel, Transaction)> refuelShip(String shipSymbol,
+      {int? units, bool? shouldRefuelFromCargo}) async {
+    var body = json
+        .encode({'units': units, 'fromCargo': shouldRefuelFromCargo ?? false});
     Response response = await dio.post('/my/ships/$shipSymbol/refuel',
-        data: json.encode(
-            {'units': units, 'fromCargo': shouldRefuelFromCargo ?? false}));
+        data: units != null ? body : null);
 
     Map data = response.data['data'];
 

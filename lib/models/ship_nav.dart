@@ -56,7 +56,8 @@ class ShipNav extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory ShipNav.fromJson(String source) => ShipNav.fromMap(json.decode(source));
+  factory ShipNav.fromJson(String source) =>
+      ShipNav.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -74,3 +75,6 @@ class ShipNav extends Equatable {
     ];
   }
 }
+
+// ignore: constant_identifier_names
+enum ShipNavStatus { IN_TRANSIT, IN_ORBIT, DOCKED }

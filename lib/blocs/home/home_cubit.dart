@@ -21,7 +21,7 @@ class HomeCubit extends Cubit<HomeState> {
       : super(
           HomeState(
               agent: Agent.empty(),
-              message: StateError(key: UniqueKey(), text: ''),
+              message: StateMessage(key: UniqueKey(), text: ''),
               contracts: const [],
               ships: const [],
               transactions: const [],
@@ -157,6 +157,33 @@ class HomeCubit extends Cubit<HomeState> {
         content: Text(errorTxt),
       ),
     );
+  }
+
+  Future<int> orbit(String shipSymbol) async {
+    var (statusCode, _) = await ActionsRepository().orbitShip(shipSymbol);
+    return statusCode;
+  }
+
+  Future navigateShip(String shipSymbol, String waypointSymbol) async {
+    var (statusCode, _, _) =
+        await ActionsRepository().navigateShip(shipSymbol, waypointSymbol);
+
+    if (statusCode == 200) {
+      emit(state.copyWith(
+          message: StateMessage(text: States.reload.name, key: UniqueKey())));
+    }
+  }
+
+  Future finishTransit(String shipSymbol) async {
+    await ActionsRepository().finishTransit(shipSymbol);
+  }
+
+  Future<int> mineAsteroid(String shipSymbol) async {
+    var (_, cooldown, _, _) =
+        await ActionsRepository().extractResources(shipSymbol);
+    await listShips();
+
+    return cooldown.remainingSeconds;
   }
 
   _showBannerText(String text) {

@@ -5,6 +5,8 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
+import 'package:space_traders/components/unfocus.dart';
+import 'package:space_traders/methods/validators.dart';
 import 'package:space_traders/models/faction.dart';
 
 class Register extends StatefulWidget {
@@ -17,72 +19,86 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   var controller = TextEditingController();
   var selectedFaction = FactionSymbol.COSMIC;
+  var isRegistered = false;
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(context, 'Register'),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Name your character'),
-          const SizedBox(
-            height: Spacing.medium,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  const Expanded(flex: 10, child: SizedBox()),
-                  Expanded(
-                    flex: 80,
-                    child: TextFormField(
-                      controller: controller,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+    return Unfocus(
+      child: Scaffold(
+        appBar: customAppBar(context, 'Register'),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Name your character'),
+            const SizedBox(
+              height: Spacing.medium,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Form(
+                  key: formKey,
+                  child: Row(
+                    children: [
+                      const Expanded(flex: 10, child: SizedBox()),
+                      Expanded(
+                        flex: 80,
+                        child: TextFormField(
+                          controller: controller,
+                          validator: nameValidator,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            label: const Text('Your name'),
+                          ),
                         ),
-                        label: const Text('Your name'),
                       ),
-                    ),
+                      const Expanded(flex: 10, child: SizedBox()),
+                    ],
                   ),
-                  const Expanded(flex: 10, child: SizedBox()),
-                ],
-              ),
-              const SizedBox(
-                height: Spacing.small,
-              ),
-              DropdownMenu(
-                label: const Text('Faction'),
-                onSelected: (value) {
-                  setState(() {
-                    selectedFaction = value!;
-                  });
-                },
-                dropdownMenuEntries: [
-                  for (var faction in FactionSymbol.values)
-                    DropdownMenuEntry(value: faction, label: faction.name)
-                ],
-              ),
-              const SizedBox(
-                height: Spacing.small,
-              ),
-              CustomButton(
-                text: 'Register',
-                onPressed: () async {
-                  bool isRegistered = await context
-                      .read<HomeCubit>()
-                      .register(controller.text, selectedFaction);
-
-                  if (isRegistered && context.mounted) {
-                    context.pop();
-                  }
-                },
-              ),
-            ],
-          )
-        ],
+                ),
+                const SizedBox(
+                  height: Spacing.small,
+                ),
+                DropdownMenu(
+                  label: const Text('Faction'),
+                  onSelected: (value) {
+                    setState(() {
+                      selectedFaction = value!;
+                    });
+                  },
+                  dropdownMenuEntries: [
+                    for (var faction in FactionSymbol.values)
+                      DropdownMenuEntry(value: faction, label: faction.name)
+                  ],
+                ),
+                const SizedBox(
+                  height: Spacing.small,
+                ),
+                CustomButton(
+                  text: 'Register',
+                  onPressed: () async {
+                    // formKey.currentState?.reset();
+                    try {
+                      isRegistered = await context
+                          .read<HomeCubit>()
+                          .register(controller.text, selectedFaction);
+                      if (isRegistered && context.mounted) {
+                        context.pop();
+                      } else if (!isRegistered) {
+                        formKey.currentState?.validate();
+                      }
+                    } catch (e) {
+                      formKey.currentState?.validate();
+                    }
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
