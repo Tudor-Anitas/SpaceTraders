@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:space_traders/api/agent_api.dart';
 import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/api/factions_api.dart';
 import 'package:space_traders/api/fleet_api.dart';
 import 'package:space_traders/api/local_storage.dart';
 import 'package:space_traders/api/systems_api.dart';
+import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/chart.dart';
 import 'package:space_traders/models/construction.dart';
@@ -32,6 +34,7 @@ import 'package:space_traders/models/transaction.dart';
 import 'package:space_traders/models/waypoint.dart';
 import 'package:space_traders/models/waypoint_trait.dart';
 import 'package:space_traders/models/waypoint_type.dart';
+import 'package:space_traders/notifications/notification_service.dart';
 
 class ActionsRepository {
   Future<String> getToken() async {
@@ -129,8 +132,8 @@ class ActionsRepository {
     return await FleetApi().createSurvey(shipSymbol);
   }
 
-  Future<(int, Cooldown, Extraction, ShipCargo)> extractResources(
-      String shipSymbol) async {
+  Future<(int, Cooldown, Extraction, ShipCargo, DioException? error)>
+      extractResources(String shipSymbol) async {
     return await FleetApi().extractResources(shipSymbol);
   }
 
@@ -154,9 +157,22 @@ class ActionsRepository {
     return await FleetApi().jumpShip(shipSymbol, waypoint);
   }
 
-  Future<(int, Fuel, ShipNav)> navigateShip(
+  Future<(int, Fuel, ShipNav, DioException? error)> navigateShip(
       String shipSymbol, String waypointSymbol) async {
-    return await FleetApi().navigateShip(shipSymbol, waypointSymbol);
+    var (response, fuel, nav, e) =
+        await FleetApi().navigateShip(shipSymbol, waypointSymbol);
+    if (response == 200) {
+      int tripTime = DateTime.parse(nav.route.arrival)
+          .difference(DateTime.parse(nav.route.departureTime))
+          .inSeconds;
+      NotificationService().progressNotification(
+        tripTime,
+        NotificationAction.navigateShip,
+        data: {'shipName': shipSymbol, 'destination': waypointSymbol},
+      );
+    }
+
+    return (response, fuel, nav, e);
   }
 
   Future<(int, ShipNav)> patchShipNav(String shipSymbol, ShipNav nav) async {

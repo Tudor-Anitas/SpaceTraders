@@ -7,12 +7,13 @@ import 'package:space_traders/components/progress_bar.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/route.dart' as ship;
+import 'package:space_traders/models/ship_nav.dart';
 
 class ShipArrivalStatus extends StatefulWidget {
-  final int index;
+  final String shipSymbol;
   final ship.Route route;
   const ShipArrivalStatus(
-      {super.key, required this.index, required this.route});
+      {super.key, required this.shipSymbol, required this.route});
 
   @override
   State<ShipArrivalStatus> createState() => _ShipArrivalStatusState();
@@ -38,8 +39,12 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
         } else if (stopReload) {
           timer.cancel();
           if (mounted) {
-            context.read<HomeCubit>().finishTransit(
-                context.read<HomeCubit>().state.ships[widget.index].symbol);
+            context.read<HomeCubit>().finishTransit(context
+                .read<HomeCubit>()
+                .state
+                .ships
+                .firstWhere((element) => element.symbol == widget.shipSymbol)
+                .symbol);
           }
         }
       });
@@ -48,14 +53,25 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
 
   @override
   Widget build(BuildContext context) {
-    var route = context.watch<HomeCubit>().state.ships[widget.index].nav.route;
+    var nav = context
+        .watch<HomeCubit>()
+        .state
+        .ships
+        .firstWhere((element) => element.symbol == widget.shipSymbol)
+        .nav;
+    var route = nav.route;
+
+    if (nav.status != ShipNavStatus.IN_TRANSIT.name) {
+      setState(() {});
+    }
+
     var departureTime = DateTime.parse(route.departureTime);
     var arrivalTime = DateTime.parse(route.arrival);
     var tripTime = arrivalTime.difference(departureTime);
     var now = DateTime.now();
     if (now.isAfter(arrivalTime)) {
       setState(() {
-        print('stop reload');
+        debugPrint('stop reload');
         stopReload = true;
       });
     }
@@ -64,7 +80,8 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
       now = departureTime;
     }
     var currentTime = now.difference(departureTime);
-    print('tripTime: $tripTime ---- currentTime: $currentTime ---- departureTime: $departureTime');
+    debugPrint(
+        'tripTime: $tripTime ---- currentTime: $currentTime ---- departureTime: $departureTime');
 
     return Column(
       children: [
@@ -74,7 +91,8 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
             Text(context
                 .watch<HomeCubit>()
                 .state
-                .ships[widget.index]
+                .ships
+                .firstWhere((element) => element.symbol == widget.shipSymbol)
                 .nav
                 .status),
             const SizedBox(width: Spacing.medium),

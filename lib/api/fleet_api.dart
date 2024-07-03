@@ -124,20 +124,31 @@ class FleetApi {
     );
   }
 
-  Future<(int, Cooldown, Extraction, ShipCargo)> extractResources(
-      String shipSymbol) async {
-    Response response = await dio.post(
-      '/my/ships/$shipSymbol/extract',
-    );
+  Future<(int, Cooldown, Extraction, ShipCargo, DioException? error)>
+      extractResources(String shipSymbol) async {
+    try {
+      Response response = await dio.post(
+        '/my/ships/$shipSymbol/extract',
+      );
 
-    Map data = response.data['data'];
+      Map data = response.data['data'];
 
-    return (
-      response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
-      Extraction.fromMap(data['extraction']),
-      ShipCargo.fromMap(data['cargo']),
-    );
+      return (
+        response.statusCode!,
+        Cooldown.fromMap(data['cooldown']),
+        Extraction.fromMap(data['extraction']),
+        ShipCargo.fromMap(data['cargo']),
+        null,
+      );
+    } on DioException catch (e) {
+      return (
+        e.response!.statusCode!,
+        Cooldown.fromMap(const {}),
+        Extraction.fromMap(const {}),
+        ShipCargo.fromMap(const {}),
+        e
+      );
+    }
   }
 
   Future<(int, Cooldown, Siphon, ShipCargo)> siphonResources(
@@ -205,18 +216,28 @@ class FleetApi {
     );
   }
 
-  Future<(int, Fuel, ShipNav)> navigateShip(
+  Future<(int, Fuel, ShipNav, DioException? error)> navigateShip(
       String shipSymbol, String waypointSymbol) async {
-    Response response = await dio.post('/my/ships/$shipSymbol/navigate',
-        data: json.encode({'waypointSymbol': waypointSymbol}));
+    try {
+      Response response = await dio.post('/my/ships/$shipSymbol/navigate',
+          data: json.encode({'waypointSymbol': waypointSymbol}));
 
-    Map data = response.data['data'];
+      Map data = response.data['data'];
 
-    return (
-      response.statusCode!,
-      Fuel.fromMap(data['fuel']),
-      ShipNav.fromMap(data['nav']),
-    );
+      return (
+        response.statusCode!,
+        Fuel.fromMap(data['fuel']),
+        ShipNav.fromMap(data['nav']),
+        null,
+      );
+    } on DioException catch (e) {
+      return (
+        e.response!.statusCode!,
+        Fuel.fromMap(const {}),
+        ShipNav.fromMap(const {}),
+        e
+      );
+    }
   }
 
   Future<(int, ShipNav)> patchShipNav(String shipSymbol, ShipNav nav) async {

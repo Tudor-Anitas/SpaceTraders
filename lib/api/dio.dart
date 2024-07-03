@@ -24,8 +24,8 @@ InterceptorsWrapper networkInterceptor = InterceptorsWrapper(
   },
   onError: (error, handler) {
     debugPrint(
-        'Error [${error.response?.requestOptions.path}] => Code [${error.response?.statusCode}] => [${error.message}]');
+        'Error [${error.response?.requestOptions.path}] => Code [${error.response?.statusCode}] => [${error.response!.data['error']['message']}]');
 
-    return handler.next(error);
+    return handler.reject(error);
   },
 );

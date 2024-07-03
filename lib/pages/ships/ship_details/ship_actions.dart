@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/square_buttons.dart';
 import 'package:space_traders/methods/duration.dart';
+import 'package:space_traders/notifications/notification_service.dart';
 import 'package:space_traders/pages/ships/ship_details/find_asteroids.dart';
 
 class ShipActions extends StatefulWidget {
@@ -27,7 +28,6 @@ class _ShipActionsState extends State<ShipActions> {
   @override
   void initState() {
     super.initState();
-    //! SA TI FUT FAMILIA DE METODA
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<HomeCubit>().listShips();
       if (mounted) {
@@ -54,10 +54,12 @@ class _ShipActionsState extends State<ShipActions> {
             ),
           ),
       remainingSeconds == 0
-          ? 'Mine asteroid'
-          : 'Extracting... ${remainingSeconds.sec}': () async {
+              ? 'Mine asteroid'
+              : 'Extracting... ${remainingSeconds.sec.toString().substring(0, remainingSeconds.sec.toString().length - 7)}':
+          () async {
         remainingSeconds =
             await context.read<HomeCubit>().mineAsteroid(widget.shipSymbol);
+        
         stopReload = false;
         setState(() {});
         startTimer();

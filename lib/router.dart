@@ -36,7 +36,7 @@ final router = GoRouter(
     GoRoute(
       path: '/shipDetails',
       builder: (context, state) => ShipDetails(
-        index: state.extra! as int,
+        shipSymbol: state.extra! as String,
       ),
     ),
   ],

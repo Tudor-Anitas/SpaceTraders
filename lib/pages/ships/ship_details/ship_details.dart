@@ -11,8 +11,8 @@ import 'package:space_traders/pages/ships/ship_details/arrival_status.dart';
 import 'package:space_traders/pages/ships/ship_details/ship_actions.dart';
 
 class ShipDetails extends StatefulWidget {
-  final int index;
-  const ShipDetails({super.key, required this.index});
+  final String shipSymbol;
+  const ShipDetails({super.key, required this.shipSymbol});
 
   @override
   State<ShipDetails> createState() => _ShipDetailsState();
@@ -22,7 +22,8 @@ class _ShipDetailsState extends State<ShipDetails> {
   @override
   Widget build(BuildContext context) {
     HomeState state = context.watch<HomeCubit>().state;
-    Ship ship = state.ships[widget.index];
+    Ship ship = state.ships
+        .firstWhere((element) => element.symbol == widget.shipSymbol);
     return Scaffold(
       appBar: customAppBar(context, 'Ship details'),
       body: Padding(
@@ -41,7 +42,7 @@ class _ShipDetailsState extends State<ShipDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Hero(
-                    tag: widget.index,
+                    tag: widget.shipSymbol,
                     child: Text(
                       ship.symbol,
                       style: Theme.of(context).textTheme.displaySmall,
@@ -49,8 +50,12 @@ class _ShipDetailsState extends State<ShipDetails> {
                   ),
                   if (ship.nav.status == ShipNavStatus.IN_TRANSIT.name)
                     ShipArrivalStatus(
-                      index: widget.index,
-                      route: state.ships[widget.index].nav.route,
+                      shipSymbol: widget.shipSymbol,
+                      route: state.ships
+                          .firstWhere(
+                              (element) => element.symbol == widget.shipSymbol)
+                          .nav
+                          .route,
                     ),
                   DisplayPanel(
                       title: 'Registration :',

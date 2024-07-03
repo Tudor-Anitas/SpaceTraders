@@ -42,7 +42,9 @@ class _MyShipsState extends State<MyShips> {
               itemCount: context.watch<HomeCubit>().state.ships.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () => context.push('/shipDetails', extra: index),
+                  onTap: () => context.push('/shipDetails',
+                      extra:
+                          context.read<HomeCubit>().state.ships[index].symbol),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -58,7 +60,11 @@ class _MyShipsState extends State<MyShips> {
                         width: 70,
                       ),
                       Hero(
-                        tag: index,
+                        tag: context
+                            .watch<HomeCubit>()
+                            .state
+                            .ships[index]
+                            .symbol,
                         child: Text(
                           context.watch<HomeCubit>().state.ships[index].symbol,
                           style: Theme.of(context).textTheme.bodyMedium,

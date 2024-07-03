@@ -32,7 +32,7 @@ class Extraction extends Equatable {
   factory Extraction.fromMap(Map<String, dynamic> map) {
     return Extraction(
       shipSymbol: map['shipSymbol'] ?? '',
-      extractionYield: ExtractionYield.fromMap(map['yield']),
+      extractionYield: ExtractionYield.fromMap(map['yield'] ?? {}),
     );
   }
 

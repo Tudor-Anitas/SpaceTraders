@@ -165,12 +165,14 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future navigateShip(String shipSymbol, String waypointSymbol) async {
-    var (statusCode, _, _) =
+    var (statusCode, _, _, e) =
         await ActionsRepository().navigateShip(shipSymbol, waypointSymbol);
 
     if (statusCode == 200) {
       emit(state.copyWith(
           message: StateMessage(text: States.reload.name, key: UniqueKey())));
+    } else {
+      _showSnackbarText(e!.response!.data['error']['message']);
     }
   }
 
@@ -179,9 +181,13 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<int> mineAsteroid(String shipSymbol) async {
-    var (_, cooldown, _, _) =
+    var (_, cooldown, _, _, e) =
         await ActionsRepository().extractResources(shipSymbol);
     await listShips();
+
+    if (e != null) {
+      _showSnackbarText(e.response?.data['error']['message']);
+    }
 
     return cooldown.remainingSeconds;
   }
