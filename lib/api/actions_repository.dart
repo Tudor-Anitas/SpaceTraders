@@ -134,7 +134,14 @@ class ActionsRepository {
 
   Future<(int, Cooldown, Extraction, ShipCargo, DioException? error)>
       extractResources(String shipSymbol) async {
-    return await FleetApi().extractResources(shipSymbol);
+    var result = await FleetApi().extractResources(shipSymbol);
+    NotificationService().progressNotification(
+        result.$2.totalSeconds, NotificationAction.extractResources, data: {
+      'shipName': shipSymbol,
+      'yield': result.$3.extractionYield.symbol
+    });
+
+    return result;
   }
 
   Future<(int, Cooldown, Siphon, ShipCargo)> siphonResources(

@@ -67,6 +67,14 @@ class NotificationService {
           'action': NotificationAction.navigateShip.name,
           'shipName': data?['shipName']
         };
+      case NotificationAction.extractResources:
+        progressTitle = NotificationType.extractResources(
+            data?['shipName'], data?['yield']);
+        endTitle = NotificationType.endExtraction();
+        payload = {
+          'action': NotificationAction.extractResources.name,
+          'shipName': data?['shipName']
+        };
     }
 
     int id = math.Random().nextInt(150);
@@ -141,13 +149,9 @@ class NotificationService {
     switch (action) {
       case NotificationAction.navigateShip:
         context!.push('/shipDetails', extra: payload['shipName']);
+      case NotificationAction.extractResources:
+        context!.push('/shipDetails', extra: payload['shipName']);
     }
-    // Navigate into pages, avoiding to open the notification details page over another details page already opened
-    // router.routerDelegate.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-    //     '/notification-page',
-    //     (route) =>
-    //         (route.settings.name != '/notification-page') || route.isFirst,
-    //     arguments: receivedAction);
   }
 }
 
@@ -159,8 +163,17 @@ class NotificationType {
   static endNavigationShip(String shipName, String destination) {
     return 'Ship $shipName has arrived to $destination';
   }
+
+  static extractResources(String shipName, String yieldName) {
+    return 'Ship $shipName is extracting $yieldName';
+  }
+
+  static endExtraction() {
+    return 'Extraction complete!';
+  }
 }
 
 enum NotificationAction {
   navigateShip,
+  extractResources,
 }
