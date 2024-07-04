@@ -5,6 +5,7 @@ import 'package:space_traders/api/actions_repository.dart';
 import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/main.dart';
+import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/contract.dart';
 import 'package:space_traders/models/faction.dart';
@@ -180,16 +181,17 @@ class HomeCubit extends Cubit<HomeState> {
     await ActionsRepository().finishTransit(shipSymbol);
   }
 
-  Future<int> mineAsteroid(String shipSymbol) async {
-    var (_, cooldown, _, _, e) =
-        await ActionsRepository().extractResources(shipSymbol);
-    await listShips();
-
-    if (e != null) {
-      _showSnackbarText(e.response?.data['error']['message']);
+  Future<void> mineAsteroid(String shipSymbol, int nrOfExtractions) async {
+    for (int i = 0; i < nrOfExtractions; i++) {
+      var (_, cooldown, _, _, e) =
+          await ActionsRepository().extractResources(shipSymbol);
+      if (e != null) {
+        _showSnackbarText(e.response?.data['error']['message']);
+        break;
+      }
+      await Future.delayed(cooldown.remainingSeconds.sec);
     }
-
-    return cooldown.remainingSeconds;
+    await listShips();
   }
 
   _showBannerText(String text) {

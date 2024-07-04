@@ -8,7 +8,8 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/square_buttons.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/notifications/notification_service.dart';
-import 'package:space_traders/pages/ships/ship_details/find_asteroids.dart';
+import 'package:space_traders/pages/ships/ship_details/find_asteroids_tab.dart';
+import 'package:space_traders/pages/ships/ship_details/mine_asteroid_tab.dart';
 
 class ShipActions extends StatefulWidget {
   final String systemSymbol;
@@ -53,17 +54,12 @@ class _ShipActionsState extends State<ShipActions> {
               shipSymbol: widget.shipSymbol,
             ),
           ),
-      remainingSeconds == 0
-              ? 'Mine asteroid'
-              : 'Extracting... ${remainingSeconds.sec.toString().substring(0, remainingSeconds.sec.toString().length - 7)}':
-          () async {
-        remainingSeconds =
-            await context.read<HomeCubit>().mineAsteroid(widget.shipSymbol);
-        
-        stopReload = false;
-        setState(() {});
-        startTimer();
-      }
+      'Mine asteroid': () => showModalBottomSheet(
+            context: context,
+            builder: (context) => MineAsteroidTab(
+              shipSymbol: widget.shipSymbol,
+            ),
+          )
     };
 
     return SizedBox(
