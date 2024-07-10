@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/square_buttons.dart';
 import 'package:space_traders/methods/duration.dart';
-import 'package:space_traders/notifications/notification_service.dart';
 import 'package:space_traders/pages/ships/ship_details/find_asteroids_tab.dart';
 import 'package:space_traders/pages/ships/ship_details/mine_asteroid_tab.dart';
 
@@ -87,7 +86,6 @@ class _ShipActionsState extends State<ShipActions> {
             stopReload = true;
           });
         } else {
-          print('remainingSeconds: $remainingSeconds');
           setState(() {
             remainingSeconds--;
           });

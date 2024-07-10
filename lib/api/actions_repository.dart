@@ -5,7 +5,6 @@ import 'package:space_traders/api/factions_api.dart';
 import 'package:space_traders/api/fleet_api.dart';
 import 'package:space_traders/api/local_storage.dart';
 import 'package:space_traders/api/systems_api.dart';
-import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/chart.dart';
 import 'package:space_traders/models/construction.dart';
@@ -135,11 +134,7 @@ class ActionsRepository {
   Future<(int, Cooldown, Extraction, ShipCargo, DioException? error)>
       extractResources(String shipSymbol) async {
     var result = await FleetApi().extractResources(shipSymbol);
-    NotificationService().progressNotification(
-        result.$2.totalSeconds, NotificationAction.extractResources, data: {
-      'shipName': shipSymbol,
-      'yield': result.$3.extractionYield.symbol
-    });
+    
 
     return result;
   }

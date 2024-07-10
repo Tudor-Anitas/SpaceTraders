@@ -115,6 +115,57 @@ class NotificationService {
     );
   }
 
+  /// Used when there are multiple actions that need to be completed
+  /// and it's not time dependent
+  stepProgressNotification(
+      double currentValue, double maxValue, NotificationAction action, int id,
+      {Map? data}) async {
+    String progressTitle = '';
+    String endTitle = '';
+    Map<String, String?> payload = {};
+    double currentVal = 100 / maxValue * currentValue;
+
+    switch (action) {
+      case NotificationAction.extractResources:
+        progressTitle = NotificationType.extractResources(
+            data?['shipName'] ?? '', data?['yield'] ?? '');
+        endTitle = NotificationType.endExtraction();
+        payload = {
+          'action': NotificationAction.extractResources.name,
+          'shipName': data?['shipName']
+        };
+      default:
+        break;
+    }
+
+    if (currentValue > maxValue) {
+      AwesomeNotifications().cancel(id);
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: id,
+            channelKey: channelKey,
+            title: endTitle,
+            body: '',
+            category: NotificationCategory.Reminder,
+            notificationLayout: NotificationLayout.Default,
+            payload: payload,
+            locked: true),
+      );
+    } else {
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: id,
+            progress: currentVal,
+            channelKey: channelKey,
+            title: progressTitle,
+            body: '',
+            category: NotificationCategory.Progress,
+            notificationLayout: NotificationLayout.ProgressBar,
+            locked: true),
+      );
+    }
+  }
+
   /// Use this method to detect when a new notification or a schedule is created
   @pragma("vm:entry-point")
   static Future<void> onNotificationCreatedMethod(

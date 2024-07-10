@@ -1,6 +1,11 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:space_traders/api/actions_repository.dart';
 import 'package:space_traders/api/contracts_api.dart';
 import 'package:space_traders/blocs/state_message.dart';
@@ -8,12 +13,14 @@ import 'package:space_traders/main.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/contract.dart';
+import 'package:space_traders/models/cooldown.dart';
 import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/shipyard.dart';
 import 'package:space_traders/models/transaction.dart';
 import 'package:space_traders/models/waypoint.dart';
 import 'package:space_traders/models/waypoint_type.dart';
+import 'package:space_traders/notifications/notification_service.dart';
 
 part 'home_state.dart';
 
@@ -182,15 +189,41 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> mineAsteroid(String shipSymbol, int nrOfExtractions) async {
+    bool hasError = false;
+
     for (int i = 0; i < nrOfExtractions; i++) {
-      var (_, cooldown, _, _, e) =
+      var (_, cooldown, extraction, _, e) =
           await ActionsRepository().extractResources(shipSymbol);
       if (e != null) {
-        _showSnackbarText(e.response?.data['error']['message']);
+        hasError = true;
+        _showSnackbarText(e.response!.data['error']['message']);
         break;
+      }
+      if (nrOfExtractions > 1) {
+        NotificationService().stepProgressNotification(i + 1,
+            nrOfExtractions.toDouble(), NotificationAction.extractResources, 99,
+            data: {
+              'shipName': shipSymbol,
+              'yield': extraction.extractionYield.symbol
+            });
+      } else {
+        NotificationService().progressNotification(
+          cooldown.remainingSeconds,
+          NotificationAction.extractResources,
+          data: {
+            'shipName': shipSymbol,
+            'yield': extraction.extractionYield.symbol
+          },
+        );
       }
       await Future.delayed(cooldown.remainingSeconds.sec);
     }
+
+    if (!hasError && nrOfExtractions > 1) {
+      NotificationService().stepProgressNotification(
+          2, 1.toDouble(), NotificationAction.extractResources, 99);
+    }
+
     await listShips();
   }
 
