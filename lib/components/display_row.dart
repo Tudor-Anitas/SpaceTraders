@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:space_traders/components/curves.dart';
+import 'package:space_traders/components/ship_details/nav_details.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/methods/duration.dart';
+import 'package:space_traders/pages/ships/ship_details/ship_details.dart';
 
 class DisplayPanel extends StatefulWidget {
-  final String title;
+  final ShipDetailsPage page;
   final dynamic value;
   const DisplayPanel({
     super.key,
-    required this.title,
+    required this.page,
     required this.value,
   });
 
@@ -33,7 +35,7 @@ class _DisplayPanelState extends State<DisplayPanel> {
           },
           child: Row(
             children: [
-              Text(widget.title),
+              Text(widget.page.name),
               Icon(
                 isClosed ? Icons.arrow_drop_down : Icons.arrow_drop_up,
               ),
@@ -52,10 +54,19 @@ class _DisplayPanelState extends State<DisplayPanel> {
                     color: Theme.of(context).focusColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(widget.value),
+                  child: getPage(widget.page, widget.value),
                 ),
         ),
       ],
     );
   }
+
+  Widget getPage(ShipDetailsPage page, dynamic value){
+    switch(page){
+      case ShipDetailsPage.nav:
+        return NavDetails(shipNav: value);
+    }
+  }
 }
+
+

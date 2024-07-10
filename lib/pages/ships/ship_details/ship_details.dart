@@ -57,22 +57,22 @@ class _ShipDetailsState extends State<ShipDetails> {
                           .nav
                           .route,
                     ),
-                  DisplayPanel(
-                      title: 'Registration :',
-                      value: ship.registration.toString()),
-                  DisplayPanel(title: 'Nav:', value: ship.nav.toString()),
-                  DisplayPanel(title: 'Crew:', value: ship.crew.toString()),
-                  DisplayPanel(title: 'Frame:', value: ship.frame.toString()),
-                  DisplayPanel(
-                      title: 'Reactor:', value: ship.reactor.toString()),
-                  DisplayPanel(title: 'Engine:', value: ship.engine.toString()),
-                  DisplayPanel(
-                      title: 'Cooldown:', value: ship.cooldown.toString()),
-                  DisplayPanel(
-                      title: 'Modules:', value: ship.modules.toString()),
-                  DisplayPanel(title: 'Mounts:', value: ship.mounts.toString()),
-                  DisplayPanel(title: 'Cargo:', value: ship.cargo.toString()),
-                  DisplayPanel(title: 'Fuel:', value: ship.fuel.toString()),
+                  // DisplayPanel(
+                  //     title: 'Registration :',
+                  //     value: ship.registration.toString()),
+                  DisplayPanel(page: ShipDetailsPage.nav, value: ship.nav),
+                  // DisplayPanel(title: 'Crew:', value: ship.crew.toString()),
+                  // DisplayPanel(title: 'Frame:', value: ship.frame.toString()),
+                  // DisplayPanel(
+                  //     title: 'Reactor:', value: ship.reactor.toString()),
+                  // DisplayPanel(title: 'Engine:', value: ship.engine.toString()),
+                  // DisplayPanel(
+                  //     title: 'Cooldown:', value: ship.cooldown.toString()),
+                  // DisplayPanel(
+                  //     title: 'Modules:', value: ship.modules.toString()),
+                  // DisplayPanel(title: 'Mounts:', value: ship.mounts.toString()),
+                  // DisplayPanel(title: 'Cargo:', value: ship.cargo.toString()),
+                  // DisplayPanel(title: 'Fuel:', value: ship.fuel.toString()),
                   ShipActions(
                     systemSymbol: ship.nav.systemSymbol,
                     shipSymbol: ship.symbol,
@@ -85,4 +85,8 @@ class _ShipDetailsState extends State<ShipDetails> {
       ),
     );
   }
+}
+
+enum ShipDetailsPage {
+  nav,
 }
