@@ -11,6 +11,7 @@ class Frame extends Equatable {
   final String name;
   final String description;
   final int condition;
+  final int integrity;
   final int moduleSlots;
   final int mountingPoints;
   final int fuelCapacity;
@@ -20,6 +21,7 @@ class Frame extends Equatable {
     required this.name,
     required this.description,
     required this.condition,
+    required this.integrity,
     required this.moduleSlots,
     required this.mountingPoints,
     required this.fuelCapacity,
@@ -31,6 +33,7 @@ class Frame extends Equatable {
     String? name,
     String? description,
     int? condition,
+    int? integrity,
     int? moduleSlots,
     int? mountingPoints,
     int? fuelCapacity,
@@ -41,6 +44,7 @@ class Frame extends Equatable {
       name: name ?? this.name,
       description: description ?? this.description,
       condition: condition ?? this.condition,
+      integrity: integrity ?? this.integrity,
       moduleSlots: moduleSlots ?? this.moduleSlots,
       mountingPoints: mountingPoints ?? this.mountingPoints,
       fuelCapacity: fuelCapacity ?? this.fuelCapacity,
@@ -54,6 +58,7 @@ class Frame extends Equatable {
       'name': name,
       'description': description,
       'condition': condition,
+      'integrity': integrity,
       'moduleSlots': moduleSlots,
       'mountingPoints': mountingPoints,
       'fuelCapacity': fuelCapacity,
@@ -67,6 +72,7 @@ class Frame extends Equatable {
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       condition: map['condition']?.toInt() ?? 0,
+      integrity: map['integrity']?.toInt() ?? 0,
       moduleSlots: map['moduleSlots']?.toInt() ?? 0,
       mountingPoints: map['mountingPoints']?.toInt() ?? 0,
       fuelCapacity: map['fuelCapacity']?.toInt() ?? 0,
@@ -80,7 +86,7 @@ class Frame extends Equatable {
 
   @override
   String toString() {
-    return 'symbol: $symbol\nname: $name\ndescription: $description\ncondition: $condition\nmoduleSlots: $moduleSlots\nmountingPoints: $mountingPoints\nfuelCapacity: $fuelCapacity\nrequirements: $requirements)';
+    return 'symbol: $symbol\nname: $name\ndescription: $description\ncondition: $condition\nintegrity: $integrity\nmoduleSlots: $moduleSlots\nmountingPoints: $mountingPoints\nfuelCapacity: $fuelCapacity\nrequirements: $requirements)';
   }
 
   @override
@@ -90,6 +96,7 @@ class Frame extends Equatable {
       name,
       description,
       condition,
+      integrity,
       moduleSlots,
       mountingPoints,
       fuelCapacity,

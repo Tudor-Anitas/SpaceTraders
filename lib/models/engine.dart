@@ -11,6 +11,7 @@ class Engine extends Equatable {
   final String name;
   final String description;
   final int condition;
+  final int integrity;
   final int speed;
   final Requirements requirements;
   const Engine({
@@ -18,6 +19,7 @@ class Engine extends Equatable {
     required this.name,
     required this.description,
     required this.condition,
+    required this.integrity,
     required this.speed,
     required this.requirements,
   });
@@ -27,6 +29,7 @@ class Engine extends Equatable {
     String? name,
     String? description,
     int? condition,
+    int? integrity,
     int? speed,
     Requirements? requirements,
   }) {
@@ -35,6 +38,7 @@ class Engine extends Equatable {
       name: name ?? this.name,
       description: description ?? this.description,
       condition: condition ?? this.condition,
+      integrity: integrity ?? this.integrity,
       speed: speed ?? this.speed,
       requirements: requirements ?? this.requirements,
     );
@@ -46,6 +50,7 @@ class Engine extends Equatable {
       'name': name,
       'description': description,
       'condition': condition,
+      'integrity': integrity,
       'speed': speed,
       'requirements': requirements.toMap(),
     };
@@ -57,6 +62,7 @@ class Engine extends Equatable {
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       condition: map['condition']?.toInt() ?? 0,
+      integrity: map['integrity']?.toInt() ?? 0,
       speed: map['speed']?.toInt() ?? 0,
       requirements: Requirements.fromMap(map['requirements'] ?? {}),
     );
@@ -68,7 +74,7 @@ class Engine extends Equatable {
 
   @override
   String toString() {
-    return 'symbol: $symbol\nname: $name\ndescription: $description\ncondition: $condition\nspeed: $speed\nrequirements: $requirements';
+    return 'symbol: $symbol\nname: $name\ndescription: $description\ncondition: $condition\nintegrity: $integrity\nspeed: $speed\nrequirements: $requirements';
   }
 
   @override
@@ -78,6 +84,7 @@ class Engine extends Equatable {
       name,
       description,
       condition,
+      integrity,
       speed,
       requirements,
     ];

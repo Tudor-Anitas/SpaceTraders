@@ -8,7 +8,11 @@ class RowDistinction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: color ?? Theme.of(context).focusColor,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: color ?? Theme.of(context).focusColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: child,
     );
   }

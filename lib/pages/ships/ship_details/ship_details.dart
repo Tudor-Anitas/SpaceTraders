@@ -57,22 +57,26 @@ class _ShipDetailsState extends State<ShipDetails> {
                           .nav
                           .route,
                     ),
-                  // DisplayPanel(
-                  //     title: 'Registration :',
-                  //     value: ship.registration.toString()),
+                  DisplayPanel(
+                      page: ShipDetailsPage.registration,
+                      value: ship.registration),
                   DisplayPanel(page: ShipDetailsPage.nav, value: ship.nav),
-                  // DisplayPanel(title: 'Crew:', value: ship.crew.toString()),
-                  // DisplayPanel(title: 'Frame:', value: ship.frame.toString()),
-                  // DisplayPanel(
-                  //     title: 'Reactor:', value: ship.reactor.toString()),
-                  // DisplayPanel(title: 'Engine:', value: ship.engine.toString()),
-                  // DisplayPanel(
-                  //     title: 'Cooldown:', value: ship.cooldown.toString()),
-                  // DisplayPanel(
-                  //     title: 'Modules:', value: ship.modules.toString()),
-                  // DisplayPanel(title: 'Mounts:', value: ship.mounts.toString()),
-                  // DisplayPanel(title: 'Cargo:', value: ship.cargo.toString()),
-                  // DisplayPanel(title: 'Fuel:', value: ship.fuel.toString()),
+                  DisplayPanel(page: ShipDetailsPage.crew, value: ship.crew),
+                  DisplayPanel(page: ShipDetailsPage.frame, value: ship.frame),
+                  DisplayPanel(
+                      page: ShipDetailsPage.reactor, value: ship.reactor),
+                  DisplayPanel(
+                      page: ShipDetailsPage.engine, value: ship.engine),
+                  DisplayPanel(
+                      page: ShipDetailsPage.cooldown, value: ship.cooldown),
+                  DisplayPanel(
+                      page: ShipDetailsPage.modules, value: ship.modules),
+                  DisplayPanel(
+                      page: ShipDetailsPage.mounts, value: ship.mounts),
+                  DisplayPanel(
+                      page: ShipDetailsPage.cargo, value: ship.cargo),
+                  DisplayPanel(
+                      page: ShipDetailsPage.fuel, value: ship.fuel),
                   ShipActions(
                     systemSymbol: ship.nav.systemSymbol,
                     shipSymbol: ship.symbol,
@@ -88,5 +92,15 @@ class _ShipDetailsState extends State<ShipDetails> {
 }
 
 enum ShipDetailsPage {
+  registration,
   nav,
+  crew,
+  frame,
+  reactor,
+  engine,
+  cooldown,
+  modules,
+  mounts,
+  cargo,
+  fuel,
 }
