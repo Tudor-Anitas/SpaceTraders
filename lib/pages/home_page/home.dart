@@ -6,7 +6,7 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/headline.dart';
 import 'package:space_traders/components/sizes.dart';
-import 'package:space_traders/notifications/notification_service.dart';
+import 'package:space_traders/methods/widget_keys.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomButton(
+                        key: WidgetKeys.registerButton,
                         onPressed: () => context.push('/register'),
                         text: 'Register',
                       ),
@@ -76,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       if (isRegistered)
                         CustomButton(
+                          key: WidgetKeys.myShips,
                           onPressed: () async {
                             return context.push('/myShips');
                           },
@@ -84,17 +86,6 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: Spacing.small,
                       ),
-                      if (isRegistered)
-                        CustomButton(
-                          onPressed: () async {
-                            NotificationService().progressNotification(
-                                10, NotificationAction.navigateShip, data: {
-                              'shipName': 'TESTTTT2-1',
-                              'destination': 'home'
-                            });
-                          },
-                          text: 'notification',
-                        ),
                     ],
                   );
                 },

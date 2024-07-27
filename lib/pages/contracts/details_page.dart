@@ -30,111 +30,128 @@ class _ContractDetailsState extends State<ContractDetails> {
           context, state.contracts[state.selectedContractIndex].factionSymbol),
       body: Padding(
         padding: const EdgeInsets.all(Spacing.medium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: alignment,
-                  children: [
-                    const Text('Id:'),
-                    SizedBox(
-                      width: screenWidth * .3,
-                      child: Text(state.contracts.isEmpty
-                          ? ''
-                          : state.contracts[state.selectedContractIndex].id),
-                    )
-                  ],
-                ),
-                RowDistinction(
-                  child: Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('Faction symbol:'),
-                      Text(state.contracts.isEmpty
-                          ? ''
-                          : state.contracts[state.selectedContractIndex]
-                              .factionSymbol)
-                    ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Id:'),
+                        SizedBox(
+                          width: screenWidth * .3,
+                          child: Text(state.contracts.isEmpty
+                              ? ''
+                              : state
+                                  .contracts[state.selectedContractIndex].id),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: alignment,
-                  children: [
-                    const Text('Type:'),
-                    Text(state.contracts.isEmpty
-                        ? ''
-                        : state.contracts[state.selectedContractIndex].type)
-                  ],
-                ),
-                ContractTerms(
-                  terms: state.contracts[state.selectedContractIndex].terms,
-                ),
-                Row(
-                  mainAxisAlignment: alignment,
-                  children: [
-                    const Text('Accepted:'),
-                    Text(state.contracts.isEmpty
-                        ? ''
-                        : state.contracts[state.selectedContractIndex].accepted
-                            .toString())
-                  ],
-                ),
-                RowDistinction(
-                  child: Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('Fulfilled:'),
-                      Text(state.contracts.isEmpty
-                          ? ''
-                          : state
-                              .contracts[state.selectedContractIndex].fulfilled
-                              .toString())
-                    ],
+                  RowDistinction(
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Faction symbol:'),
+                        Text(state.contracts.isEmpty
+                            ? ''
+                            : state.contracts[state.selectedContractIndex]
+                                .factionSymbol)
+                      ],
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: alignment,
-                  children: [
-                    const Text('Expiration:'),
-                    Text(state.contracts.isEmpty
-                        ? ''
-                        : formatDate(state
-                            .contracts[state.selectedContractIndex].expiration))
-                  ],
-                ),
-                RowDistinction(
-                  child: Row(
-                    mainAxisAlignment: alignment,
-                    children: [
-                      const Text('Deadline to accept:'),
-                      Text(
-                        state.contracts.isEmpty
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Type:'),
+                        Text(state.contracts.isEmpty
+                            ? ''
+                            : state.contracts[state.selectedContractIndex].type)
+                      ],
+                    ),
+                  ),
+                  ContractTerms(
+                    terms: state.contracts[state.selectedContractIndex].terms,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Accepted:'),
+                        Text(state.contracts.isEmpty
+                            ? ''
+                            : state
+                                .contracts[state.selectedContractIndex].accepted
+                                .toString())
+                      ],
+                    ),
+                  ),
+                  RowDistinction(
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Fulfilled:'),
+                        Text(state.contracts.isEmpty
+                            ? ''
+                            : state.contracts[state.selectedContractIndex]
+                                .fulfilled
+                                .toString())
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Expiration:'),
+                        Text(state.contracts.isEmpty
                             ? ''
                             : formatDate(state
                                 .contracts[state.selectedContractIndex]
-                                .deadlineToAccept),
-                      )
-                    ],
+                                .expiration))
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: Spacing.medium,
-            ),
-            CustomButton(
-              onPressed: () {
-                context.read<HomeCubit>().acceptContract(
-                      state.contracts[state.selectedContractIndex].id,
-                    );
-              },
-              text: state.contracts[state.selectedContractIndex].accepted
-                  ? 'Accepted'
-                  : 'Accept contract',
-            ),
-          ],
+                  RowDistinction(
+                    child: Row(
+                      mainAxisAlignment: alignment,
+                      children: [
+                        const Text('Deadline to accept:'),
+                        Text(
+                          state.contracts.isEmpty
+                              ? ''
+                              : formatDate(state
+                                  .contracts[state.selectedContractIndex]
+                                  .deadlineToAccept),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: Spacing.medium,
+              ),
+              CustomButton(
+                onPressed: () {
+                  context.read<HomeCubit>().acceptContract(
+                        state.contracts[state.selectedContractIndex].id,
+                      );
+                },
+                text: state.contracts[state.selectedContractIndex].accepted
+                    ? 'Accepted'
+                    : 'Accept contract',
+              ),
+            ],
+          ),
         ),
       ),
     );

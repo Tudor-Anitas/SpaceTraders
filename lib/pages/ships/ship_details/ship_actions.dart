@@ -5,9 +5,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/square_buttons.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/pages/ships/ship_details/find_asteroids_tab.dart';
+import 'package:space_traders/pages/ships/ship_details/market_tab/market_tab.dart';
 import 'package:space_traders/pages/ships/ship_details/mine_asteroid_tab.dart';
 
 class ShipActions extends StatefulWidget {
@@ -24,6 +26,7 @@ class _ShipActionsState extends State<ShipActions> {
   bool stopReload = false;
   int remainingSeconds = 0;
   Timer? timer;
+  late Future marketFuture;
 
   @override
   void initState() {
@@ -41,6 +44,7 @@ class _ShipActionsState extends State<ShipActions> {
       }
       setState(() {});
     });
+    marketFuture = context.read<HomeCubit>().showMarketGoods(widget.shipSymbol);
   }
 
   @override
@@ -58,7 +62,31 @@ class _ShipActionsState extends State<ShipActions> {
             builder: (context) => MineAsteroidTab(
               shipSymbol: widget.shipSymbol,
             ),
-          )
+          ),
+      'Show market': () => showModalBottomSheet(
+            context: context,
+            useSafeArea: true,
+            isScrollControlled: true,
+            builder: (context) => FutureBuilder(
+              future: marketFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('No market was found nearby'),
+                    ],
+                  );
+                } else if (snapshot.hasData) {
+                  return MarketTab(
+                    data: snapshot.data.$2,
+                  );
+                } else {
+                  return const BottomSheetContainer(child: SizedBox());
+                }
+              },
+            ),
+          ).whenComplete(() => context.read<HomeCubit>().clearCart()),
     };
 
     return SizedBox(

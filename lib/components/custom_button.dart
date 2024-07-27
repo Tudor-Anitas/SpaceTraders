@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
     return FilledButton.tonal(
       style: Theme.of(context).filledButtonTheme.style,
       onPressed: onPressed,
-      child: text != null ? Text(text!) : icon,
+      child: text != null ? Text(text!, textAlign: TextAlign.center,) : icon,
     );
   }
 }

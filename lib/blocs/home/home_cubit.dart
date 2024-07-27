@@ -9,6 +9,7 @@ import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/contract.dart';
 import 'package:space_traders/models/faction.dart';
+import 'package:space_traders/models/market_trade_goods.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/shipyard.dart';
 import 'package:space_traders/models/transaction.dart';
@@ -22,12 +23,14 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit()
       : super(
           HomeState(
-              agent: Agent.empty(),
-              message: StateMessage(key: UniqueKey(), text: ''),
-              contracts: const [],
-              ships: const [],
-              transactions: const [],
-              selectedContractIndex: 0),
+            agent: Agent.empty(),
+            message: StateMessage(key: UniqueKey(), text: ''),
+            contracts: const [],
+            ships: const [],
+            transactions: const [],
+            selectedContractIndex: 0,
+            marketCart: const {},
+          ),
         );
 
   Future<void> getLoginData() async {
@@ -219,6 +222,45 @@ class HomeCubit extends Cubit<HomeState> {
     }
 
     await listShips();
+  }
+
+  setAgent(Agent agent) {
+    emit(state.copyWith(agent: agent));
+  }
+
+  Future showMarketGoods(String shipSymbol) async {
+    var currentShip =
+        state.ships.firstWhere((ship) => ship.symbol == shipSymbol);
+
+    return ActionsRepository().getMarket(
+      currentShip.nav.systemSymbol,
+      currentShip.nav.waypointSymbol,
+    );
+  }
+
+  removeFromCart(MarketTradeGoods marketGood) {
+    Map<MarketTradeGoods, int> newMap = Map.from(state.marketCart);
+    if (newMap[marketGood] != null) {
+      if (newMap[marketGood]! == 1) {
+        newMap.remove(marketGood);
+      } else if (newMap[marketGood]! > 1) {
+        newMap[marketGood] = newMap[marketGood]! - 1;
+      }
+    }
+
+    emit(state.copyWith(marketCart: newMap));
+  }
+
+  addToCart(MarketTradeGoods marketGood) {
+    Map<MarketTradeGoods, int> newMap = Map.from(state.marketCart);
+    newMap[marketGood] = state.marketCart[marketGood] != null
+        ? state.marketCart[marketGood]! + 1
+        : 1;
+    emit(state.copyWith(marketCart: newMap));
+  }
+
+  clearCart() {
+    emit(state.copyWith(marketCart: const {}));
   }
 
   _showBannerText(String text) {

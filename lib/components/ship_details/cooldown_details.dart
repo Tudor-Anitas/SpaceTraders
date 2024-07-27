@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/cooldown.dart';
 
 class CooldownDetails extends StatelessWidget {
@@ -25,7 +26,10 @@ class CooldownDetails extends StatelessWidget {
           ],
         ),
         Row(
-          children: [const Text('Expiration: '), Text(cooldown.expiration)],
+          children: [
+            const Text('Expiration: '),
+            Text(formatDate(DateTime.parse(cooldown.expiration)))
+          ],
         ),
       ],
     );

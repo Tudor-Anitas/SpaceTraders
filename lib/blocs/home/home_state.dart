@@ -6,19 +6,29 @@ class HomeState extends Equatable {
   final List<Contract> contracts;
   final List<Ship> ships;
   final List<Transaction> transactions;
+  final Map<MarketTradeGoods, int> marketCart;
 
   final int selectedContractIndex;
-  const HomeState(
-      {required this.agent,
-      required this.message,
-      required this.contracts,
-      required this.ships,
-      required this.selectedContractIndex,
-      required this.transactions});
+  const HomeState({
+    required this.agent,
+    required this.message,
+    required this.contracts,
+    required this.ships,
+    required this.selectedContractIndex,
+    required this.transactions,
+    required this.marketCart,
+  });
 
   @override
-  List<Object> get props =>
-      [agent, message, contracts, ships, selectedContractIndex, transactions];
+  List<Object> get props => [
+        agent,
+        message,
+        contracts,
+        ships,
+        selectedContractIndex,
+        transactions,
+        marketCart
+      ];
 
   HomeState copyWith(
       {Agent? agent,
@@ -27,7 +37,8 @@ class HomeState extends Equatable {
       List<Ship>? ships,
       bool? isDetailsPage,
       int? selectedContractIndex,
-      List<Transaction>? transactions}) {
+      List<Transaction>? transactions,
+      Map<MarketTradeGoods, int>? marketCart}) {
     return HomeState(
       agent: agent ?? this.agent,
       message: message ?? this.message,
@@ -36,6 +47,7 @@ class HomeState extends Equatable {
       selectedContractIndex:
           selectedContractIndex ?? this.selectedContractIndex,
       transactions: transactions ?? this.transactions,
+      marketCart: marketCart ?? this.marketCart,
     );
   }
 }

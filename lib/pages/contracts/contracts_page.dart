@@ -19,36 +19,38 @@ class _ContractsPageState extends State<ContractsPage> {
   Widget build(BuildContext context) {
     HomeState state = context.watch<HomeCubit>().state;
     List<Contract> contracts = state.contracts;
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: ListView.builder(
-        itemCount: contracts.length,
-        itemBuilder: (context, index) => Row(
-          children: [
-            Expanded(
-              flex: 80,
-              child: CustomButton(
-                text: contracts[index].factionSymbol,
-                onPressed: () => context
-                    .read<HomeCubit>()
-                    .selectContract(contractIndex: index),
-              ),
-            ),
-            Expanded(
-              flex: 20,
-              child: IconButton(
-                icon: Icon(
-                  Icons.check,
-                  color: state.contracts[index].accepted
-                      ? Colors.green
-                      : Colors.grey,
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+          itemCount: contracts.length,
+          itemBuilder: (context, index) => Row(
+            children: [
+              Expanded(
+                flex: 80,
+                child: CustomButton(
+                  text: contracts[index].factionSymbol,
+                  onPressed: () => context
+                      .read<HomeCubit>()
+                      .selectContract(contractIndex: index),
                 ),
-                onPressed: () => context
-                    .read<HomeCubit>()
-                    .acceptContract(contracts[index].id),
               ),
-            )
-          ],
+              Expanded(
+                flex: 20,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.check,
+                    color: state.contracts[index].accepted
+                        ? Colors.green
+                        : Colors.grey,
+                  ),
+                  onPressed: () => context
+                      .read<HomeCubit>()
+                      .acceptContract(contracts[index].id),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

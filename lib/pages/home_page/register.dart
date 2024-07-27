@@ -7,6 +7,7 @@ import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/components/unfocus.dart';
 import 'package:space_traders/methods/validators.dart';
+import 'package:space_traders/methods/widget_keys.dart';
 import 'package:space_traders/models/faction.dart';
 
 class Register extends StatefulWidget {
@@ -45,6 +46,7 @@ class _RegisterState extends State<Register> {
                       Expanded(
                         flex: 80,
                         child: TextFormField(
+                          key: WidgetKeys.nameField,
                           controller: controller,
                           validator: nameValidator,
                           decoration: InputDecoration(
@@ -78,6 +80,7 @@ class _RegisterState extends State<Register> {
                   height: Spacing.small,
                 ),
                 CustomButton(
+                  key: WidgetKeys.completeRegisterButton,
                   text: 'Register',
                   onPressed: () async {
                     // formKey.currentState?.reset();
