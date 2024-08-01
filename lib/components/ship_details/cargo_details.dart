@@ -8,34 +8,38 @@ class CargoDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [const Text('Capacity: '), Text(cargo.capacity.toString())],
-        ),
-        Row(
-          children: [const Text('Units: '), Text(cargo.units.toString())],
-        ),
-        const Row(
-          children: [Text('Inventory: ')],
-        ),
-        const SizedBox(height: Spacing.small,),
-        GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            crossAxisSpacing: 5,
-            children: List.generate(
-              cargo.inventory.length,
-              (index) => Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(cargo.inventory[index].name, textAlign: TextAlign.center,),
-                  Text(cargo.inventory[index].units.toString())
-                ],
-              ),
-            ))
-      ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .6,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          Row(
+            children: [const Text('Capacity: '), Text(cargo.capacity.toString())],
+          ),
+          Row(
+            children: [const Text('Units: '), Text(cargo.units.toString())],
+          ),
+          const Row(
+            children: [Text('Inventory: ')],
+          ),
+          const SizedBox(height: Spacing.small,),
+          GridView.count(
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              crossAxisSpacing: 5,
+              children: List.generate(
+                cargo.inventory.length,
+                (index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(cargo.inventory[index].name, textAlign: TextAlign.center,),
+                    Text(cargo.inventory[index].units.toString())
+                  ],
+                ),
+              ))
+        ],
+      ),
     );
   }
 }

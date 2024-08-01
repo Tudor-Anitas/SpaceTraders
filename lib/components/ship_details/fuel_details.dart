@@ -8,43 +8,50 @@ class FuelDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [const Text('Current: '), Text(fuel.current.toString())],
-        ),
-        Row(
-          children: [const Text('Capacity: '), Text(fuel.capacity.toString())],
-        ),
-        const Row(
-          children: [Text('Consumed: ')],
-        ),
-        Row(
-          children: [
-            const Expanded(flex: 5, child: SizedBox()),
-            Expanded(
-              flex: 95,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const Text('Consumed: '),
-                      Text(fuel.consumed.amount.toString())
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text('Timestamp: '),
-                      Text(formatDate(
-                          DateTime.parse(fuel.consumed.timestamp.toString())))
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        )
-      ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .6,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          Row(
+            children: [const Text('Current: '), Text(fuel.current.toString())],
+          ),
+          Row(
+            children: [
+              const Text('Capacity: '),
+              Text(fuel.capacity.toString())
+            ],
+          ),
+          const Row(
+            children: [Text('Consumed: ')],
+          ),
+          Row(
+            children: [
+              const Expanded(flex: 5, child: SizedBox()),
+              Expanded(
+                flex: 95,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Text('Consumed: '),
+                        Text(fuel.consumed.amount.toString())
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text('Timestamp: '),
+                        Text(formatDate(
+                            DateTime.parse(fuel.consumed.timestamp.toString())))
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

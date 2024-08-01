@@ -9,21 +9,25 @@ class MountsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        mounts.length,
-        (index) => Column(
-          children: [
-            Text(mounts[index].name),
-            RowDistinction(
-              child: MountDetails(
-                mount: mounts[index],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .6,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: List.generate(
+          mounts.length,
+          (index) => Column(
+            children: [
+              Text(mounts[index].name),
+              RowDistinction(
+                child: MountDetails(
+                  mount: mounts[index],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: Spacing.small,
-            )
-          ],
+              const SizedBox(
+                height: Spacing.small,
+              )
+            ],
+          ),
         ),
       ),
     );

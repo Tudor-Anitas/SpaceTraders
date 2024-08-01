@@ -3,11 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/components/app_bar.dart';
-import 'package:space_traders/components/display_row.dart';
+import 'package:space_traders/components/scrollable.dart';
+import 'package:space_traders/components/ship_details/cargo_details.dart';
+import 'package:space_traders/components/ship_details/cooldown_details.dart';
+import 'package:space_traders/components/ship_details/crew_details.dart';
+import 'package:space_traders/components/ship_details/engine_details.dart';
+import 'package:space_traders/components/ship_details/frame_details.dart';
+import 'package:space_traders/components/ship_details/fuel_details.dart';
+import 'package:space_traders/components/ship_details/modules_details.dart';
+import 'package:space_traders/components/ship_details/mounts_details.dart';
+import 'package:space_traders/components/ship_details/nav_details.dart';
+import 'package:space_traders/components/ship_details/reactor_details.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/ship_nav.dart';
 import 'package:space_traders/pages/ships/ship_details/arrival_status.dart';
+import 'package:space_traders/pages/ships/ship_details/page_buttons.dart';
 import 'package:space_traders/pages/ships/ship_details/ship_actions.dart';
 
 class ShipDetails extends StatefulWidget {
@@ -19,6 +30,8 @@ class ShipDetails extends StatefulWidget {
 }
 
 class _ShipDetailsState extends State<ShipDetails> {
+  var pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     HomeState state = context.watch<HomeCubit>().state;
@@ -57,26 +70,46 @@ class _ShipDetailsState extends State<ShipDetails> {
                           .nav
                           .route,
                     ),
-                  DisplayPanel(
-                      page: ShipDetailsPage.registration,
-                      value: ship.registration),
-                  DisplayPanel(page: ShipDetailsPage.nav, value: ship.nav),
-                  DisplayPanel(page: ShipDetailsPage.crew, value: ship.crew),
-                  DisplayPanel(page: ShipDetailsPage.frame, value: ship.frame),
-                  DisplayPanel(
-                      page: ShipDetailsPage.reactor, value: ship.reactor),
-                  DisplayPanel(
-                      page: ShipDetailsPage.engine, value: ship.engine),
-                  DisplayPanel(
-                      page: ShipDetailsPage.cooldown, value: ship.cooldown),
-                  DisplayPanel(
-                      page: ShipDetailsPage.modules, value: ship.modules),
-                  DisplayPanel(
-                      page: ShipDetailsPage.mounts, value: ship.mounts),
-                  DisplayPanel(
-                      page: ShipDetailsPage.cargo, value: ship.cargo),
-                  DisplayPanel(
-                      page: ShipDetailsPage.fuel, value: ship.fuel),
+                  const SizedBox(
+                    height: Spacing.medium,
+                  ),
+                  ShipDetailsPageButtons(
+                    pageController: pageController,
+                  ),
+                  CustomScrollable(
+                    pageController: pageController,
+                    axis: Axis.horizontal,
+                    children: [
+                      NavDetails(shipNav: ship.nav),
+                      CrewDetails(
+                        crew: ship.crew,
+                      ),
+                      FrameDetails(
+                        frame: ship.frame,
+                      ),
+                      ReactorDetails(
+                        reactor: ship.reactor,
+                      ),
+                      EngineDetails(
+                        engine: ship.engine,
+                      ),
+                      CooldownDetails(
+                        cooldown: ship.cooldown,
+                      ),
+                      ModulesDetails(
+                        modules: ship.modules,
+                      ),
+                      MountsDetails(
+                        mounts: ship.mounts,
+                      ),
+                      CargoDetails(
+                        cargo: ship.cargo,
+                      ),
+                      FuelDetails(
+                        fuel: ship.fuel,
+                      )
+                    ],
+                  ),
                   ShipActions(
                     systemSymbol: ship.nav.systemSymbol,
                     shipSymbol: ship.symbol,

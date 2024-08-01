@@ -9,24 +9,30 @@ class ModulesDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        modules.length,
-        (index) {
-          return Column(
-            children: [
-              Text('Module: ${modules[index].name}'),
-              RowDistinction(
-                child: ModuleDetails(
-                  module: modules[index],
-                ),
-              ),
-              const SizedBox(
-                height: Spacing.small,
-              )
-            ],
-          );
-        },
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .6,
+      width: MediaQuery.of(context).size.width - Spacing.medium*2,
+      child: SingleChildScrollView(
+        child: Column(
+          children: List.generate(
+            modules.length,
+            (index) {
+              return Column(
+                children: [
+                  Text('Module: ${modules[index].name}'),
+                  RowDistinction(
+                    child: ModuleDetails(
+                      module: modules[index],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: Spacing.small,
+                  )
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
