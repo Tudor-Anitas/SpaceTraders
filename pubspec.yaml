@@ -23,6 +23,8 @@ dependencies:
   timezone: ^0.9.3
   flutter_timezone: ^1.0.8
   awesome_notifications: ^0.9.3+1
+  flutter_svg: ^2.0.10+1
+  phosphor_flutter: ^2.1.0
 
 dev_dependencies:
   flutter_test:
