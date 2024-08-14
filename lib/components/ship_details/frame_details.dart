@@ -1,104 +1,124 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:space_traders/components/custom_card.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/frame.dart';
+import 'package:space_traders/models/ship.dart';
 
-class FrameDetails extends StatelessWidget {
-  final Frame frame;
-  const FrameDetails({super.key, required this.frame});
+class FrameDetails extends StatefulWidget {
+  final Ship ship;
+  const FrameDetails({super.key, required this.ship});
 
   @override
+  State<FrameDetails> createState() => _FrameDetailsState();
+}
+
+class _FrameDetailsState extends State<FrameDetails> {
+  @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    print('screen width: $screenWidth');
     return SizedBox(
-      height: MediaQuery.of(context).size.height * .6,
+      height: MediaQuery.of(context).size.height * .8,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
           Row(
-            children: [const Text('Symbol: '), Text(frame.symbol)],
-          ),
-          Row(
-            children: [const Text('Name: '), Text(frame.name)],
-          ),
-          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Description: '),
+              Column(
+                children: [
+                  const Text('System'),
+                  CustomCard(
+                    width: screenWidth * 0.2,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Spacing.xs, vertical: Spacing.xs),
+                    child: Text(
+                      widget.ship.nav.systemSymbol,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                ],
+              ),
+              Text(
+                widget.ship.symbol,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Column(
+                children: [
+                  const Text('Waypoint'),
+                  CustomCard(
+                    width: screenWidth * 0.2,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Spacing.medium, vertical: Spacing.xs),
+                    child: Text(
+                      widget.ship.nav.waypointSymbol.split('-').last,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
           const SizedBox(
-            height: Spacing.small,
+            height: Spacing.medium,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(child: Text(frame.description)),
+              CustomCard(
+                color: Theme.of(context).colorScheme.primary,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Spacing.small, vertical: Spacing.xs),
+                child: Text(
+                  widget.ship.nav.status.splitMapJoin(
+                    '_',
+                    onMatch: (s) => ' ',
+                    onNonMatch: (s) => s,
+                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.ship.nav.route.origin.symbol,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                  ),
+                  PhosphorIcon(
+                    PhosphorIcons.caretDoubleDown(),
+                    size: 20,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  Text(
+                    widget.ship.nav.route.departure.symbol.isEmpty
+                        ? widget.ship.nav.route.origin.symbol
+                        : widget.ship.nav.route.departure.symbol,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                  )
+                ],
+              ),
+              CustomCard(
+                color: Theme.of(context).colorScheme.primary,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Spacing.small, vertical: Spacing.xs),
+                child: Text(
+                  widget.ship.nav.flightMode,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                ),
+              )
             ],
           ),
-          const SizedBox(
-            height: Spacing.small,
-          ),
-          Row(
-            children: [
-              const Text('Condition: '),
-              Text(frame.condition.toString())
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Integrity: '),
-              Text(frame.integrity.toString())
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Module slots: '),
-              Text(frame.moduleSlots.toString())
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Mounting points: '),
-              Text(frame.mountingPoints.toString())
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Fuel capacity: '),
-              Text(frame.fuelCapacity.toString())
-            ],
-          ),
-          const Row(
-            children: [
-              Text('Requirements: '),
-            ],
-          ),
-          Row(
-            children: [
-              const Expanded(flex: 5, child: SizedBox()),
-              Expanded(
-                  flex: 95,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          const Text('- Power: '),
-                          Text(frame.requirements.power.toString())
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text('- Crew: '),
-                          Text(frame.requirements.crew.toString())
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text('- Slots: '),
-                          Text(frame.requirements.slots.toString())
-                        ],
-                      ),
-                    ],
-                  )),
-            ],
-          )
         ],
       ),
     );

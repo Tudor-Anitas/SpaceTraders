@@ -59,16 +59,9 @@ class _MyShipsState extends State<MyShips> {
                         height: 70,
                         width: 70,
                       ),
-                      Hero(
-                        tag: context
-                            .watch<HomeCubit>()
-                            .state
-                            .ships[index]
-                            .symbol,
-                        child: Text(
-                          context.watch<HomeCubit>().state.ships[index].symbol,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
+                      Text(
+                        context.watch<HomeCubit>().state.ships[index].symbol,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),

@@ -54,13 +54,6 @@ class _ShipDetailsState extends State<ShipDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Hero(
-                    tag: widget.shipSymbol,
-                    child: Text(
-                      ship.symbol,
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
-                  ),
                   if (ship.nav.status == ShipNavStatus.IN_TRANSIT.name)
                     ShipArrivalStatus(
                       shipSymbol: widget.shipSymbol,
@@ -73,47 +66,30 @@ class _ShipDetailsState extends State<ShipDetails> {
                   const SizedBox(
                     height: Spacing.medium,
                   ),
-                  ShipDetailsPageButtons(
-                    pageController: pageController,
-                  ),
+                  // ShipDetailsPageButtons(
+                  //   pageController: pageController,
+                  // ),
                   CustomScrollable(
                     pageController: pageController,
                     axis: Axis.horizontal,
                     children: [
-                      NavDetails(shipNav: ship.nav),
-                      CrewDetails(
-                        crew: ship.crew,
-                      ),
-                      FrameDetails(
-                        frame: ship.frame,
-                      ),
-                      ReactorDetails(
-                        reactor: ship.reactor,
-                      ),
-                      EngineDetails(
-                        engine: ship.engine,
-                      ),
-                      CooldownDetails(
-                        cooldown: ship.cooldown,
-                      ),
-                      ModulesDetails(
-                        modules: ship.modules,
-                      ),
-                      MountsDetails(
-                        mounts: ship.mounts,
-                      ),
-                      CargoDetails(
-                        cargo: ship.cargo,
-                      ),
-                      FuelDetails(
-                        fuel: ship.fuel,
-                      )
+                      FrameDetails(ship: ship)
+                      // NavDetails(ship: ship),
+                      // CrewDetails(crew: ship.crew),
+                      // FrameDetails(frame: ship.frame),
+                      // ReactorDetails(reactor: ship.reactor),
+                      // EngineDetails(engine: ship.engine),
+                      // CooldownDetails(cooldown: ship.cooldown),
+                      // ModulesDetails(modules: ship.modules),
+                      // MountsDetails(mounts: ship.mounts),
+                      // CargoDetails(cargo: ship.cargo),
+                      // FuelDetails(fuel: ship.fuel)
                     ],
                   ),
-                  ShipActions(
-                    systemSymbol: ship.nav.systemSymbol,
-                    shipSymbol: ship.symbol,
-                  )
+                  // ShipActions(
+                  //   systemSymbol: ship.nav.systemSymbol,
+                  //   shipSymbol: ship.symbol,
+                  // )
                 ],
               ),
             ),
@@ -124,16 +100,4 @@ class _ShipDetailsState extends State<ShipDetails> {
   }
 }
 
-enum ShipDetailsPage {
-  registration,
-  nav,
-  crew,
-  frame,
-  reactor,
-  engine,
-  cooldown,
-  modules,
-  mounts,
-  cargo,
-  fuel,
-}
+enum ShipDetailsPage { frame }
