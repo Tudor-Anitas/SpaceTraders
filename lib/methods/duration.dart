@@ -31,6 +31,16 @@ extension TimeShow on Duration {
 
 String formatDate(DateTime time) {
   DateFormat format = DateFormat('HH:mm, dd.MM.yyyy');
-  var a= format.format(time).toString();
+  var a = format.format(time).toString();
   return a;
+}
+
+String formatYearDate(DateTime time) {
+  DateFormat format = DateFormat('dd.MM.yy');
+  return format.format(time).toString();
+}
+
+String formatHourDate(DateTime time) {
+  DateFormat format = DateFormat('HH:mm:ss');
+  return format.format(time).toString();
 }

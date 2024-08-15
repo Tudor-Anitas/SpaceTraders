@@ -4,22 +4,11 @@ import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/scrollable.dart';
-import 'package:space_traders/components/ship_details/cargo_details.dart';
-import 'package:space_traders/components/ship_details/cooldown_details.dart';
-import 'package:space_traders/components/ship_details/crew_details.dart';
-import 'package:space_traders/components/ship_details/engine_details.dart';
-import 'package:space_traders/components/ship_details/frame_details.dart';
-import 'package:space_traders/components/ship_details/fuel_details.dart';
-import 'package:space_traders/components/ship_details/modules_details.dart';
-import 'package:space_traders/components/ship_details/mounts_details.dart';
-import 'package:space_traders/components/ship_details/nav_details.dart';
-import 'package:space_traders/components/ship_details/reactor_details.dart';
+import 'package:space_traders/components/ship_details/frame_details/frame_details.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/ship_nav.dart';
 import 'package:space_traders/pages/ships/ship_details/arrival_status.dart';
-import 'package:space_traders/pages/ships/ship_details/page_buttons.dart';
-import 'package:space_traders/pages/ships/ship_details/ship_actions.dart';
 
 class ShipDetails extends StatefulWidget {
   final String shipSymbol;
