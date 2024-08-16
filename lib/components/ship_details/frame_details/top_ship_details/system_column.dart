@@ -18,54 +18,43 @@ class _SystemColumnState extends State<SystemColumn> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     const space = SizedBox(height: Spacing.small);
-    return CustomCard(
-      padding: const EdgeInsets.all(Spacing.small),
-      color: Theme.of(context).colorScheme.secondary,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Expanded(
+      flex: 6,
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 6,
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'System',
-                  style: TextStyle(color: AppColors.cardBackground),
-                ),
-                space,
-                CustomCard(
-                    width: (screenWidth - 4 * Spacing.small) * .25,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: Spacing.small),
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    child: Text(widget.ship.nav.systemSymbol)),
-                space,
-                CustomCard(
-                  width: (screenWidth - 4 * Spacing.small) * .25,
-                  padding: const EdgeInsets.symmetric(vertical: Spacing.small),
-                  color: Theme.of(context).colorScheme.primary,
-                  child: Text(
-                    widget.ship.nav.status,
-                    style: const TextStyle(color: AppColors.cardBackground),
-                  ),
-                ),
-                space,
-                const Text(
-                  'Departed',
-                  style: TextStyle(color: AppColors.cardBackground),
-                ),
-                Text(
-                  formatYearDate(
-                      DateTime.parse(widget.ship.nav.route.departureTime)),
-                  style: const TextStyle(color: AppColors.cardBackground),
-                ),
-                Text(
-                  formatHourDate(DateTime.parse(widget.ship.nav.route.arrival)),
-                  style: const TextStyle(color: AppColors.cardBackground),
-                )
-              ],
+          const Text(
+            'System',
+            style: TextStyle(color: AppColors.cardBackground),
+          ),
+          space,
+          CustomCard(
+              width: (screenWidth - 4 * Spacing.small) * .25,
+              padding: const EdgeInsets.symmetric(vertical: Spacing.small),
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              child: Text(widget.ship.nav.systemSymbol)),
+          space,
+          CustomCard(
+            width: (screenWidth - 4 * Spacing.small) * .25,
+            padding: const EdgeInsets.symmetric(vertical: Spacing.small),
+            color: Theme.of(context).colorScheme.primary,
+            child: Text(
+              widget.ship.nav.status,
+              style: const TextStyle(color: AppColors.cardBackground),
             ),
+          ),
+          space,
+          const Text(
+            'Departed',
+            style: TextStyle(color: AppColors.cardBackground),
+          ),
+          Text(
+            formatYearDate(DateTime.parse(widget.ship.nav.route.departureTime)),
+            style: const TextStyle(color: AppColors.cardBackground),
+          ),
+          Text(
+            formatHourDate(DateTime.parse(widget.ship.nav.route.departureTime)),
+            style: const TextStyle(color: AppColors.cardBackground),
           )
         ],
       ),

@@ -7,8 +7,6 @@ import 'package:space_traders/components/scrollable.dart';
 import 'package:space_traders/components/ship_details/frame_details/frame_details.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
-import 'package:space_traders/models/ship_nav.dart';
-import 'package:space_traders/pages/ships/ship_details/arrival_status.dart';
 
 class ShipDetails extends StatefulWidget {
   final String shipSymbol;
@@ -43,21 +41,6 @@ class _ShipDetailsState extends State<ShipDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (ship.nav.status == ShipNavStatus.IN_TRANSIT.name)
-                    ShipArrivalStatus(
-                      shipSymbol: widget.shipSymbol,
-                      route: state.ships
-                          .firstWhere(
-                              (element) => element.symbol == widget.shipSymbol)
-                          .nav
-                          .route,
-                    ),
-                  const SizedBox(
-                    height: Spacing.medium,
-                  ),
-                  // ShipDetailsPageButtons(
-                  //   pageController: pageController,
-                  // ),
                   CustomScrollable(
                     pageController: pageController,
                     axis: Axis.horizontal,

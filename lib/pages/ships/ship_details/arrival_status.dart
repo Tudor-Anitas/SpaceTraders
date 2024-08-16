@@ -80,34 +80,14 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
       now = departureTime;
     }
     var currentTime = now.difference(departureTime);
+    if (currentTime.compareTo(tripTime) > 0) {
+      tripTime = currentTime;
+    }
     debugPrint(
         'tripTime: $tripTime ---- currentTime: $currentTime ---- departureTime: $departureTime');
 
-    return Column(
-      children: [
-        const SizedBox(height: Spacing.medium),
-        Row(
-          children: [
-            Text(context
-                .watch<HomeCubit>()
-                .state
-                .ships
-                .firstWhere((element) => element.symbol == widget.shipSymbol)
-                .nav
-                .status),
-            const SizedBox(width: Spacing.medium),
-            CustomProgressBar(
-                currentValue: currentTime.inSeconds,
-                maxValue: tripTime.inSeconds),
-            const SizedBox(width: Spacing.medium),
-            Text(
-                '${(((currentTime.inSeconds <= tripTime.inSeconds ? currentTime.inSeconds : tripTime.inSeconds) * 100) / tripTime.inSeconds).floor()}%'),
-          ],
-        ),
-        Text('${tripTime.difference(currentTime).showTime} remaining'),
-        const SizedBox(height: Spacing.medium),
-      ],
-    );
+    return CustomProgressBar(
+        currentValue: currentTime.inSeconds, maxValue: tripTime.inSeconds);
   }
 
   @override
