@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/components/app_bar.dart';
-import 'package:space_traders/components/scrollable.dart';
-import 'package:space_traders/components/ship_details/frame_details/frame_details.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
+import 'package:space_traders/pages/ships/ship_details/frame_details/frame_details.dart';
 
 class ShipDetails extends StatefulWidget {
   final String shipSymbol;
@@ -40,29 +39,7 @@ class _ShipDetailsState extends State<ShipDetails> {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomScrollable(
-                    pageController: pageController,
-                    axis: Axis.horizontal,
-                    children: [
-                      FrameDetails(ship: ship)
-                      // NavDetails(ship: ship),
-                      // CrewDetails(crew: ship.crew),
-                      // FrameDetails(frame: ship.frame),
-                      // ReactorDetails(reactor: ship.reactor),
-                      // EngineDetails(engine: ship.engine),
-                      // CooldownDetails(cooldown: ship.cooldown),
-                      // ModulesDetails(modules: ship.modules),
-                      // MountsDetails(mounts: ship.mounts),
-                      // CargoDetails(cargo: ship.cargo),
-                      // FuelDetails(fuel: ship.fuel)
-                    ],
-                  ),
-                  // ShipActions(
-                  //   systemSymbol: ship.nav.systemSymbol,
-                  //   shipSymbol: ship.symbol,
-                  // )
-                ],
+                children: [FrameDetails(ship: ship)],
               ),
             ),
           ),

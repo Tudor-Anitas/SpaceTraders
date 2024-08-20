@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/progress_bar.dart';
-import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/route.dart' as ship;
 import 'package:space_traders/models/ship_nav.dart';
@@ -27,18 +26,23 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
   void initState() {
     super.initState();
     var arrivalTime = DateTime.parse(widget.route.arrival);
-
+    var ship = context
+        .read<HomeCubit>()
+        .state
+        .ships
+        .firstWhere((element) => element.symbol == widget.shipSymbol);
     // ignore: unused_local_variable
     if (mounted) {
       timer = Timer.periodic(1.sec, (timer) {
         var now = DateTime.now();
         now.isAfter(arrivalTime) ? stopReload = true : stopReload = false;
         debugPrint('reload timer');
+        
         if (mounted && !stopReload) {
           setState(() {});
         } else if (stopReload) {
           timer.cancel();
-          if (mounted) {
+          if (mounted && ship.fuel.current < ship.fuel.capacity) {
             context.read<HomeCubit>().finishTransit(context
                 .read<HomeCubit>()
                 .state

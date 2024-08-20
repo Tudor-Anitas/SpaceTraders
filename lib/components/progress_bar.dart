@@ -4,8 +4,12 @@ import 'package:space_traders/app_colors.dart';
 class CustomProgressBar extends StatelessWidget {
   final int currentValue;
   final int maxValue;
+  final Color? color;
   const CustomProgressBar(
-      {super.key, required this.currentValue, required this.maxValue});
+      {super.key,
+      required this.currentValue,
+      required this.maxValue,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +17,9 @@ class CustomProgressBar extends StatelessWidget {
       child: LinearProgressIndicator(
         value: convertedProgress(maxValue, currentValue),
         backgroundColor: Colors.white,
-        valueColor: const AlwaysStoppedAnimation<Color>(AppColors.valid),
+        valueColor: color != null
+            ? AlwaysStoppedAnimation<Color>(color!)
+            : const AlwaysStoppedAnimation<Color>(AppColors.valid),
         borderRadius: BorderRadius.circular(20),
       ),
     );

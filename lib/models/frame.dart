@@ -10,8 +10,8 @@ class Frame extends Equatable {
   final String symbol;
   final String name;
   final String description;
-  final int condition;
-  final int integrity;
+  final double condition;
+  final double integrity;
   final int moduleSlots;
   final int mountingPoints;
   final int fuelCapacity;
@@ -32,8 +32,8 @@ class Frame extends Equatable {
     String? symbol,
     String? name,
     String? description,
-    int? condition,
-    int? integrity,
+    double? condition,
+    double? integrity,
     int? moduleSlots,
     int? mountingPoints,
     int? fuelCapacity,
@@ -71,8 +71,8 @@ class Frame extends Equatable {
       symbol: map['symbol'] ?? '',
       name: map['name'] ?? '',
       description: map['description'] ?? '',
-      condition: map['condition']?.toInt() ?? 0,
-      integrity: map['integrity']?.toInt() ?? 0,
+      condition: map['condition']?.toDouble() ?? 0.0,
+      integrity: map['integrity']?.toDouble() ?? 0.0,
       moduleSlots: map['moduleSlots']?.toInt() ?? 0,
       mountingPoints: map['mountingPoints']?.toInt() ?? 0,
       fuelCapacity: map['fuelCapacity']?.toInt() ?? 0,

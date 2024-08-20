@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:space_traders/components/custom_card.dart';
-import 'package:space_traders/components/ship_details/frame_details/top_ship_details/name_column.dart';
-import 'package:space_traders/components/ship_details/frame_details/top_ship_details/system_column.dart';
-import 'package:space_traders/components/ship_details/frame_details/top_ship_details/waypoint_column.dart';
-import 'package:space_traders/components/ship_details/frame_details/type_requirements/type_requirements.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
+import 'package:space_traders/pages/ships/ship_details/frame_details/ship_elements_status/ship_elements_status.dart';
+import 'package:space_traders/pages/ships/ship_details/frame_details/top_ship_details/name_column.dart';
+import 'package:space_traders/pages/ships/ship_details/frame_details/top_ship_details/system_column.dart';
+import 'package:space_traders/pages/ships/ship_details/frame_details/top_ship_details/waypoint_column.dart';
+import 'package:space_traders/pages/ships/ship_details/frame_details/type_requirements/type_requirements.dart';
 
 class FrameDetails extends StatefulWidget {
   final Ship ship;
@@ -21,7 +22,7 @@ class _FrameDetailsState extends State<FrameDetails> {
     var screenWidth = MediaQuery.of(context).size.width;
     debugPrint('screen width: $screenWidth');
     return SizedBox(
-      height: MediaQuery.of(context).size.height * .8,
+      height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
@@ -40,7 +41,11 @@ class _FrameDetailsState extends State<FrameDetails> {
           const SizedBox(
             height: Spacing.medium,
           ),
-          ShipTypeRequirements(ship: widget.ship)
+          ShipTypeRequirements(ship: widget.ship),
+          const SizedBox(
+            height: Spacing.medium,
+          ),
+          ShipElementsStatus(ship: widget.ship)
         ],
       ),
     );
