@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/api/dio.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
-import 'package:space_traders/blocs/root/root_cubit.dart';
 import 'package:space_traders/notifications/notification_service.dart';
 
 import 'package:space_traders/router.dart';
@@ -47,7 +46,6 @@ class _MainAppState extends State<MainApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeCubit()),
-        BlocProvider(create: (context) => RootCubit())
       ],
       child: MaterialApp.router(
         theme: themeData(),
