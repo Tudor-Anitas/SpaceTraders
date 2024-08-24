@@ -9,6 +9,7 @@ import 'package:space_traders/components/ship_details/cargo_details.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/pages/ships/ship_details/frame_details/frame_details.dart';
+import 'package:space_traders/pages/ships/ship_details/modules/modules_mounts.dart';
 
 class ShipDetails extends StatefulWidget {
   final String shipSymbol;
@@ -49,7 +50,7 @@ class _ShipDetailsState extends State<ShipDetails> {
                         currentIndex: currentIndex,
                         children: [
                           FrameDetails(ship: ship),
-                          CargoDetails(cargo: ship.cargo)
+                          ModuleMountsDetails(ship: ship)
                         ]),
                   ),
                 ),
@@ -109,4 +110,3 @@ class _ShipDetailsState extends State<ShipDetails> {
     );
   }
 }
-
