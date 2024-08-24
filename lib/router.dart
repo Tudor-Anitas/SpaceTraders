@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:space_traders/pages/contracts/contracts.dart';
 import 'package:space_traders/pages/contracts/details_page.dart';
-import 'package:space_traders/pages/home_page/home.dart';
 import 'package:space_traders/pages/home_page/my_character.dart';
 import 'package:space_traders/pages/home_page/register.dart';
+import 'package:space_traders/pages/root_page/root_page.dart';
 import 'package:space_traders/pages/ships/ship_details/ship_details.dart';
 import 'package:space_traders/pages/ships/ships.dart';
 
@@ -11,7 +11,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => const RootPage(),
     ),
     GoRoute(
       path: '/register',
