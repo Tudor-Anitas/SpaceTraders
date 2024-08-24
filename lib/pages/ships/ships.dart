@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:space_traders/asset_strings.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
-import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/pages/ships/shipyard.dart';
 
@@ -20,7 +19,6 @@ class _MyShipsState extends State<MyShips> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: customAppBar(context, 'My Ships'),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
           context: context,
@@ -42,7 +40,7 @@ class _MyShipsState extends State<MyShips> {
               itemCount: context.watch<HomeCubit>().state.ships.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () => context.push('/shipDetails',
+                  onTap: () => context.push('/myShips/shipDetails',
                       extra:
                           context.read<HomeCubit>().state.ships[index].symbol),
                   child: Column(
