@@ -6,7 +6,6 @@ import 'package:space_traders/pages/home_page/home.dart';
 import 'package:space_traders/pages/root_page/bottom_navigation.dart';
 import 'package:space_traders/pages/settings/settings.dart';
 import 'package:space_traders/pages/ships/ships.dart';
-import 'package:space_traders/pages/ships/shipyard.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});

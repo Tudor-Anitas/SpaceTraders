@@ -1,10 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:space_traders/api/actions_repository.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/main.dart';
-import 'package:space_traders/methods/duration.dart';
-import 'package:space_traders/methods/random.dart';
 import 'package:space_traders/methods/widget_keys.dart';
 import 'package:space_traders/models/agent.dart';
 
