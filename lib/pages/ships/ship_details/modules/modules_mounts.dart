@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/ship.dart';
@@ -61,29 +60,25 @@ class _ModuleMountsDetailsState extends State<ModuleMountsDetails> {
         Stack(
           children: [
             AnimatedContainer(
-              width: isModulesActive ? screenWidth : screenWidth * 0.8,
-              duration: 600.ms,
+              duration: 750.ms,
               curve: Curves.fastEaseInToSlowEaseOut,
               transform: Matrix4.translationValues(
-                  translateX(isModulesActive, 'modules'),
-                  translateY(isModulesActive, 'modules'),
-                  0),
-              child: ModulesCard(
+                  translateX(isModulesActive, 'modules', screenWidth), 0, 0),
+              child: MountsModulesCard(
                 ship: widget.ship,
                 isActive: isModulesActive,
+                type: MountModuleCard.modules,
               ),
             ),
             AnimatedContainer(
-              width: isModulesActive ? screenWidth * 0.8 : screenWidth,
-              duration: 600.ms,
+              duration: 750.ms,
               curve: Curves.fastEaseInToSlowEaseOut,
               transform: Matrix4.translationValues(
-                  translateX(isModulesActive, 'mounts'),
-                  translateY(isModulesActive, 'mounts'),
-                  0),
-              child: MountsCard(
+                  translateX(isModulesActive, 'mounts', screenWidth), 0, 0),
+              child: MountsModulesCard(
                 ship: widget.ship,
                 isActive: !isModulesActive,
+                type: MountModuleCard.mounts,
               ),
             )
           ],
@@ -93,25 +88,13 @@ class _ModuleMountsDetailsState extends State<ModuleMountsDetails> {
   }
 }
 
-double translateX(bool isModulesActive, String page) {
+double translateX(bool isModulesActive, String page, double screenWidth) {
   if (page == 'modules' && isModulesActive) {
     return 0;
   } else if (page == 'modules' && !isModulesActive) {
-    return 20;
+    return -screenWidth;
   } else if (page == 'mounts' && isModulesActive) {
-    return 20;
-  } else {
-    return 0;
-  }
-}
-
-double translateY(bool isModulesActive, String page) {
-  if (page == 'modules' && isModulesActive) {
-    return 0;
-  } else if (page == 'modules' && !isModulesActive) {
-    return -20;
-  } else if (page == 'mounts' && isModulesActive) {
-    return -20;
+    return screenWidth;
   } else {
     return 0;
   }

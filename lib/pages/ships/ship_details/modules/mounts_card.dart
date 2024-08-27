@@ -3,29 +3,35 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 
-class MountsCard extends StatefulWidget {
+class MountsModulesCard extends StatefulWidget {
   final Ship ship;
+  final MountModuleCard type;
   final bool isActive;
-  const MountsCard({super.key, required this.ship, required this.isActive});
+  const MountsModulesCard(
+      {super.key,
+      required this.ship,
+      required this.isActive,
+      required this.type});
 
   @override
-  State<MountsCard> createState() => _MountsCardState();
+  State<MountsModulesCard> createState() => _MountsModulesCardState();
 }
 
-class _MountsCardState extends State<MountsCard> {
+class _MountsModulesCardState extends State<MountsModulesCard> {
   @override
   Widget build(BuildContext context) {
+    var ship = widget.ship;
+    dynamic content =
+        widget.type == MountModuleCard.modules ? ship.modules : ship.mounts;
+
     return Container(
       padding: const EdgeInsets.all(Spacing.small),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: widget.isActive
-            ? Theme.of(context).colorScheme.surfaceContainer
-            : Theme.of(context).colorScheme.surfaceBright,
-      ),
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).colorScheme.surfaceContainer),
       child: Column(
         children: List.generate(
-          widget.ship.mounts.length,
+          content.length,
           (index) => Container(
             padding: const EdgeInsets.all(Spacing.small),
             decoration: BoxDecoration(
@@ -46,11 +52,11 @@ class _MountsCardState extends State<MountsCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.ship.mounts.elementAt(index).name,
+                            content.elementAt(index).name,
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           Text(
-                            widget.ship.mounts.elementAt(index).description,
+                            content.elementAt(index).description,
                             style: Theme.of(context).textTheme.bodyMedium,
                           )
                         ],
@@ -70,7 +76,7 @@ class _MountsCardState extends State<MountsCard> {
                               color: Theme.of(context).colorScheme.onSecondary,
                             ),
                             Text(
-                              widget.ship.mounts
+                              content
                                   .elementAt(index)
                                   .requirements
                                   .power
@@ -90,7 +96,7 @@ class _MountsCardState extends State<MountsCard> {
                               color: Theme.of(context).colorScheme.onSecondary,
                             ),
                             Text(
-                              widget.ship.mounts
+                              content
                                   .elementAt(index)
                                   .requirements
                                   .crew
@@ -110,7 +116,7 @@ class _MountsCardState extends State<MountsCard> {
                               color: Theme.of(context).colorScheme.onSecondary,
                             ),
                             Text(
-                              widget.ship.mounts
+                              content
                                   .elementAt(index)
                                   .requirements
                                   .slots
@@ -134,3 +140,5 @@ class _MountsCardState extends State<MountsCard> {
     );
   }
 }
+
+enum MountModuleCard { mounts, modules }
