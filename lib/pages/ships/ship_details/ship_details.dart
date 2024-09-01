@@ -39,71 +39,66 @@ class _ShipDetailsState extends State<ShipDetails> {
               setState(() {});
             }
           },
-          child: RefreshIndicator(
-            onRefresh: () => context.read<HomeCubit>().listShips(),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 90,
-                  child: SingleChildScrollView(
-                    child: CarouselNavigation(
-                        currentIndex: currentIndex,
-                        children: [
-                          FrameDetails(ship: ship),
-                          ModuleMountsDetails(ship: ship)
-                        ]),
-                  ),
-                ),
-                Expanded(
-                  flex: 10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 90,
+                child: CarouselNavigation(
+                    currentIndex: currentIndex,
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = 0;
-                          });
-                        },
-                        icon: PhosphorIcon(
-                          PhosphorIcons.rocket(),
-                        ),
+                      FrameDetails(ship: ship),
+                      ModuleMountsDetails(ship: ship)
+                    ]),
+              ),
+              Expanded(
+                flex: 10,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          currentIndex = 0;
+                        });
+                      },
+                      icon: PhosphorIcon(
+                        PhosphorIcons.rocket(),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = 1;
-                          });
-                        },
-                        icon: PhosphorIcon(
-                          PhosphorIcons.cpu(),
-                        ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          currentIndex = 1;
+                        });
+                      },
+                      icon: PhosphorIcon(
+                        PhosphorIcons.cpu(),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = 2;
-                          });
-                        },
-                        icon: PhosphorIcon(
-                          PhosphorIcons.nuclearPlant(),
-                        ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          currentIndex = 2;
+                        });
+                      },
+                      icon: PhosphorIcon(
+                        PhosphorIcons.nuclearPlant(),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = 3;
-                          });
-                        },
-                        icon: PhosphorIcon(
-                          PhosphorIcons.engine(),
-                        ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          currentIndex = 3;
+                        });
+                      },
+                      icon: PhosphorIcon(
+                        PhosphorIcons.engine(),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

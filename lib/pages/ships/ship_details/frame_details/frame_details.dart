@@ -21,32 +21,33 @@ class _FrameDetailsState extends State<FrameDetails> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     debugPrint('screen width: $screenWidth');
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          CustomCard(
-            padding: const EdgeInsets.all(Spacing.small),
-            color: Theme.of(context).colorScheme.secondary,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SystemColumn(ship: widget.ship),
-                ShipNameColumn(ship: widget.ship),
-                WaypointColumn(ship: widget.ship),
-              ],
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: [
+            CustomCard(
+              padding: const EdgeInsets.all(Spacing.small),
+              color: Theme.of(context).colorScheme.secondary,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SystemColumn(ship: widget.ship),
+                  ShipNameColumn(ship: widget.ship),
+                  WaypointColumn(ship: widget.ship),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: Spacing.medium,
-          ),
-          ShipTypeRequirements(ship: widget.ship),
-          const SizedBox(
-            height: Spacing.medium,
-          ),
-          ShipElementsStatus(ship: widget.ship)
-        ],
+            const SizedBox(
+              height: Spacing.medium,
+            ),
+            ShipTypeRequirements(ship: widget.ship),
+            const SizedBox(
+              height: Spacing.medium,
+            ),
+            ShipElementsStatus(ship: widget.ship)
+          ],
+        ),
       ),
     );
   }

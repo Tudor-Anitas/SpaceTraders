@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:space_traders/components/sizes.dart';
+import 'package:space_traders/methods/drag_detectors.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/pages/ships/ship_details/modules/modules_card.dart';
@@ -57,34 +58,53 @@ class _ModuleMountsDetailsState extends State<ModuleMountsDetails> {
         const SizedBox(
           height: Spacing.large,
         ),
-        Stack(
-          children: [
-            AnimatedContainer(
-              duration: 750.ms,
-              curve: Curves.fastEaseInToSlowEaseOut,
-              transform: Matrix4.translationValues(
-                  translateX(isModulesActive, 'modules', screenWidth), 0, 0),
-              child: MountsModulesCard(
-                ship: widget.ship,
-                isActive: isModulesActive,
-                type: MountModuleCard.modules,
+        GestureDetector(
+          onHorizontalDragUpdate: (details) => manageSwipe(details),
+          child: Stack(
+            children: [
+              AnimatedContainer(
+                duration: 750.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                transform: Matrix4.translationValues(
+                    translateX(isModulesActive, 'modules', screenWidth), 0, 0),
+                child: MountsModulesCard(
+                  ship: widget.ship,
+                  isActive: isModulesActive,
+                  type: MountModuleCard.modules,
+                ),
               ),
-            ),
-            AnimatedContainer(
-              duration: 750.ms,
-              curve: Curves.fastEaseInToSlowEaseOut,
-              transform: Matrix4.translationValues(
-                  translateX(isModulesActive, 'mounts', screenWidth), 0, 0),
-              child: MountsModulesCard(
-                ship: widget.ship,
-                isActive: !isModulesActive,
-                type: MountModuleCard.mounts,
-              ),
-            )
-          ],
+              AnimatedContainer(
+                duration: 750.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                transform: Matrix4.translationValues(
+                    translateX(isModulesActive, 'mounts', screenWidth), 0, 0),
+                child: MountsModulesCard(
+                  ship: widget.ship,
+                  isActive: !isModulesActive,
+                  type: MountModuleCard.mounts,
+                ),
+              )
+            ],
+          ),
         )
       ],
     );
+  }
+
+  manageSwipe(DragUpdateDetails details) {
+    if (isLeftToRightDrag(details)) {
+      if (!isModulesActive) {
+        setState(() {
+          isModulesActive = true;
+        });
+      }
+    } else {
+      if (isModulesActive) {
+        setState(() {
+          isModulesActive = false;
+        });
+      }
+    }
   }
 }
 

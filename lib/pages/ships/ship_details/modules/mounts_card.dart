@@ -25,113 +25,119 @@ class _MountsModulesCardState extends State<MountsModulesCard> {
         widget.type == MountModuleCard.modules ? ship.modules : ship.mounts;
 
     return Container(
+      height: MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.all(Spacing.small),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: Theme.of(context).colorScheme.surfaceContainer),
-      child: Column(
-        children: List.generate(
-          content.length,
-          (index) => Container(
-            padding: const EdgeInsets.all(Spacing.small),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: List.generate(
+            content.length,
+            (index) => Container(
+              padding: const EdgeInsets.all(Spacing.small),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Theme.of(context).colorScheme.secondary),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 80,
-                    child: Container(
-                      padding: const EdgeInsets.all(Spacing.small),
-                      color: Theme.of(context).colorScheme.onSecondary,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Theme.of(context).colorScheme.secondary),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 80,
+                      child: Container(
+                        padding: const EdgeInsets.all(Spacing.small),
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              content.elementAt(index).name,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            Text(
+                              content.elementAt(index).description,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 20,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            content.elementAt(index).name,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              PhosphorIcon(
+                                PhosphorIcons.lightning(),
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              Text(
+                                content
+                                    .elementAt(index)
+                                    .requirements
+                                    .power
+                                    .toString(),
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                ),
+                              )
+                            ],
                           ),
-                          Text(
-                            content.elementAt(index).description,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              PhosphorIcon(
+                                PhosphorIcons.usersThree(),
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              Text(
+                                content
+                                    .elementAt(index)
+                                    .requirements
+                                    .crew
+                                    .toString(),
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              PhosphorIcon(
+                                PhosphorIcons.treeStructure(),
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              Text(
+                                content
+                                    .elementAt(index)
+                                    .requirements
+                                    .slots
+                                    .toString(),
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                ),
+                              )
+                            ],
                           )
                         ],
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 20,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            PhosphorIcon(
-                              PhosphorIcons.lightning(),
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                            Text(
-                              content
-                                  .elementAt(index)
-                                  .requirements
-                                  .power
-                                  .toString(),
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            PhosphorIcon(
-                              PhosphorIcons.usersThree(),
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                            Text(
-                              content
-                                  .elementAt(index)
-                                  .requirements
-                                  .crew
-                                  .toString(),
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            PhosphorIcon(
-                              PhosphorIcons.treeStructure(),
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                            Text(
-                              content
-                                  .elementAt(index)
-                                  .requirements
-                                  .slots
-                                  .toString(),
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

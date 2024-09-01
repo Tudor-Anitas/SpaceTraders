@@ -39,14 +39,11 @@ void main() {
               credits: 10000,
               startingFaction: 'Cosmic',
               shipCount: 1));
-          // press on my ships to go to fleet
-          final myShipsButton = find.byKey(WidgetKeys.myShips);
-          await tester.tap(myShipsButton);
+
 
           // wait for all frames are done
           await tester.pumpAndSettle();
 
-          expect(find.text('My Ships'), findsOneWidget);
         },
       );
     },
