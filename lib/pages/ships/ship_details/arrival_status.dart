@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/progress_bar.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/route.dart' as ship;
@@ -27,7 +27,7 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
     super.initState();
     var arrivalTime = DateTime.parse(widget.route.arrival);
     var ship = context
-        .read<HomeCubit>()
+        .read<ShipsCubit>()
         .state
         .ships
         .firstWhere((element) => element.symbol == widget.shipSymbol);
@@ -43,8 +43,8 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
         } else if (stopReload) {
           timer.cancel();
           if (mounted && ship.fuel.current < ship.fuel.capacity) {
-            context.read<HomeCubit>().finishTransit(context
-                .read<HomeCubit>()
+            context.read<ShipsCubit>().finishTransit(context
+                .read<ShipsCubit>()
                 .state
                 .ships
                 .firstWhere((element) => element.symbol == widget.shipSymbol)
@@ -58,7 +58,7 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
   @override
   Widget build(BuildContext context) {
     var nav = context
-        .watch<HomeCubit>()
+        .watch<ShipsCubit>()
         .state
         .ships
         .firstWhere((element) => element.symbol == widget.shipSymbol)

@@ -87,7 +87,7 @@ class _RegisterState extends State<Register> {
                     try {
                       isRegistered = await context
                           .read<HomeCubit>()
-                          .register(controller.text, selectedFaction);
+                          .register(context, controller.text, selectedFaction);
                       if (isRegistered && context.mounted) {
                         context.pop();
                       } else if (!isRegistered) {

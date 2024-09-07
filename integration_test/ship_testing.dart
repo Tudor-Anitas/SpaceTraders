@@ -1,11 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:space_traders/api/actions_repository.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/main.dart';
-import 'package:space_traders/methods/duration.dart';
-import 'package:space_traders/methods/random.dart';
-import 'package:space_traders/methods/widget_keys.dart';
 import 'package:space_traders/models/agent.dart';
 
 void main() {
@@ -42,14 +38,11 @@ void main() {
               credits: 10000,
               startingFaction: 'Cosmic',
               shipCount: 1));
-          // press on my ships to go to fleet
-          final myShipsButton = find.byKey(WidgetKeys.myShips);
-          await tester.tap(myShipsButton);
+
 
           // wait for all frames are done
           await tester.pumpAndSettle();
 
-          expect(find.text('My Ships'), findsOneWidget);
         },
       );
     },

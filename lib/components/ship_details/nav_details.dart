@@ -3,9 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:space_traders/components/progress_bar.dart';
 import 'package:space_traders/components/row_distinction.dart';
 import 'package:space_traders/components/sizes.dart';
-import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/ship.dart';
-import 'package:space_traders/models/ship_nav.dart';
 
 class NavDetails extends StatelessWidget {
   final Ship ship;
@@ -13,9 +11,7 @@ class NavDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var spacing = const SizedBox(
-      height: Spacing.small,
-    );
+   
 
     return Container(
       height: MediaQuery.of(context).size.height * .6,

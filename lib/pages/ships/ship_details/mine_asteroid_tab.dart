@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
@@ -60,7 +60,7 @@ class _MineAsteroidTabState extends State<MineAsteroidTab> {
           CustomButton(
             onPressed: () {
               context
-                  .read<HomeCubit>()
+                  .read<ShipsCubit>()
                   .mineAsteroid(widget.shipSymbol, nrOfExtractions);
 
               context.pop();

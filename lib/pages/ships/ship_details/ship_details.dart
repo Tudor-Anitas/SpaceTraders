@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_state.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/components/app_bar.dart';
+import 'package:space_traders/components/carousel_navigation.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/pages/ships/ship_details/frame_details/frame_details.dart';
+import 'package:space_traders/pages/ships/ship_details/modules/modules_mounts.dart';
+import 'package:space_traders/pages/ships/ship_details/ship_details_navigation.dart';
 
 class ShipDetails extends StatefulWidget {
   final String shipSymbol;
@@ -20,7 +25,8 @@ class _ShipDetailsState extends State<ShipDetails> {
 
   @override
   Widget build(BuildContext context) {
-    HomeState state = context.watch<HomeCubit>().state;
+    ShipsState state = context.watch<ShipsCubit>().state;
+    
     Ship ship = state.ships
         .firstWhere((element) => element.symbol == widget.shipSymbol);
     return Scaffold(
@@ -30,23 +36,26 @@ class _ShipDetailsState extends State<ShipDetails> {
         child: BlocListener<HomeCubit, HomeState>(
           listener: (context, state) {
             if (state.message.text == States.reload.name) {
-              context.read<HomeCubit>().listShips();
+              context.read<ShipsCubit>().listShips();
               setState(() {});
             }
           },
-          child: RefreshIndicator(
-            onRefresh: () => context.read<HomeCubit>().listShips(),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [FrameDetails(ship: ship)],
+          child: Column(
+            children: [
+              Expanded(
+                flex: 90,
+                child: CarouselNavigation(
+                  currentIndex: state.pageIndex,
+                    children: [
+                      FrameDetails(ship: ship),
+                      ModuleMountsDetails(ship: ship)
+                    ]),
               ),
-            ),
+              const ShipDetailsNavigation()
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-enum ShipDetailsPage { frame }

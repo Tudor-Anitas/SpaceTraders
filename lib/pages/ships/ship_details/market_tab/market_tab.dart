@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/market.dart';
 import 'package:space_traders/pages/ships/ship_details/market_tab/buy_button.dart';

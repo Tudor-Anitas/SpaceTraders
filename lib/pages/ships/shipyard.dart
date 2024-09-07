@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
@@ -39,11 +39,11 @@ class _ShipYardPageState extends State<ShipYardPage> {
               scrollDirection: Axis.horizontal,
               children: [
                 for (var symbol in getSystemsFromShips(
-                    context.watch<HomeCubit>().state.ships))
+                    context.watch<ShipsCubit>().state.ships))
                   CustomButton(
                     onPressed: () {
                       localShipyardsFuture =
-                          context.read<HomeCubit>().findLocalShipyard(symbol);
+                          context.read<ShipsCubit>().findLocalShipyard(symbol);
                       systemSymbol = symbol;
                       setState(() {});
                     },
@@ -70,7 +70,7 @@ class _ShipYardPageState extends State<ShipYardPage> {
                             CustomButton(
                               onPressed: () {
                                 detailsFuture = context
-                                    .read<HomeCubit>()
+                                    .read<ShipsCubit>()
                                     .getShipyard(
                                         systemSymbol, localWaypointSymbol);
                                 waypointSymbol = localWaypointSymbol;

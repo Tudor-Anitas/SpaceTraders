@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
-import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/contract.dart';
@@ -20,7 +19,6 @@ class _MyContractsState extends State<MyContracts> {
     HomeState state = context.watch<HomeCubit>().state;
     List<Contract> contracts = state.contracts;
     return Scaffold(
-      appBar: customAppBar(context, 'Contracts'),
       body: Padding(
         padding: const EdgeInsets.all(Spacing.medium),
         child: SingleChildScrollView(
@@ -38,7 +36,7 @@ class _MyContractsState extends State<MyContracts> {
                         context
                             .read<HomeCubit>()
                             .selectContract(contractIndex: index);
-                        context.push('/contractDetails');
+                        context.push('/contracts/contractDetails');
                       },
                     ),
                   ),

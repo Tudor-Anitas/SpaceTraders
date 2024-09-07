@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/asset_strings.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/curves.dart';
 import 'package:space_traders/components/custom_card.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/models/shipyard.dart';
-
 
 class ShipyardDetails extends StatefulWidget {
   final AsyncSnapshot<Shipyard> snapshot;
@@ -89,8 +89,9 @@ class _ShipyardDetailsState extends State<ShipyardDetails> {
                                       : 'no price'),
                                   IconButton(
                                     onPressed: () async => await context
-                                        .read<HomeCubit>()
+                                        .read<ShipsCubit>()
                                         .purchaseShip(
+                                            context,
                                             widget
                                                 .snapshot
                                                 .data!
