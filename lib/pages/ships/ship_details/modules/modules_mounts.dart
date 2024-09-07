@@ -3,7 +3,6 @@ import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/methods/drag_detectors.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/ship.dart';
-import 'package:space_traders/pages/ships/ship_details/modules/modules_card.dart';
 import 'package:space_traders/pages/ships/ship_details/modules/mounts_card.dart';
 
 class ModuleMountsDetails extends StatefulWidget {

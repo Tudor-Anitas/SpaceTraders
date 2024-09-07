@@ -18,7 +18,10 @@ class _MyCharacterState extends State<MyCharacter> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getLoginData().then((value) => isLoaded = true);
+    context
+        .read<HomeCubit>()
+        .getLoginData(context)
+        .then((value) => isLoaded = true);
   }
 
   @override

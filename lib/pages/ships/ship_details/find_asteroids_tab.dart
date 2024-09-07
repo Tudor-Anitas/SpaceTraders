@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
@@ -31,7 +31,7 @@ class _FindAsteroidsTabState extends State<FindAsteroidsTab> {
           ),
           FutureBuilder(
             future:
-                context.read<HomeCubit>().findAsteroids(widget.systemSymbol),
+                context.read<ShipsCubit>().findAsteroids(widget.systemSymbol),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SizedBox(
@@ -45,10 +45,10 @@ class _FindAsteroidsTabState extends State<FindAsteroidsTab> {
                             CustomButton(
                               onPressed: () async {
                                 var statusCode = await context
-                                    .read<HomeCubit>()
+                                    .read<ShipsCubit>()
                                     .orbit(widget.shipSymbol);
                                 if (statusCode == 200 && context.mounted) {
-                                  await context.read<HomeCubit>().navigateShip(
+                                  await context.read<ShipsCubit>().navigateShip(context,
                                       widget.shipSymbol, localAsteroid.symbol);
                                   if (context.mounted) {
                                     context.pop();

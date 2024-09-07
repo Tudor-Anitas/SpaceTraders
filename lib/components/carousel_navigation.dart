@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/methods/duration.dart';
 
 class CarouselNavigation extends StatefulWidget {

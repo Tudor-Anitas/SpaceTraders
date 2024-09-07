@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/square_buttons.dart';
 import 'package:space_traders/methods/duration.dart';
@@ -32,10 +33,10 @@ class _ShipActionsState extends State<ShipActions> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeCubit>().listShips();
+    context.read<ShipsCubit>().listShips();
       if (mounted) {
         remainingSeconds = context
-            .read<HomeCubit>()
+            .read<ShipsCubit>()
             .state
             .ships
             .firstWhere((element) => element.symbol == widget.shipSymbol)
@@ -44,7 +45,7 @@ class _ShipActionsState extends State<ShipActions> {
       }
       setState(() {});
     });
-    marketFuture = context.read<HomeCubit>().showMarketGoods(widget.shipSymbol);
+    marketFuture = context.read<HomeCubit>().showMarketGoods(context, widget.shipSymbol);
   }
 
   @override

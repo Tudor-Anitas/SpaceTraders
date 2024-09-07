@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:space_traders/asset_strings.dart';
-import 'package:space_traders/blocs/home/home_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/pages/ships/shipyard.dart';
 
@@ -37,18 +37,18 @@ class _MyShipsState extends State<MyShips> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2),
-              itemCount: context.watch<HomeCubit>().state.ships.length,
+              itemCount: context.watch<ShipsCubit>().state.ships.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () => context.push('/myShips/shipDetails',
                       extra:
-                          context.read<HomeCubit>().state.ships[index].symbol),
+                          context.read<ShipsCubit>().state.ships[index].symbol),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         getShipImage(context
-                            .watch<HomeCubit>()
+                            .watch<ShipsCubit>()
                             .state
                             .ships[index]
                             .frame
@@ -58,7 +58,7 @@ class _MyShipsState extends State<MyShips> {
                         width: 70,
                       ),
                       Text(
-                        context.watch<HomeCubit>().state.ships[index].symbol,
+                        context.watch<ShipsCubit>().state.ships[index].symbol,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
