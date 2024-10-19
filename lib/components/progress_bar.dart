@@ -13,16 +13,18 @@ class CustomProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: LinearProgressIndicator(
-        value: convertedProgress(maxValue, currentValue),
-        backgroundColor: Colors.white,
-        valueColor: color != null
-            ? AlwaysStoppedAnimation<Color>(color!)
-            : const AlwaysStoppedAnimation<Color>(AppColors.valid),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
+    return maxValue > 0
+        ? Expanded(
+            child: LinearProgressIndicator(
+              value: convertedProgress(maxValue, currentValue),
+              backgroundColor: Colors.white,
+              valueColor: color != null
+                  ? AlwaysStoppedAnimation<Color>(color!)
+                  : const AlwaysStoppedAnimation<Color>(AppColors.valid),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          )
+        : const SizedBox();
   }
 }
 

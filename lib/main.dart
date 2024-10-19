@@ -53,6 +53,7 @@ class _MainAppState extends State<MainApp> {
         theme: themeData(),
         scaffoldMessengerKey: rootScaffoldMessengerKey,
         routerConfig: router,
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
