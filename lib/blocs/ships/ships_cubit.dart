@@ -15,10 +15,10 @@ import 'package:space_traders/notifications/notification_service.dart';
 class ShipsCubit extends Cubit<ShipsState> {
   ShipsCubit() : super(const ShipsState(pageIndex: 0, ships: []));
 
-  changePageIndex(int newIndex) {
+  changePageIndex(int newIndex){
     emit(state.copyWith(pageIndex: newIndex));
-  }
-
+  } 
+  
   setShips(List<Ship> ships) {
     emit(state.copyWith(ships: ships));
   }

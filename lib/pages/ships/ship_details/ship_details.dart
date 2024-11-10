@@ -26,7 +26,7 @@ class _ShipDetailsState extends State<ShipDetails> {
   @override
   Widget build(BuildContext context) {
     ShipsState state = context.watch<ShipsCubit>().state;
-    
+    PageController navigationController = PageController();
     Ship ship = state.ships
         .firstWhere((element) => element.symbol == widget.shipSymbol);
     return Scaffold(
@@ -44,14 +44,15 @@ class _ShipDetailsState extends State<ShipDetails> {
             children: [
               Expanded(
                 flex: 90,
-                child: CarouselNavigation(
-                  currentIndex: state.pageIndex,
-                    children: [
-                      FrameDetails(ship: ship),
-                      ModuleMountsDetails(ship: ship)
-                    ]),
+                child: PageView(
+                  controller: navigationController,
+                  children: [
+                    FrameDetails(ship: ship),
+                    ModuleMountsDetails(ship: ship)
+                  ],
+                ),
               ),
-              const ShipDetailsNavigation()
+              ShipDetailsNavigation(navigationController: navigationController)
             ],
           ),
         ),

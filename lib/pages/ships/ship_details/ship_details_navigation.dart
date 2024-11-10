@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:space_traders/blocs/ships/ships_cubit.dart';
+import 'package:space_traders/methods/duration.dart';
 
 class ShipDetailsNavigation extends StatefulWidget {
+  final PageController navigationController;
   const ShipDetailsNavigation({
     super.key,
+    required this.navigationController,
   });
 
   @override
@@ -13,40 +16,51 @@ class ShipDetailsNavigation extends StatefulWidget {
 }
 
 class _ShipDetailsNavigationState extends State<ShipDetailsNavigation> {
+  Duration animationSpeed = 1.sec;
+  Curve curve = Curves.fastLinearToSlowEaseIn;
   @override
   Widget build(BuildContext context) {
-    int currentIndex = context.watch<ShipsCubit>().state.pageIndex;
+    int pageIndex = context.watch<ShipsCubit>().state.pageIndex;
+
     return Expanded(
       flex: 10,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ActiveContainerIcon(
-            isActive: currentIndex == 0,
+            isActive: pageIndex == 0,
             index: 0,
             onPressed: () {
               context.read<ShipsCubit>().changePageIndex(0);
+              widget.navigationController
+                  .animateToPage(0, duration: animationSpeed, curve: curve);
             },
           ),
           ActiveContainerIcon(
-            isActive: currentIndex == 1,
+            isActive: pageIndex == 1,
             index: 1,
             onPressed: () {
               context.read<ShipsCubit>().changePageIndex(1);
+              widget.navigationController
+                  .animateToPage(1, duration: animationSpeed, curve: curve);
             },
           ),
           ActiveContainerIcon(
-            isActive: currentIndex == 2,
+            isActive: pageIndex == 2,
             index: 2,
             onPressed: () {
               context.read<ShipsCubit>().changePageIndex(2);
+              widget.navigationController
+                  .animateToPage(2, duration: animationSpeed, curve: curve);
             },
           ),
           ActiveContainerIcon(
-            isActive: currentIndex == 3,
+            isActive: pageIndex == 3,
             index: 3,
             onPressed: () {
               context.read<ShipsCubit>().changePageIndex(3);
+              widget.navigationController
+                  .animateToPage(3, duration: animationSpeed, curve: curve);
             },
           ),
         ],
