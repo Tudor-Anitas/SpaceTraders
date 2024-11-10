@@ -14,11 +14,14 @@ class ModuleMountsDetails extends StatefulWidget {
 }
 
 class _ModuleMountsDetailsState extends State<ModuleMountsDetails> {
-  bool isModulesActive = true;
+  PageController pageController = PageController();
+  int currentPage = 0;
+  Duration animationDuration = 1.sec;
+  Curve curve = Curves.fastEaseInToSlowEaseOut;
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Column(
       children: [
         Row(
@@ -26,28 +29,26 @@ class _ModuleMountsDetailsState extends State<ModuleMountsDetails> {
           children: [
             GestureDetector(
               onTap: () {
-                setState(() {
-                  isModulesActive = true;
-                });
+                pageController.animateToPage(0,
+                    duration: animationDuration, curve: curve);
               },
               child: Text(
                 'Modules',
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: isModulesActive
+                    color: currentPage == 0
                         ? Theme.of(context).colorScheme.onSurface
                         : Theme.of(context).colorScheme.outlineVariant),
               ),
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  isModulesActive = false;
-                });
+                pageController.animateToPage(1,
+                    duration: animationDuration, curve: curve);
               },
               child: Text(
                 'Mounts',
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    color: !isModulesActive
+                    color: currentPage == 1
                         ? Theme.of(context).colorScheme.onSurface
                         : Theme.of(context).colorScheme.outlineVariant),
               ),
@@ -58,50 +59,52 @@ class _ModuleMountsDetailsState extends State<ModuleMountsDetails> {
           height: Spacing.large,
         ),
         GestureDetector(
-          onHorizontalDragUpdate: (details) => manageSwipe(details),
-          child: Stack(
-            children: [
-              AnimatedContainer(
-                duration: 750.ms,
-                curve: Curves.fastEaseInToSlowEaseOut,
-                transform: Matrix4.translationValues(
-                    translateX(isModulesActive, 'modules', screenWidth), 0, 0),
-                child: MountsModulesCard(
-                  ship: widget.ship,
-                  isActive: isModulesActive,
-                  type: MountModuleCard.modules,
+          onHorizontalDragUpdate: (details) =>
+              manageSwipe(details, pageController),
+          child: SizedBox(
+            height: screenHeight * 0.6,
+            child: PageView(
+              controller: pageController,
+              onPageChanged: (int page){
+                setState(() {
+                  currentPage = page;
+                });
+              },
+              children: [
+                AnimatedContainer(
+                  duration: 750.ms,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  child: MountsModulesCard(
+                    ship: widget.ship,
+                    isActive: currentPage == 0,
+                    type: MountModuleCard.modules,
+                  ),
                 ),
-              ),
-              AnimatedContainer(
-                duration: 750.ms,
-                curve: Curves.fastEaseInToSlowEaseOut,
-                transform: Matrix4.translationValues(
-                    translateX(isModulesActive, 'mounts', screenWidth), 0, 0),
-                child: MountsModulesCard(
-                  ship: widget.ship,
-                  isActive: !isModulesActive,
-                  type: MountModuleCard.mounts,
-                ),
-              )
-            ],
+                AnimatedContainer(
+                  duration: 750.ms,
+                  curve: Curves.fastEaseInToSlowEaseOut,
+                  child: MountsModulesCard(
+                    ship: widget.ship,
+                    isActive: currentPage == 1,
+                    type: MountModuleCard.mounts,
+                  ),
+                )
+              ],
+            ),
           ),
         )
       ],
     );
   }
 
-  manageSwipe(DragUpdateDetails details) {
+  manageSwipe(DragUpdateDetails details, PageController controller) {
     if (isLeftToRightDrag(details)) {
-      if (!isModulesActive) {
-        setState(() {
-          isModulesActive = true;
-        });
+      if (currentPage == 1) {
+        controller.animateToPage(0, duration: animationDuration, curve: curve);
       }
     } else {
-      if (isModulesActive) {
-        setState(() {
-          isModulesActive = false;
-        });
+      if (currentPage == 0) {
+        controller.animateToPage(1, duration: animationDuration, curve: curve);
       }
     }
   }

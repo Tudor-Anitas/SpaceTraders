@@ -46,6 +46,8 @@ class _ShipDetailsState extends State<ShipDetails> {
                 flex: 90,
                 child: PageView(
                   controller: navigationController,
+                  onPageChanged: (value) =>
+                      context.read<ShipsCubit>().changePageIndex(value),
                   children: [
                     FrameDetails(ship: ship),
                     ModuleMountsDetails(ship: ship)
