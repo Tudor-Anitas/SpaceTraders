@@ -5,11 +5,11 @@ import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/blocs/ships/ships_state.dart';
 import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/components/app_bar.dart';
-import 'package:space_traders/components/carousel_navigation.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 import 'package:space_traders/pages/ships/ship_details/frame_details/frame_details.dart';
 import 'package:space_traders/pages/ships/ship_details/modules/modules_mounts.dart';
+import 'package:space_traders/pages/ships/ship_details/reactor/reactor_details.dart';
 import 'package:space_traders/pages/ships/ship_details/ship_details_navigation.dart';
 
 class ShipDetails extends StatefulWidget {
@@ -50,7 +50,8 @@ class _ShipDetailsState extends State<ShipDetails> {
                       context.read<ShipsCubit>().changePageIndex(value),
                   children: [
                     FrameDetails(ship: ship),
-                    ModuleMountsDetails(ship: ship)
+                    ModuleMountsDetails(ship: ship),
+                    ReactorDetails(ship: ship)
                   ],
                 ),
               ),

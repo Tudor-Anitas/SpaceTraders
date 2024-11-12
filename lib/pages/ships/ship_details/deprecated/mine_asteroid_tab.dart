@@ -5,7 +5,7 @@ import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
-
+@deprecated
 class MineAsteroidTab extends StatefulWidget {
   final String shipSymbol;
   const MineAsteroidTab({super.key, required this.shipSymbol});

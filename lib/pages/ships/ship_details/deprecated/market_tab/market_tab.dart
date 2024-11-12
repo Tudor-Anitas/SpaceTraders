@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/market.dart';
-import 'package:space_traders/pages/ships/ship_details/market_tab/buy_button.dart';
-import 'package:space_traders/pages/ships/ship_details/market_tab/general_grid.dart';
-import 'package:space_traders/pages/ships/ship_details/market_tab/trade_goods.dart';
+import 'package:space_traders/pages/ships/ship_details/deprecated/market_tab/buy_button.dart';
+import 'package:space_traders/pages/ships/ship_details/deprecated/market_tab/general_grid.dart';
+import 'package:space_traders/pages/ships/ship_details/deprecated/market_tab/trade_goods.dart';
 
 class MarketTab extends StatelessWidget {
   final Market data;

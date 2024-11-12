@@ -9,10 +9,10 @@ import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/square_buttons.dart';
 import 'package:space_traders/methods/duration.dart';
-import 'package:space_traders/pages/ships/ship_details/find_asteroids_tab.dart';
-import 'package:space_traders/pages/ships/ship_details/market_tab/market_tab.dart';
-import 'package:space_traders/pages/ships/ship_details/mine_asteroid_tab.dart';
-
+import 'package:space_traders/pages/ships/ship_details/deprecated/find_asteroids_tab.dart';
+import 'package:space_traders/pages/ships/ship_details/deprecated/market_tab/market_tab.dart';
+import 'package:space_traders/pages/ships/ship_details/deprecated/mine_asteroid_tab.dart';
+@deprecated
 class ShipActions extends StatefulWidget {
   final String systemSymbol;
   final String shipSymbol;

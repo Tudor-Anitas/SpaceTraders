@@ -1,0 +1,68 @@
+{
+    "folder-color.pathColors": [
+        {
+            "folderPath": "space_traders/lib/blocs/",
+            "color": "foldercolorizer.LightYellow"
+        },
+        {
+            "folderPath": "space_traders/lib/components/",
+            "color": "foldercolorizer.Gold"
+        },
+        {
+            "folderPath": "space_traders/lib/methods/",
+            "color": "foldercolorizer.LightRed"
+        },
+        {
+            "folderPath": "space_traders/lib/models/",
+            "color": "foldercolorizer.LightGray"
+        },
+        {
+            "folderPath": "space_traders/lib/notifications/",
+            "color": "foldercolorizer.LightPink"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/",
+            "color": "foldercolorizer.Platinum"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/",
+            "color": "foldercolorizer.LightSalmon"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/contracts/",
+            "color": "foldercolorizer.Coral"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/home_page/",
+            "color": "foldercolorizer.SandyTan"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/root_page/",
+            "color": "foldercolorizer.LightMaroon"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/settings/",
+            "color": "foldercolorizer.PaleTaupe"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/ship_details/",
+            "color": "foldercolorizer.Buff"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/ship_details/frame_details/",
+            "color": "foldercolorizer.Copper"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/ship_details/market_tab/",
+            "color": "foldercolorizer.SteelBlue"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/ship_details/modules/",
+            "color": "foldercolorizer.LimeGreen"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/ship_details/reactor/",
+            "color": "foldercolorizer.Plum"
+        }
+    ]
+}

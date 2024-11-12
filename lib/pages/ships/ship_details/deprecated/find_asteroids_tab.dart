@@ -5,7 +5,7 @@ import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
-
+@deprecated
 class FindAsteroidsTab extends StatefulWidget {
   final String systemSymbol;
   final String shipSymbol;

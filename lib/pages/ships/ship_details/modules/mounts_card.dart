@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:space_traders/components/ship_details_components/requirement_row.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 
@@ -49,7 +50,10 @@ class _MountsModulesCardState extends State<MountsModulesCard> {
                       flex: 80,
                       child: Container(
                         padding: const EdgeInsets.all(Spacing.small),
-                        color: Theme.of(context).colorScheme.onSecondary,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(Corners.normal)),
+                            color: Theme.of(context).colorScheme.onSecondary),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -70,69 +74,18 @@ class _MountsModulesCardState extends State<MountsModulesCard> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              PhosphorIcon(
-                                PhosphorIcons.lightning(),
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                              Text(
-                                content
-                                    .elementAt(index)
-                                    .requirements
-                                    .power
-                                    .toString(),
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                ),
-                              )
-                            ],
+                          RequirementRow(
+                            icon: PhosphorIcons.lightning(),
+                            value: content.elementAt(index).requirements.power,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              PhosphorIcon(
-                                PhosphorIcons.usersThree(),
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                              Text(
-                                content
-                                    .elementAt(index)
-                                    .requirements
-                                    .crew
-                                    .toString(),
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                ),
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              PhosphorIcon(
-                                PhosphorIcons.treeStructure(),
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                              Text(
-                                content
-                                    .elementAt(index)
-                                    .requirements
-                                    .slots
-                                    .toString(),
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                ),
-                              )
-                            ],
-                          )
+                          RequirementRow(
+                              icon: PhosphorIcons.usersThree(),
+                              value:
+                                  content.elementAt(index).requirements.crew),
+                          RequirementRow(
+                              icon: PhosphorIcons.treeStructure(),
+                              value:
+                                  content.elementAt(index).requirements.slots),
                         ],
                       ),
                     )
