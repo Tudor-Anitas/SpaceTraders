@@ -1,0 +1,33 @@
+workflows:
+  build_and_release:
+    name: Build and Release
+    environment:
+      groups:
+        - default
+      vars:
+        GITHUB_OWNER: "Tudor-Anitas"
+        GITHUB_REPOSITORY: "SpaceTraders"
+    scripts:
+      - name: Build the project
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk # update this with your artifact path
+    publishing:
+      scripts:
+        - name: Create a release on GitHub
+          script: |
+            TAG_NAME="v$(date +%Y%m%d%H%M)"
+            RELEASE_NAME="Release $TAG_NAME"
+            UPLOAD_URL="https://uploads.github.com/repos/$GITHUB_OWNER/$GITHUB_REPOSITORY/releases"
+            # Create the release
+            curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+                 -d "{\"tag_name\":\"$TAG_NAME\",\"name\":\"$RELEASE_NAME\",\"body\":\"Automated release\"}" \
+                 "https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPOSITORY/releases" \
+                 -o release.json
+            # Extract the release upload URL from the response
+            UPLOAD_URL=$(cat release.json | jq -r ".upload_url" | sed -e "s/{?name,label}//")
+            # Upload the artifact
+            curl -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/zip" \
+                 --data-binary @build/app/outputs/flutter-apk/app-release.apk \
+                 "$UPLOAD_URL?name=app-release.apk"
