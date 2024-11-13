@@ -9,7 +9,7 @@ workflows:
           include: true
     environment:
       groups:
-        - default
+        - token
       vars:
         GITHUB_OWNER: "Tudor-Anitas"
         GITHUB_REPOSITORY: "SpaceTraders"
