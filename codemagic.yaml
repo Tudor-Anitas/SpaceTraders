@@ -14,18 +14,17 @@ workflows:
         GITHUB_OWNER: "Tudor-Anitas"
         GITHUB_REPOSITORY: "SpaceTraders"
     scripts:
+    - name: Get app version from pubspec.yaml
+      script: |
+        export APP_VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+        echo "App version is $APP_VERSION" 
     - name: Build the project
       script: |
         flutter build apk --release
     artifacts:
-    - build/app/outputs/flutter-apk/app-release.apk # update this with your artifact path
+    - build/app/outputs/flutter-apk/app-release.apk
     publishing:
       scripts:
-      - name: Get app version from pubspec.yaml
-        script: |
-          export APP_VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //')
-          echo "App version is $APP_VERSION"
-
       - name: Create a release on GitHub
         script: |
           TAG_NAME="v$APP_VERSION"
