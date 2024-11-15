@@ -8,16 +8,16 @@ import 'package:space_traders/components/ship_details_components/requirements_pa
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 
-class ReactorDetails extends StatelessWidget {
+class EngineDetails extends StatelessWidget {
   final Ship ship;
-  const ReactorDetails({super.key, required this.ship});
+  const EngineDetails({super.key, required this.ship});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(
-          ship.reactor.name,
+          ship.engine.name,
           style: Theme.of(context)
               .textTheme
               .headlineMedium!
@@ -28,7 +28,7 @@ class ReactorDetails extends StatelessWidget {
         ),
         CustomCard(
           color: Theme.of(context).colorScheme.surfaceContainer,
-          child: Text(ship.reactor.description),
+          child: Text(ship.engine.description),
         ),
         const SizedBox(
           height: Spacing.medium,
@@ -51,18 +51,19 @@ class ReactorDetails extends StatelessWidget {
                   child: Column(
                     children: [
                       ComponentIntegrity(
-                          icon: PhosphorIcons.wrench(),
-                          color: AppColors.error,
-                          currentValue: ship.reactor.condition * 100,
-                          maxValue: 100,
-                          text: 'Condition'),
+                        icon: PhosphorIcons.wrench(),
+                        color: AppColors.error,
+                        currentValue: ship.engine.condition * 100,
+                        maxValue: 100,
+                        text: 'Condition',
+                      ),
                       const SizedBox(
                         height: Spacing.small,
                       ),
                       ComponentIntegrity(
                         icon: PhosphorIcons.wrench(),
                         color: AppColors.integrity,
-                        currentValue: ship.reactor.integrity * 100,
+                        currentValue: ship.engine.integrity * 100,
                         maxValue: 100,
                         text: 'Integrity',
                       ),
@@ -70,13 +71,13 @@ class ReactorDetails extends StatelessWidget {
                         height: Spacing.small,
                       ),
                       ComponentIntegrity(
+                        icon: PhosphorIcons.speedometer(),
+                        color: AppColors.speed,
                         showBar: false,
-                        icon: PhosphorIcons.lightning(),
-                        color: AppColors.power,
-                        currentValue: ship.reactor.powerOutput,
+                        currentValue: ship.engine.speed,
                         maxValue: 100,
-                        text: 'Power output',
-                      )
+                        text: 'Speed',
+                      ),
                     ],
                   ),
                 ),
@@ -84,7 +85,7 @@ class ReactorDetails extends StatelessWidget {
               Expanded(
                 flex: 20,
                 child:
-                    RequirementsPanel(requirements: ship.reactor.requirements),
+                    RequirementsPanel(requirements: ship.engine.requirements),
               )
             ],
           ),

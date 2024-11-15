@@ -63,6 +63,10 @@
         {
             "folderPath": "space_traders/lib/pages/ships/ship_details/reactor/",
             "color": "foldercolorizer.Plum"
+        },
+        {
+            "folderPath": "space_traders/lib/pages/ships/ship_details/engine/",
+            "color": "foldercolorizer.Azure"
         }
     ]
 }

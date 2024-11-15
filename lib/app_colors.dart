@@ -6,5 +6,6 @@ class AppColors {
   static const Color valid = Colors.green;
   static const Color error = Colors.red;
   static const Color integrity = Color(0xff80DBCA);
-  static const Color power = Color(0xffEEE96B);
+  static const Color power = Colors.yellow;
+  static const Color speed = Colors.purpleAccent;
 }

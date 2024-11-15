@@ -7,6 +7,7 @@ import 'package:space_traders/blocs/state_message.dart';
 import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
+import 'package:space_traders/pages/ships/ship_details/engine/engine_details.dart';
 import 'package:space_traders/pages/ships/ship_details/frame_details/frame_details.dart';
 import 'package:space_traders/pages/ships/ship_details/modules/modules_mounts.dart';
 import 'package:space_traders/pages/ships/ship_details/reactor/reactor_details.dart';
@@ -51,7 +52,8 @@ class _ShipDetailsState extends State<ShipDetails> {
                   children: [
                     FrameDetails(ship: ship),
                     ModuleMountsDetails(ship: ship),
-                    ReactorDetails(ship: ship)
+                    ReactorDetails(ship: ship),
+                    EngineDetails(ship: ship),
                   ],
                 ),
               ),

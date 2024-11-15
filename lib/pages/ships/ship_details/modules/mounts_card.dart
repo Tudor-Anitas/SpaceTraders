@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:space_traders/components/ship_details_components/requirement_row.dart';
+import 'package:space_traders/components/ship_details_components/requirements_panel.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
 
@@ -70,25 +71,10 @@ class _MountsModulesCardState extends State<MountsModulesCard> {
                       ),
                     ),
                     Expanded(
-                      flex: 20,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RequirementRow(
-                            icon: PhosphorIcons.lightning(),
-                            value: content.elementAt(index).requirements.power,
-                          ),
-                          RequirementRow(
-                              icon: PhosphorIcons.usersThree(),
-                              value:
-                                  content.elementAt(index).requirements.crew),
-                          RequirementRow(
-                              icon: PhosphorIcons.treeStructure(),
-                              value:
-                                  content.elementAt(index).requirements.slots),
-                        ],
-                      ),
-                    )
+                        flex: 20,
+                        child: RequirementsPanel(
+                            requirements:
+                                content.elementAt(index).requirements))
                   ],
                 ),
               ),
