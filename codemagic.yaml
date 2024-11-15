@@ -27,6 +27,8 @@ workflows:
       scripts:
       - name: Create a release on GitHub
         script: |
+          APP_VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          echo "App version is $APP_VERSION" 
           TAG_NAME="v$APP_VERSION"
           RELEASE_NAME="Release $TAG_NAME"
           UPLOAD_URL="https://uploads.github.com/repos/$GITHUB_OWNER/$GITHUB_REPOSITORY/releases"
