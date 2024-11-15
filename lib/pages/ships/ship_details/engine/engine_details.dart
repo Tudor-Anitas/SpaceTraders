@@ -3,7 +3,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:space_traders/app_colors.dart';
 import 'package:space_traders/components/custom_card.dart';
 import 'package:space_traders/components/ship_details_components/component_integrity.dart';
-import 'package:space_traders/components/ship_details_components/requirement_row.dart';
 import 'package:space_traders/components/ship_details_components/requirements_panel.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';

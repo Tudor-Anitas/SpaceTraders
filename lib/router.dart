@@ -59,33 +59,5 @@ final router = GoRouter(
         ],)
       ],
     ),
-    // GoRoute(path: '/', builder: (context, state) => const RootPage(), routes: [
-    //   GoRoute(
-    //     path: 'register',
-    //     builder: (context, state) => const Register(),
-    //   ),
-    //   GoRoute(
-    //     path: 'myCharacter',
-    //     builder: (context, state) => const MyCharacter(),
-    //   ),
-    //   GoRoute(
-    //     path: 'contracts',
-    //     builder: (context, state) => const MyContracts(),
-    //   ),
-    //   GoRoute(
-    //     path: 'contractDetails',
-    //     builder: (context, state) => const ContractDetails(),
-    //   ),
-    //   GoRoute(
-    //     path: 'myShips',
-    //     builder: (context, state) => const MyShips(),
-    //   ),
-    //   GoRoute(
-    //     path: 'shipDetails',
-    //     builder: (context, state) => ShipDetails(
-    //       shipSymbol: state.extra! as String,
-    //     ),
-    //   ),
-    // ]),
   ],
 );
