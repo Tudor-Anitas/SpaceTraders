@@ -13,12 +13,33 @@ import 'package:space_traders/models/waypoint_type.dart';
 import 'package:space_traders/notifications/notification_service.dart';
 
 class ShipsCubit extends Cubit<ShipsState> {
-  ShipsCubit() : super(const ShipsState(pageIndex: 0, ships: []));
+  ShipsCubit()
+      : super(
+          const ShipsState(
+            pageIndex: 0,
+            ships: [],
+          ),
+        );
 
-  changePageIndex(int newIndex){
+  changePageIndex(int newIndex) {
     emit(state.copyWith(pageIndex: newIndex));
-  } 
-  
+  }
+
+  /// Get the ship object from the fleet of the state
+  Ship getCurrentShip(String shipSymbol) {
+    return state.ships.firstWhere((ship) => ship.symbol == shipSymbol);
+  }
+
+  /// Insert the updated ship into the fleet of cubit and
+  /// update the state
+  insertUpdatedShip(Ship ship) {
+    List<Ship> ships = List.castFrom(state.ships);
+    ships.removeWhere((shipToRemove) => shipToRemove.symbol == ship.symbol);
+    ships.add(ship);
+    emit(state.copyWith(ships: ships));
+  }
+
+  /// Insert fleet into state altogether
   setShips(List<Ship> ships) {
     emit(state.copyWith(ships: ships));
   }
@@ -101,19 +122,29 @@ class ShipsCubit extends Cubit<ShipsState> {
 
   Future navigateShip(
       BuildContext context, String shipSymbol, String waypointSymbol) async {
-    var (statusCode, _, _, e) =
+    var (statusCode, updatedFuel, updatedNav, e) =
         await ActionsRepository().navigateShip(shipSymbol, waypointSymbol);
 
     if (statusCode == 200) {
       context.read<HomeCubit>().showMessage(
           StateMessage(text: States.reload.name, key: UniqueKey()));
+      Ship updatedShip = getCurrentShip(shipSymbol);
+      updatedShip.copyWith(fuel: updatedFuel, nav: updatedNav);
+      insertUpdatedShip(updatedShip);
     } else {
       _showSnackbarText(e!.response!.data['error']['message']);
     }
   }
 
-  Future finishTransit(String shipSymbol) async {
-    await ActionsRepository().finishTransit(shipSymbol);
+  /// After the ship has finished transit, dock and refuel
+  Future finishTransit(BuildContext context, String shipSymbol) async {
+    var (agent, fuel, transaction, nav) =
+        await ActionsRepository().finishTransit(shipSymbol);
+    Ship updatedShip = getCurrentShip(shipSymbol);
+    updatedShip.copyWith(fuel: fuel, nav: nav);
+    context.read<HomeCubit>().addTransaction(transaction);
+    context.read<HomeCubit>().setAgent(agent);
+    insertUpdatedShip(updatedShip);
   }
 
   Future<void> mineAsteroid(String shipSymbol, int nrOfExtractions) async {

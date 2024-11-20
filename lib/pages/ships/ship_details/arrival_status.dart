@@ -20,6 +20,7 @@ class ShipArrivalStatus extends StatefulWidget {
 
 class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
   bool stopReload = false;
+  bool wasTimerStarted = false;
   late Timer timer;
 
   @override
@@ -35,20 +36,25 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
     if (mounted) {
       timer = Timer.periodic(1.sec, (timer) {
         var now = DateTime.now();
-        now.isAfter(arrivalTime) ? stopReload = true : stopReload = false;
+        now.isAfter(arrivalTime)
+            ? stopReload = true
+            : {stopReload = false, wasTimerStarted = true};
         debugPrint('reload timer');
-        
+
         if (mounted && !stopReload) {
           setState(() {});
         } else if (stopReload) {
           timer.cancel();
           if (mounted && ship.fuel.current < ship.fuel.capacity) {
-            context.read<ShipsCubit>().finishTransit(context
-                .read<ShipsCubit>()
-                .state
-                .ships
-                .firstWhere((element) => element.symbol == widget.shipSymbol)
-                .symbol);
+            context.read<ShipsCubit>().finishTransit(
+                context,
+                context
+                    .read<ShipsCubit>()
+                    .state
+                    .ships
+                    .firstWhere(
+                        (element) => element.symbol == widget.shipSymbol)
+                    .symbol);
           }
         }
       });
@@ -57,16 +63,48 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
 
   @override
   Widget build(BuildContext context) {
-    var nav = context
+    var shipState = context
         .watch<ShipsCubit>()
         .state
         .ships
-        .firstWhere((element) => element.symbol == widget.shipSymbol)
-        .nav;
+        .firstWhere((element) => element.symbol == widget.shipSymbol);
+
+    var nav = shipState.nav;
+    var fuel = shipState.fuel;
     var route = nav.route;
 
-    if (nav.status != ShipNavStatus.IN_TRANSIT.name) {
-      setState(() {});
+    if (!wasTimerStarted) {
+      var arrivalTime = DateTime.parse(widget.route.arrival);
+      var ship = context
+          .read<ShipsCubit>()
+          .state
+          .ships
+          .firstWhere((element) => element.symbol == widget.shipSymbol);
+
+      if (mounted) {
+        timer = Timer.periodic(1.sec, (timer) {
+          var now = DateTime.now();
+          now.isAfter(arrivalTime) ? stopReload = true : stopReload = false;
+          debugPrint('reload timer');
+
+          if (mounted && !stopReload) {
+            setState(() {});
+          } else if (stopReload) {
+            timer.cancel();
+            if (mounted && fuel.current < fuel.capacity) {
+              context.read<ShipsCubit>().finishTransit(
+                  context,
+                  context
+                      .read<ShipsCubit>()
+                      .state
+                      .ships
+                      .firstWhere(
+                          (element) => element.symbol == widget.shipSymbol)
+                      .symbol);
+            }
+          }
+        });
+      }
     }
 
     var departureTime = DateTime.parse(route.departureTime);

@@ -5,7 +5,7 @@ import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/bottom_sheet.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
-@deprecated
+
 class FindAsteroidsTab extends StatefulWidget {
   final String systemSymbol;
   final String shipSymbol;
@@ -48,10 +48,12 @@ class _FindAsteroidsTabState extends State<FindAsteroidsTab> {
                                     .read<ShipsCubit>()
                                     .orbit(widget.shipSymbol);
                                 if (statusCode == 200 && context.mounted) {
-                                  await context.read<ShipsCubit>().navigateShip(context,
-                                      widget.shipSymbol, localAsteroid.symbol);
+                                  await context.read<ShipsCubit>().navigateShip(
+                                      context,
+                                      widget.shipSymbol,
+                                      localAsteroid.symbol);
                                   if (context.mounted) {
-                                    context.pop();
+                                    Navigator.pop(context); 
                                   }
                                 }
                               },

@@ -134,7 +134,6 @@ class ActionsRepository {
   Future<(int, Cooldown, Extraction, ShipCargo, DioException? error)>
       extractResources(String shipSymbol) async {
     var result = await FleetApi().extractResources(shipSymbol);
-    
 
     return result;
   }
@@ -245,10 +244,13 @@ class ActionsRepository {
     return await FleetApi().removeMount(shipSymbol, mountToInstall);
   }
 
-  Future finishTransit(String shipSymbol) async {
+  Future<(Agent, Fuel, Transaction, ShipNav)> finishTransit(
+      String shipSymbol) async {
     await FleetApi().dockShip(shipSymbol);
-    await FleetApi().refuelShip(shipSymbol);
-    await FleetApi().orbitShip(shipSymbol);
+    var (_, agent, fuel, transaction) = await FleetApi().refuelShip(shipSymbol);
+    var (_, nav) = await FleetApi().orbitShip(shipSymbol);
+
+    return (agent, fuel, transaction, nav);
   }
 
   //! System methods

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:space_traders/blocs/home/home_cubit.dart';
 import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/blocs/ships/ships_state.dart';
@@ -31,7 +32,28 @@ class _ShipDetailsState extends State<ShipDetails> {
     Ship ship = state.ships
         .firstWhere((element) => element.symbol == widget.shipSymbol);
     return Scaffold(
-      appBar: customAppBar(context, 'Ship details'),
+      appBar: customAppBar(
+        context,
+        'Ship details',
+        actions: [
+          PopupMenuButton(
+            icon: Icon(PhosphorIcons.dotsThreeOutlineVertical()),
+            onSelected: (value) => handleShipActions(
+                context, value, ship.symbol, ship.nav.systemSymbol),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 0,
+                child: Row(
+                  children: [
+                    Icon(PhosphorIcons.meteor()),
+                    const Text('Find Asteroids')
+                  ],
+                ),
+              )
+            ],
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(Spacing.medium),
         child: BlocListener<HomeCubit, HomeState>(

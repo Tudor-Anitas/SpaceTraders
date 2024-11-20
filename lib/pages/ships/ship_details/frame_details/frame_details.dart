@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_traders/blocs/ships/ships_cubit.dart';
+import 'package:space_traders/blocs/ships/ships_state.dart';
 import 'package:space_traders/components/custom_card.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/models/ship.dart';
@@ -21,32 +24,35 @@ class _FrameDetailsState extends State<FrameDetails> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     debugPrint('screen width: $screenWidth');
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            CustomCard(
-              padding: const EdgeInsets.all(Spacing.small),
-              color: Theme.of(context).colorScheme.secondary,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SystemColumn(ship: widget.ship),
-                  ShipNameColumn(ship: widget.ship),
-                  WaypointColumn(ship: widget.ship),
-                ],
+    return BlocListener<ShipsCubit, ShipsState>(
+      listener: (context, state) {},
+      child: SingleChildScrollView(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              CustomCard(
+                padding: const EdgeInsets.all(Spacing.small),
+                color: Theme.of(context).colorScheme.secondary,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SystemColumn(shipSymbol: widget.ship.symbol),
+                    ShipNameColumn(ship: widget.ship),
+                    WaypointColumn(ship: widget.ship),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: Spacing.medium,
-            ),
-            ShipTypeRequirements(ship: widget.ship),
-            const SizedBox(
-              height: Spacing.medium,
-            ),
-            ShipElementsStatus(ship: widget.ship)
-          ],
+              const SizedBox(
+                height: Spacing.medium,
+              ),
+              ShipTypeRequirements(ship: widget.ship),
+              const SizedBox(
+                height: Spacing.medium,
+              ),
+              ShipElementsStatus(ship: widget.ship)
+            ],
+          ),
         ),
       ),
     );
