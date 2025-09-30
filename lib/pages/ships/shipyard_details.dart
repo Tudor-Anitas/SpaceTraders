@@ -82,11 +82,9 @@ class _ShipyardDetailsState extends State<ShipyardDetails> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(widget.snapshot.data!.ships != null
-                                      ? widget.snapshot.data!.ships![index]
-                                          .purchasePrice
-                                          .toString()
-                                      : 'no price'),
+                                  Text(widget.snapshot.data!.ships[index]
+                                      .purchasePrice
+                                      .toString()),
                                   IconButton(
                                     onPressed: () async => await context
                                         .read<ShipsCubit>()

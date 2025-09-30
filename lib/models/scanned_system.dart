@@ -1,82 +1,19 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'scanned_system.freezed.dart';
+part 'scanned_system.g.dart';
 
-class ScannedSystem extends Equatable {
-  final String symbol;
-  final String sectorSymbol;
-  final String type;
-  final int x;
-  final int y;
-  final int distance;
-  const ScannedSystem({
-    required this.symbol,
-    required this.sectorSymbol,
-    required this.type,
-    required this.x,
-    required this.y,
-    required this.distance,
-  });
+@freezed
+class ScannedSystem with _$ScannedSystem {
+  const factory ScannedSystem({
+    required String symbol,
+    required String sectorSymbol,
+    required String type,
+    required int x,
+    required int y,
+    @Default(0) int distance,
+  }) = _ScannedSystem;
 
-  ScannedSystem copyWith({
-    String? symbol,
-    String? sectorSymbol,
-    String? type,
-    int? x,
-    int? y,
-    int? distance,
-  }) {
-    return ScannedSystem(
-      symbol: symbol ?? this.symbol,
-      sectorSymbol: sectorSymbol ?? this.sectorSymbol,
-      type: type ?? this.type,
-      x: x ?? this.x,
-      y: y ?? this.y,
-      distance: distance ?? this.distance,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'sectorSymbol': sectorSymbol,
-      'type': type,
-      'x': x,
-      'y': y,
-      'distance': distance,
-    };
-  }
-
-  factory ScannedSystem.fromMap(Map<String, dynamic> map) {
-    return ScannedSystem(
-      symbol: map['symbol'] ?? '',
-      sectorSymbol: map['sectorSymbol'] ?? '',
-      type: map['type'] ?? '',
-      x: map['x']?.toInt() ?? 0,
-      y: map['y']?.toInt() ?? 0,
-      distance: map['distance']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ScannedSystem.fromJson(String source) =>
-      ScannedSystem.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'ScannedSystem(symbol: $symbol, sectorSymbol: $sectorSymbol, type: $type, x: $x, y: $y, distance: $distance)';
-  }
-
-  @override
-  List<Object> get props {
-    return [
-      symbol,
-      sectorSymbol,
-      type,
-      x,
-      y,
-      distance,
-    ];
-  }
+  factory ScannedSystem.fromJson(Map<String, dynamic> json) =>
+      _$ScannedSystemFromJson(json);
 }

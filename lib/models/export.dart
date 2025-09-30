@@ -1,57 +1,19 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'export.freezed.dart';
+part 'export.g.dart';
 
-class Export extends Equatable {
-  final String symbol;
-  final String name;
-  final String description;
-  const Export({
-    required this.symbol,
-    required this.name,
-    required this.description,
-  });
+@freezed
+class Export with _$Export {
+  const factory Export({
+    @Default('') String symbol,
+    @Default('') String name,
+    @Default('') String description,
+  }) = _Export;
 
-  Export copyWith({
-    String? symbol,
-    String? name,
-    String? description,
-  }) {
-    return Export(
-      symbol: symbol ?? this.symbol,
-      name: name ?? this.name,
-      description: description ?? this.description,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'name': name,
-      'description': description,
-    };
-  }
-
-  factory Export.fromMap(Map<String, dynamic> map) {
-    return Export(
-      symbol: map['symbol'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Export.fromJson(String source) => Export.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'Export(symbol: $symbol, name: $name, description: $description)';
-
-  @override
-  List<Object> get props => [symbol, name, description];
+  factory Export.fromJson(Map<String, dynamic> json) => _$ExportFromJson(json);
 }
 
 enum ExportSymbol {

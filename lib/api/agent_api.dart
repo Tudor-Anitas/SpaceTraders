@@ -16,22 +16,22 @@ class AgentApi {
           {'symbol': name, 'faction': faction.name},
         ),
       );
-      Map data = response.data['data'];
+      Map<String, dynamic> data = response.data['data'];
       return (
         response.statusCode ?? 200,
-        Agent.fromMap(data['agent']),
-        Contract.fromMap(data['contract']),
-        Faction.fromMap(data['faction']),
-        List<Ship>.from(data['ships']?.map((ship) => Ship.fromMap(ship))),
+        Agent.fromJson(data['agent']),
+        Contract.fromJson(data['contract']),
+        Faction.fromJson(data['faction']),
+        List<Ship>.from(data['ships']?.map((ship) => Ship.fromJson(ship))),
         data['token'] as String
       );
     } on DioException catch (e) {
       return (
         e.response?.statusCode ?? 400,
-        Agent.empty(),
-        Contract.fromMap(const {}),
-        Faction.fromMap(const {}),
-        List<Ship>.from([].map((ship) => Ship.fromMap(const {}))),
+        Agent.fromJson(const {}),
+        Contract.fromJson(const {}),
+        Faction.fromJson(const {}),
+        List<Ship>.from([].map((ship) => Ship.fromJson(const {}))),
         ''
       );
     }
@@ -40,10 +40,10 @@ class AgentApi {
   Future<(int, Agent)> getMyAgentStats() async {
     try {
       Response response = await dio.get('/my/agent');
-      Agent agent = Agent.fromMap(response.data['data']);
+      Agent agent = Agent.fromJson(response.data['data']);
       return (response.statusCode ?? 200, agent);
     } on DioException catch (e) {
-      return (e.response?.statusCode ?? 400, Agent.empty());
+      return (e.response?.statusCode ?? 400, Agent.fromJson(const {}));
     }
   }
 }

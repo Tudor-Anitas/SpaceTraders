@@ -1,58 +1,19 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'exchange.freezed.dart';
+part 'exchange.g.dart';
 
-class Exchange extends Equatable {
-  final String symbol;
-  final String name;
-  final String description;
-  const Exchange({
-    required this.symbol,
-    required this.name,
-    required this.description,
-  });
+@freezed
+class Exchange with _$Exchange {
+  const factory Exchange({
+    @Default('') String symbol,
+    @Default('') String name,
+    @Default('') String description,
+  }) = _Exchange;
 
-  Exchange copyWith({
-    String? symbol,
-    String? name,
-    String? description,
-  }) {
-    return Exchange(
-      symbol: symbol ?? this.symbol,
-      name: name ?? this.name,
-      description: description ?? this.description,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'name': name,
-      'description': description,
-    };
-  }
-
-  factory Exchange.fromMap(Map<String, dynamic> map) {
-    return Exchange(
-      symbol: map['symbol'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Exchange.fromJson(String source) =>
-      Exchange.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'Exchange(symbol: $symbol, name: $name, description: $description)';
-
-  @override
-  List<Object> get props => [symbol, name, description];
+  factory Exchange.fromJson(Map<String, dynamic> json) => _$ExchangeFromJson(json);
 }
 
 enum ExchangeSymbol {

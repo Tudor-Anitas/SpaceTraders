@@ -1,54 +1,15 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'faction_trait.freezed.dart';
+part 'faction_trait.g.dart';
 
-class FactionTrait extends Equatable {
-  final String symbol;
-  final String name;
-  final String description;
-  const FactionTrait({
-    required this.symbol,
-    required this.name,
-    required this.description,
-  });
+@freezed
+class FactionTrait with _$FactionTrait {
+  const factory FactionTrait({
+    @Default('') String symbol,
+    @Default('') String name,
+    @Default('') String description,
+  }) = _FactionTrait;
 
-  FactionTrait copyWith({
-    String? symbol,
-    String? name,
-    String? description,
-  }) {
-    return FactionTrait(
-      symbol: symbol ?? this.symbol,
-      name: name ?? this.name,
-      description: description ?? this.description,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'name': name,
-      'description': description,
-    };
-  }
-
-  factory FactionTrait.fromMap(Map<String, dynamic> map) {
-    return FactionTrait(
-      symbol: map['symbol'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory FactionTrait.fromJson(String source) =>
-      FactionTrait.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'FactionTrait(symbol: $symbol, name: $name, description: $description)';
-
-  @override
-  List<Object> get props => [symbol, name, description];
+  factory FactionTrait.fromJson(Map<String, dynamic> json) => _$FactionTraitFromJson(json);
 }

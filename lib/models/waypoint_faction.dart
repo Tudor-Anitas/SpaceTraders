@@ -1,41 +1,13 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'waypoint_faction.freezed.dart';
+part 'waypoint_faction.g.dart';
 
-class WaypointFaction extends Equatable {
-  final String symbol;
-  const WaypointFaction({
-    required this.symbol,
-  });
+@freezed
+class WaypointFaction with _$WaypointFaction {
+  const factory WaypointFaction({
+    @Default('') String symbol,
+  }) = _WaypointFaction;
 
-  WaypointFaction copyWith({
-    String? symbol,
-  }) {
-    return WaypointFaction(
-      symbol: symbol ?? this.symbol,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-    };
-  }
-
-  factory WaypointFaction.fromMap(Map<String, dynamic> map) {
-    return WaypointFaction(
-      symbol: map['symbol'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory WaypointFaction.fromJson(String source) =>
-      WaypointFaction.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'WaypointFaction(symbol: $symbol)';
-
-  @override
-  List<Object> get props => [symbol];
+  factory WaypointFaction.fromJson(Map<String, dynamic> json) => _$WaypointFactionFromJson(json);
 }

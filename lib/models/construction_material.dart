@@ -1,58 +1,19 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'construction_material.freezed.dart';
+part 'construction_material.g.dart';
 
-class ConstructionMaterial extends Equatable {
-  final String tradeSymbol;
-  final int requiredUnits;
-  final int fulfilled;
-  const ConstructionMaterial({
-    required this.tradeSymbol,
-    required this.requiredUnits,
-    required this.fulfilled,
-  });
+@freezed
+class ConstructionMaterial with _$ConstructionMaterial {
+  const factory ConstructionMaterial({
+    @Default('') String tradeSymbol,
+    @Default(0) int requiredUnits,
+    @Default(0) int fulfilled,
+  }) = _ConstructionMaterial;
 
-  ConstructionMaterial copyWith({
-    String? tradeSymbol,
-    int? requiredUnits,
-    int? fulfilled,
-  }) {
-    return ConstructionMaterial(
-      tradeSymbol: tradeSymbol ?? this.tradeSymbol,
-      requiredUnits: requiredUnits ?? this.requiredUnits,
-      fulfilled: fulfilled ?? this.fulfilled,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'tradeSymbol': tradeSymbol,
-      'required': requiredUnits,
-      'fulfilled': fulfilled,
-    };
-  }
-
-  factory ConstructionMaterial.fromMap(Map<String, dynamic> map) {
-    return ConstructionMaterial(
-      tradeSymbol: map['tradeSymbol'] ?? '',
-      requiredUnits: map['required']?.toInt() ?? 0,
-      fulfilled: map['fulfilled']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ConstructionMaterial.fromJson(String source) =>
-      ConstructionMaterial.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'ConstructionMaterial(tradeSymbol: $tradeSymbol, requiredUnits: $requiredUnits, fulfilled: $fulfilled)';
-
-  @override
-  List<Object> get props => [tradeSymbol, requiredUnits, fulfilled];
+  factory ConstructionMaterial.fromJson(Map<String, dynamic> json) => _$ConstructionMaterialFromJson(json);
 }
 
 enum ConstructionMaterialTradeSymbol {

@@ -1,6 +1,5 @@
 // ignore_for_file: constant_identifier_names
-import 'dart:convert';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:space_traders/models/cooldown.dart';
 import 'package:space_traders/models/crew.dart';
 import 'package:space_traders/models/engine.dart';
@@ -13,127 +12,27 @@ import 'package:space_traders/models/reactor.dart';
 import 'package:space_traders/models/registrations.dart';
 import 'package:space_traders/models/ship_cargo.dart';
 
-class Ship extends Equatable {
-  final String symbol;
-  final Registration registration;
-  final ShipNav nav;
-  final Crew crew;
-  final Frame frame;
-  final Reactor reactor;
-  final Engine engine;
-  final Cooldown cooldown;
-  final List<Module> modules;
-  final List<Mount> mounts;
-  final ShipCargo cargo;
-  final Fuel fuel;
-  const Ship({
-    required this.symbol,
-    required this.registration,
-    required this.nav,
-    required this.crew,
-    required this.frame,
-    required this.reactor,
-    required this.engine,
-    required this.cooldown,
-    required this.modules,
-    required this.mounts,
-    required this.cargo,
-    required this.fuel,
-  });
+part 'ship.freezed.dart';
+part 'ship.g.dart';
 
-  Ship copyWith({
-    String? symbol,
-    Registration? registration,
-    ShipNav? nav,
-    Crew? crew,
-    Frame? frame,
-    Reactor? reactor,
-    Engine? engine,
-    Cooldown? cooldown,
-    List<Module>? modules,
-    List<Mount>? mounts,
-    ShipCargo? cargo,
-    Fuel? fuel,
-  }) {
-    return Ship(
-      symbol: symbol ?? this.symbol,
-      registration: registration ?? this.registration,
-      nav: nav ?? this.nav,
-      crew: crew ?? this.crew,
-      frame: frame ?? this.frame,
-      reactor: reactor ?? this.reactor,
-      engine: engine ?? this.engine,
-      cooldown: cooldown ?? this.cooldown,
-      modules: modules ?? this.modules,
-      mounts: mounts ?? this.mounts,
-      cargo: cargo ?? this.cargo,
-      fuel: fuel ?? this.fuel,
-    );
-  }
+@freezed
+class Ship with _$Ship {
+  const factory Ship({
+    @Default('') String symbol,
+    @Default(Registration()) Registration registration,
+    required ShipNav nav,
+    @Default(Crew()) Crew crew,
+    @Default(Frame()) Frame frame,
+    @Default(Reactor()) Reactor reactor,
+    @Default(Engine()) Engine engine,
+    @Default(Cooldown()) Cooldown cooldown,
+    @Default([]) List<Module> modules,
+    @Default([]) List<Mount> mounts,
+    @Default(ShipCargo()) ShipCargo cargo,
+    @Default(Fuel()) Fuel fuel,
+  }) = _Ship;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'registration': registration.toMap(),
-      'nav': nav.toMap(),
-      'crew': crew.toMap(),
-      'frame': frame.toMap(),
-      'reactor': reactor.toMap(),
-      'engine': engine.toMap(),
-      'cooldown': cooldown.toMap(),
-      'modules': modules.map((x) => x.toMap()).toList(),
-      'mounts': mounts.map((x) => x.toMap()).toList(),
-      'cargo': cargo.toMap(),
-      'fuel': fuel.toMap(),
-    };
-  }
-
-  factory Ship.fromMap(Map<String, dynamic> map) {
-    print(map);
-    return Ship(
-      symbol: map['symbol'] ?? '',
-      registration: Registration.fromMap(map['registration'] ?? {}),
-      nav: ShipNav.fromMap(map['nav'] ?? {}),
-      crew: Crew.fromMap(map['crew'] ?? {}),
-      frame: Frame.fromMap(map['frame'] ?? {}),
-      reactor: Reactor.fromMap(map['reactor'] ?? {}),
-      engine: Engine.fromMap(map['engine'] ?? {}),
-      cooldown: Cooldown.fromMap(map['cooldown'] ?? {}),
-      modules: List<Module>.from(
-          map['modules']?.map((x) => Module.fromMap(x)) ?? {}),
-      mounts:
-          List<Mount>.from(map['mounts']?.map((x) => Mount.fromMap(x)) ?? {}),
-      cargo: ShipCargo.fromMap(map['cargo'] ?? {}),
-      fuel: Fuel.fromMap(map['fuel'] ?? {}),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Ship.fromJson(String source) => Ship.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'symbol: $symbol\nregistration: $registration\nnav: $nav\ncrew: $crew\nframe: $frame\nreactor: $reactor\nengine: $engine\ncooldown: $cooldown\nmodules: $modules\nmounts: $mounts\ncargo: $cargo\nfuel: $fuel';
-  }
-
-  @override
-  List<Object> get props {
-    return [
-      symbol,
-      registration,
-      nav,
-      crew,
-      frame,
-      reactor,
-      engine,
-      cooldown,
-      modules,
-      mounts,
-      cargo,
-      fuel,
-    ];
-  }
+  factory Ship.fromJson(Map<String, dynamic> json) => _$ShipFromJson(json);
 }
 
 enum ShipType {

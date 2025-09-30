@@ -1,59 +1,16 @@
-import 'dart:convert';
-
-import 'package:equatable/equatable.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:space_traders/models/inventory.dart';
 
-class ShipCargo extends Equatable {
-  final int capacity;
-  final int units;
-  final List<Inventory> inventory;
-  const ShipCargo({
-    required this.capacity,
-    required this.units,
-    required this.inventory,
-  });
+part 'ship_cargo.freezed.dart';
+part 'ship_cargo.g.dart';
 
-  ShipCargo copyWith({
-    int? capacity,
-    int? units,
-    List<Inventory>? inventory,
-  }) {
-    return ShipCargo(
-      capacity: capacity ?? this.capacity,
-      units: units ?? this.units,
-      inventory: inventory ?? this.inventory,
-    );
-  }
+@freezed
+class ShipCargo with _$ShipCargo {
+  const factory ShipCargo({
+    @Default(0) int capacity,
+    @Default(0) int units,
+    @Default([]) List<Inventory> inventory,
+  }) = _ShipCargo;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'capacity': capacity,
-      'units': units,
-      'inventory': inventory.map((x) => x.toMap()).toList(),
-    };
-  }
-
-  factory ShipCargo.fromMap(Map<String, dynamic> map) {
-    return ShipCargo(
-      capacity: map['capacity']?.toInt() ?? 0,
-      units: map['units']?.toInt() ?? 0,
-      inventory: map['inventory'] != null
-          ? List<Inventory>.from(
-              map['inventory']?.map((x) => Inventory.fromMap(x)))
-          : [],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ShipCargo.fromJson(String source) =>
-      ShipCargo.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'capacity: $capacity\nunits: $units\nnventory: $inventory';
-
-  @override
-  List<Object> get props => [capacity, units, inventory];
+  factory ShipCargo.fromJson(Map<String, dynamic> json) => _$ShipCargoFromJson(json);
 }

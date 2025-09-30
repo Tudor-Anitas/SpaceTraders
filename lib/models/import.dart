@@ -1,57 +1,19 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'import.freezed.dart';
+part 'import.g.dart';
 
-class Import extends Equatable {
-  final String symbol;
-  final String name;
-  final String description;
-  const Import({
-    required this.symbol,
-    required this.name,
-    required this.description,
-  });
+@freezed
+class Import with _$Import {
+  const factory Import({
+    @Default('') String symbol,
+    @Default('') String name,
+    @Default('') String description,
+  }) = _Import;
 
-  Import copyWith({
-    String? symbol,
-    String? name,
-    String? description,
-  }) {
-    return Import(
-      symbol: symbol ?? this.symbol,
-      name: name ?? this.name,
-      description: description ?? this.description,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'name': name,
-      'description': description,
-    };
-  }
-
-  factory Import.fromMap(Map<String, dynamic> map) {
-    return Import(
-      symbol: map['symbol'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Import.fromJson(String source) => Import.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'Import(symbol: $symbol, name: $name, description: $description)';
-
-  @override
-  List<Object> get props => [symbol, name, description];
+  factory Import.fromJson(Map<String, dynamic> json) => _$ImportFromJson(json);
 }
 
 enum ImportSymbol {

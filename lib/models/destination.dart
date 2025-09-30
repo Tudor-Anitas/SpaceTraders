@@ -1,75 +1,17 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'destination.freezed.dart';
+part 'destination.g.dart';
 
-class Destination extends Equatable {
-  final String symbol;
-  final String type;
-  final String systemSymbol;
-  final int x;
-  final int y;
-  const Destination({
-    required this.symbol,
-    required this.type,
-    required this.systemSymbol,
-    required this.x,
-    required this.y,
-  });
+@freezed
+class Destination with _$Destination {
+  const factory Destination({
+    @Default('') String symbol,
+    @Default('') String type,
+    @Default('') String systemSymbol,
+    @Default(0) int x,
+    @Default(0) int y,
+  }) = _Destination;
 
-  Destination copyWith({
-    String? symbol,
-    String? type,
-    String? systemSymbol,
-    int? x,
-    int? y,
-  }) {
-    return Destination(
-      symbol: symbol ?? this.symbol,
-      type: type ?? this.type,
-      systemSymbol: systemSymbol ?? this.systemSymbol,
-      x: x ?? this.x,
-      y: y ?? this.y,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'type': type,
-      'systemSymbol': systemSymbol,
-      'x': x,
-      'y': y,
-    };
-  }
-
-  factory Destination.fromMap(Map<String, dynamic> map) {
-    return Destination(
-      symbol: map['symbol'] ?? '',
-      type: map['type'] ?? '',
-      systemSymbol: map['systemSymbol'] ?? '',
-      x: map['x']?.toInt() ?? 0,
-      y: map['y']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Destination.fromJson(String source) =>
-      Destination.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'symbol: $symbol\ntype: $type\nsystemSymbol: $systemSymbol\nx: $x\ny: $y';
-  }
-
-  @override
-  List<Object> get props {
-    return [
-      symbol,
-      type,
-      systemSymbol,
-      x,
-      y,
-    ];
-  }
+  factory Destination.fromJson(Map<String, dynamic> json) => _$DestinationFromJson(json);
 }

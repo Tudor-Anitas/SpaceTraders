@@ -21,14 +21,14 @@ class SystemsApi {
     Response response = await dio.get("/systems?$page&$limit");
     return (
       response.statusCode!,
-      List.from(response.data['data'].map((x) => System.fromMap(x)))
+      List.from(response.data['data'].map((x) => System.fromJson(x)))
           as List<System>
     );
   }
 
   Future<(int, System)> getSystem(String systemSymbol) async {
     Response response = await dio.get('/systems/$systemSymbol');
-    return (response.statusCode!, System.fromMap(response.data['data']));
+    return (response.statusCode!, System.fromJson(response.data['data']));
   }
 
   Future<(int, List<Waypoint>)> listWaypointsInSystem(
@@ -46,7 +46,7 @@ class SystemsApi {
         '/systems/$systemSymbol/waypoints?$page&$limit&$traitFilter&$typeFilter');
     List<Waypoint> asteroidWaypoints = [];
     for (var data in response.data['data']) {
-      asteroidWaypoints.add(Waypoint.fromMap(data));
+      asteroidWaypoints.add(Waypoint.fromJson(data));
     }
     return (response.statusCode!, asteroidWaypoints);
   }
@@ -56,35 +56,35 @@ class SystemsApi {
     Response response =
         await dio.get('/systems/$systemSymbol/waypoints/$waypointSymbol');
 
-    return (response.statusCode!, Waypoint.fromMap(response.data['data']));
+    return (response.statusCode!, Waypoint.fromJson(response.data['data']));
   }
 
   Future<(int, Market)> getMarket(
       String systemSymbol, String waypointSymbol) async {
     Response response = await dio
         .get('/systems/$systemSymbol/waypoints/$waypointSymbol/market');
-    return (response.statusCode!, Market.fromMap(response.data['data']));
+    return (response.statusCode!, Market.fromJson(response.data['data']));
   }
 
   Future<(int, Shipyard)> getShipyard(
       String systemSymbol, String waypointSymbol) async {
     Response response = await dio
         .get('/systems/$systemSymbol/waypoints/$waypointSymbol/shipyard');
-    return (response.statusCode!, Shipyard.fromMap(response.data['data']));
+    return (response.statusCode!, Shipyard.fromJson(response.data['data']));
   }
 
   Future<(int, JumpGate)> getJumpGate(
       String systemSymbol, String waypointSymbol) async {
     Response response = await dio
         .get('/systems/$systemSymbol/waypoints/$waypointSymbol/jump-gate');
-    return (response.statusCode!, JumpGate.fromMap(response.data['data']));
+    return (response.statusCode!, JumpGate.fromJson(response.data['data']));
   }
 
   Future<(int, Construction)> getConstructionSite(
       String systemSymbol, String waypointSymbol) async {
     Response response = await dio
         .get('/systems/$systemSymbol/waypoints/$waypointSymbol/construction');
-    return (response.statusCode!, Construction.fromMap(response.data['data']));
+    return (response.statusCode!, Construction.fromJson(response.data['data']));
   }
 
   Future<(int, Construction, ShipCargo)> supplyConstructionSite(
@@ -105,8 +105,8 @@ class SystemsApi {
 
     return (
       response.statusCode!,
-      Construction.fromMap(data['construction']),
-      ShipCargo.fromMap(data['cargo'])
+      Construction.fromJson(data['construction']),
+      ShipCargo.fromJson(data['cargo'])
     );
   }
 
@@ -116,7 +116,7 @@ class SystemsApi {
 
     List data = [];
     for (var waypoint in response.data['data']) {
-      data.add(Waypoint.fromMap(waypoint));
+      data.add(Waypoint.fromJson(waypoint));
     }
     // stores the symbols from all the waypoints of the system
     // each symbol (waypoint) might have a different shipyard

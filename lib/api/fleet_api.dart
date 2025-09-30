@@ -27,7 +27,7 @@ class FleetApi {
     Response response = await dio.get('/my/ships');
     List<Ship> ships = [];
     for (var element in response.data['data']) {
-      Ship ship = Ship.fromMap(element);
+      Ship ship = Ship.fromJson(element);
       ships.add(ship);
     }
     return (response.statusCode!, ships);
@@ -44,27 +44,27 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Agent.fromMap(data['agent']),
-      Ship.fromMap(data['ship']),
-      Transaction.fromMap(data['transaction'])
+      Agent.fromJson(data['agent']),
+      Ship.fromJson(data['ship']),
+      Transaction.fromJson(data['transaction'])
     );
   }
 
   Future<(int, Ship)> getShip(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol');
 
-    return (response.statusCode!, Ship.fromMap(response.data['data']));
+    return (response.statusCode!, Ship.fromJson(response.data['data']));
   }
 
   Future<(int, ShipCargo)> getShipCargo(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/cargo');
 
-    return (response.statusCode!, ShipCargo.fromMap(response.data['data']));
+    return (response.statusCode!, ShipCargo.fromJson(response.data['data']));
   }
 
   Future<(int, ShipNav)> orbitShip(String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/orbit');
-    return (response.statusCode!, ShipNav.fromMap(response.data['data']));
+    return (response.statusCode!, ShipNav.fromJson(response.data['data']));
   }
 
   Future<(int, ShipCargo, Cooldown, RefiningGoods, RefiningGoods)> shipRefine(
@@ -80,10 +80,10 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      ShipCargo.fromMap(data['cargo']),
-      Cooldown.fromMap(data['cooldown']),
-      RefiningGoods.fromMap(data['produces']),
-      RefiningGoods.fromMap(data['consumed'])
+      ShipCargo.fromJson(data['cargo']),
+      Cooldown.fromJson(data['cooldown']),
+      RefiningGoods.fromJson(data['produces']),
+      RefiningGoods.fromJson(data['consumed'])
     );
   }
 
@@ -92,8 +92,8 @@ class FleetApi {
     Map data = response.data['data'];
     return (
       response.statusCode!,
-      Chart.fromMap(data['chart']),
-      Waypoint.fromMap(
+      Chart.fromJson(data['chart']),
+      Waypoint.fromJson(
         data['waypoint'],
       ),
     );
@@ -101,12 +101,12 @@ class FleetApi {
 
   Future<(int, Cooldown)> getCooldown(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/cooldown');
-    return (response.statusCode!, Cooldown.fromMap(response.data['data']));
+    return (response.statusCode!, Cooldown.fromJson(response.data['data']));
   }
 
   Future<(int, ShipNav)> dockShip(String shipSymbol) async {
     Response response = await dio.post('/my/ships/$shipSymbol/dock');
-    return (response.statusCode!, ShipNav.fromMap(response.data['data']));
+    return (response.statusCode!, ShipNav.fromJson(response.data['data']));
   }
 
   Future<(int, Cooldown, List<Survey>)> createSurvey(String shipSymbol) async {
@@ -114,10 +114,10 @@ class FleetApi {
     Map data = response.data['data'];
     return (
       response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
+      Cooldown.fromJson(data['cooldown']),
       List.from(
         data['surveys'].map(
-          (x) => Survey.fromMap(x),
+          (x) => Survey.fromJson(x),
         ),
       ) as List<Survey>,
     );
@@ -134,17 +134,17 @@ class FleetApi {
 
       return (
         response.statusCode!,
-        Cooldown.fromMap(data['cooldown']),
-        Extraction.fromMap(data['extraction']),
-        ShipCargo.fromMap(data['cargo']),
+        Cooldown.fromJson(data['cooldown']),
+        Extraction.fromJson(data['extraction']),
+        ShipCargo.fromJson(data['cargo']),
         null,
       );
     } on DioException catch (e) {
       return (
         e.response!.statusCode!,
-        Cooldown.fromMap(const {}),
-        Extraction.fromMap(const {}),
-        ShipCargo.fromMap(const {}),
+        Cooldown.fromJson(const {}),
+        Extraction.fromJson(const {}),
+        ShipCargo.fromJson(const {}),
         e
       );
     }
@@ -158,9 +158,9 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
-      Siphon.fromMap(data['siphon']),
-      ShipCargo.fromMap(data['cargo']),
+      Cooldown.fromJson(data['cooldown']),
+      Siphon.fromJson(data['siphon']),
+      ShipCargo.fromJson(data['cargo']),
     );
   }
 
@@ -183,9 +183,9 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
-      Extraction.fromMap(data['extraction']),
-      ShipCargo.fromMap(data['cargo']),
+      Cooldown.fromJson(data['cooldown']),
+      Extraction.fromJson(data['extraction']),
+      ShipCargo.fromJson(data['cargo']),
     );
   }
 
@@ -197,7 +197,7 @@ class FleetApi {
         {'symbol': goodsSymbol, 'units': units},
       ),
     );
-    return (response.statusCode!, ShipCargo.fromMap(response.data['data']));
+    return (response.statusCode!, ShipCargo.fromJson(response.data['data']));
   }
 
   Future<(int, ShipNav, Cooldown, Transaction)> jumpShip(
@@ -209,9 +209,9 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      ShipNav.fromMap(data['nav']),
-      Cooldown.fromMap(data['cooldown']),
-      Transaction.fromMap(data['transaction'])
+      ShipNav.fromJson(data['nav']),
+      Cooldown.fromJson(data['cooldown']),
+      Transaction.fromJson(data['transaction'])
     );
   }
 
@@ -225,15 +225,15 @@ class FleetApi {
 
       return (
         response.statusCode!,
-        Fuel.fromMap(data['fuel']),
-        ShipNav.fromMap(data['nav']),
+        Fuel.fromJson(data['fuel']),
+        ShipNav.fromJson(data['nav']),
         null,
       );
     } on DioException catch (e) {
       return (
         e.response!.statusCode!,
-        Fuel.fromMap(const {}),
-        ShipNav.fromMap(const {}),
+        Fuel.fromJson(const {}),
+        ShipNav.fromJson(const {}),
         e
       );
     }
@@ -243,13 +243,13 @@ class FleetApi {
     Response response = await dio.patch('/my/ships/$shipSymbol/nav',
         data: json.encode({'flightMode': nav.flightMode}));
 
-    return (response.statusCode!, ShipNav.fromMap(response.data['data']));
+    return (response.statusCode!, ShipNav.fromJson(response.data['data']));
   }
 
   Future<(int, ShipNav)> getShipNav(String shipSymbol) async {
     Response response = await dio.get('/my/ships/$shipSymbol/nav');
 
-    return (response.statusCode!, ShipNav.fromMap(response.data['data']));
+    return (response.statusCode!, ShipNav.fromJson(response.data['data']));
   }
 
   Future<(int, Fuel, ShipNav)> warpShip(
@@ -261,8 +261,8 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Fuel.fromMap(data['fuel']),
-      ShipNav.fromMap(data['nav']),
+      Fuel.fromJson(data['fuel']),
+      ShipNav.fromJson(data['nav']),
     );
   }
 
@@ -278,9 +278,9 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Agent.fromMap(data['agent']),
-      ShipCargo.fromMap(data['cargo']),
-      Transaction.fromMap(data['transaction'])
+      Agent.fromJson(data['agent']),
+      ShipCargo.fromJson(data['cargo']),
+      Transaction.fromJson(data['transaction'])
     );
   }
 
@@ -291,10 +291,10 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
+      Cooldown.fromJson(data['cooldown']),
       List.from(
         data['systems'].map(
-          (x) => ScannedSystem.fromMap(x),
+          (x) => ScannedSystem.fromJson(x),
         ),
       ) as List<ScannedSystem>,
     );
@@ -307,8 +307,8 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
-      List.from(data['waypoints'].map((x) => ScannedWaypoint.fromMap(x)))
+      Cooldown.fromJson(data['cooldown']),
+      List.from(data['waypoints'].map((x) => ScannedWaypoint.fromJson(x)))
           as List<ScannedWaypoint>,
     );
   }
@@ -319,8 +319,8 @@ class FleetApi {
     Map data = response.data['data'];
     return (
       response.statusCode!,
-      Cooldown.fromMap(data['cooldown']),
-      List.from(data['ships'].map((x) => ScannedShip.fromMap(x)))
+      Cooldown.fromJson(data['cooldown']),
+      List.from(data['ships'].map((x) => ScannedShip.fromJson(x)))
           as List<ScannedShip>
     );
   }
@@ -336,9 +336,9 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Agent.fromMap(data['agent']),
-      Fuel.fromMap(data['fuel']),
-      Transaction.fromMap(data['transaction']),
+      Agent.fromJson(data['agent']),
+      Fuel.fromJson(data['fuel']),
+      Transaction.fromJson(data['transaction']),
     );
   }
 
@@ -350,9 +350,9 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Agent.fromMap(data['agent']),
-      ShipCargo.fromMap(data['cargo']),
-      Transaction.fromMap(data['transaction'])
+      Agent.fromJson(data['agent']),
+      ShipCargo.fromJson(data['cargo']),
+      Transaction.fromJson(data['transaction'])
     );
   }
 
@@ -367,7 +367,7 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      ShipCargo.fromMap(response.data['data']['cargo'])
+      ShipCargo.fromJson(response.data['data']['cargo'])
     );
   }
 
@@ -376,7 +376,7 @@ class FleetApi {
         await dio.post('/my/ships/$shipSymbol/negotiate/contract');
     return (
       response.statusCode!,
-      Contract.fromMap(response.data['data']['contract'])
+      Contract.fromJson(response.data['data']['contract'])
     );
   }
 
@@ -384,7 +384,7 @@ class FleetApi {
     Response response = await dio.get('/my/ships/$shipSymbol/mounts');
     return (
       response.statusCode!,
-      List.from(response.data['data'].map((x) => Mount.fromMap(x)))
+      List.from(response.data['data'].map((x) => Mount.fromJson(x)))
           as List<Mount>
     );
   }
@@ -397,12 +397,12 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Agent.fromMap(data['agent']),
+      Agent.fromJson(data['agent']),
       List.from(
-        data['mounts'].map((x) => Mount.fromMap(x)),
+        data['mounts'].map((x) => Mount.fromJson(x)),
       ) as List<Mount>,
-      ShipCargo.fromMap(data['cargo']),
-      Transaction.fromMap(data['transaction'])
+      ShipCargo.fromJson(data['cargo']),
+      Transaction.fromJson(data['transaction'])
     );
   }
 
@@ -414,12 +414,12 @@ class FleetApi {
 
     return (
       response.statusCode!,
-      Agent.fromMap(data['agent']),
+      Agent.fromJson(data['agent']),
       List.from(
-        data['mounts'].map((x) => Mount.fromMap(x)),
+        data['mounts'].map((x) => Mount.fromJson(x)),
       ) as List<Mount>,
-      ShipCargo.fromMap(data['cargo']),
-      Transaction.fromMap(data['transaction'])
+      ShipCargo.fromJson(data['cargo']),
+      Transaction.fromJson(data['transaction'])
     );
   }
 }

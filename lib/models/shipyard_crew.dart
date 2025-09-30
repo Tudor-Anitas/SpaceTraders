@@ -1,46 +1,14 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'shipyard_crew.freezed.dart';
+part 'shipyard_crew.g.dart';
 
-class ShipyardCrew extends Equatable {
-  final int requiredCrew;
-  final int capacity;
-  const ShipyardCrew({
-    required this.requiredCrew,
-    required this.capacity,
-  });
+@freezed
+class ShipyardCrew with _$ShipyardCrew {
+  const factory ShipyardCrew({
+    @Default(0) int requiredCrew,
+    @Default(0) int capacity,
+  }) = _ShipyardCrew;
 
-  ShipyardCrew copyWith({
-    int? requiredCrew,
-    int? capacity,
-  }) {
-    return ShipyardCrew(
-      requiredCrew: requiredCrew ?? this.requiredCrew,
-      capacity: capacity ?? this.capacity,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'required': requiredCrew,
-      'capacity': capacity,
-    };
-  }
-
-  factory ShipyardCrew.fromMap(Map<String, dynamic> map) {
-    return ShipyardCrew(
-      requiredCrew: map['required']?.toInt() ?? 0,
-      capacity: map['capacity']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ShipyardCrew.fromJson(String source) => ShipyardCrew.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'ShipyardCrew(required: $requiredCrew, capacity: $capacity)';
-
-  @override
-  List<Object> get props => [requiredCrew, capacity];
+  factory ShipyardCrew.fromJson(Map<String, dynamic> json) => _$ShipyardCrewFromJson(json);
 }

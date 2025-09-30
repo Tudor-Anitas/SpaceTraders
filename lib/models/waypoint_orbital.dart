@@ -1,41 +1,13 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'waypoint_orbital.freezed.dart';
+part 'waypoint_orbital.g.dart';
 
-class WaypointOrbital extends Equatable {
-  final String symbol;
-  const WaypointOrbital({
-    required this.symbol,
-  });
+@freezed
+class WaypointOrbital with _$WaypointOrbital {
+  const factory WaypointOrbital({
+    @Default('') String symbol,
+  }) = _WaypointOrbital;
 
-  WaypointOrbital copyWith({
-    String? symbol,
-  }) {
-    return WaypointOrbital(
-      symbol: symbol ?? this.symbol,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-    };
-  }
-
-  factory WaypointOrbital.fromMap(Map<String, dynamic> map) {
-    return WaypointOrbital(
-      symbol: map['symbol'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory WaypointOrbital.fromJson(String source) =>
-      WaypointOrbital.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'WaypointOrbital(symbol: $symbol)';
-
-  @override
-  List<Object> get props => [symbol];
+  factory WaypointOrbital.fromJson(Map<String, dynamic> json) => _$WaypointOrbitalFromJson(json);
 }

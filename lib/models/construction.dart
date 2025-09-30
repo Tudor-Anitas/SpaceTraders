@@ -1,57 +1,16 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'construction_material.dart';
 
-import 'package:equatable/equatable.dart';
+part 'construction.freezed.dart';
+part 'construction.g.dart';
 
-import 'package:space_traders/models/construction_material.dart';
+@freezed
+class Construction with _$Construction {
+  const factory Construction({
+    required bool isComplete,
+    @Default([]) List<ConstructionMaterial> materials,
+  }) = _Construction;
 
-class Construction extends Equatable {
-  final String symbol;
-  final List<ConstructionMaterial> materials;
-  final bool isComplete;
-  const Construction({
-    required this.symbol,
-    required this.materials,
-    required this.isComplete,
-  });
-
-  Construction copyWith({
-    String? symbol,
-    List<ConstructionMaterial>? materials,
-    bool? isComplete,
-  }) {
-    return Construction(
-      symbol: symbol ?? this.symbol,
-      materials: materials ?? this.materials,
-      isComplete: isComplete ?? this.isComplete,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'materials': materials.map((x) => x.toMap()).toList(),
-      'isComplete': isComplete,
-    };
-  }
-
-  factory Construction.fromMap(Map<String, dynamic> map) {
-    return Construction(
-      symbol: map['symbol'] ?? '',
-      materials: List<ConstructionMaterial>.from(
-          map['materials']?.map((x) => ConstructionMaterial.fromMap(x))),
-      isComplete: map['isComplete'] ?? false,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Construction.fromJson(String source) =>
-      Construction.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'Construction(symbol: $symbol, materials: $materials, isComplete: $isComplete)';
-
-  @override
-  List<Object> get props => [symbol, materials, isComplete];
+  factory Construction.fromJson(Map<String, dynamic> json) =>
+      _$ConstructionFromJson(json);
 }

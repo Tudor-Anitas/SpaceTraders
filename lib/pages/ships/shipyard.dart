@@ -17,7 +17,7 @@ class ShipYardPage extends StatefulWidget {
 
 class _ShipYardPageState extends State<ShipYardPage> {
   var localShipyardsFuture = Future(() => []);
-  var detailsFuture = Future<Shipyard>(() => Shipyard.fromMap(const {}));
+  var detailsFuture = Future<Shipyard>(() => Shipyard.fromJson(const {}));
   String systemSymbol = '';
   String waypointSymbol = '';
 

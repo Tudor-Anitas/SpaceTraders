@@ -1,53 +1,15 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'requirements.freezed.dart';
+part 'requirements.g.dart';
 
-class Requirements extends Equatable {
-  final int power;
-  final int crew;
-  final int slots;
-  const Requirements({
-    required this.power,
-    required this.crew,
-    required this.slots,
-  });
+@freezed
+class Requirements with _$Requirements {
+  const factory Requirements({
+    @Default(0) int power,
+    @Default(0) int crew,
+    @Default(0) int slots,
+  }) = _Requirements;
 
-  Requirements copyWith({
-    int? power,
-    int? crew,
-    int? slots,
-  }) {
-    return Requirements(
-      power: power ?? this.power,
-      crew: crew ?? this.crew,
-      slots: slots ?? this.slots,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'power': power,
-      'crew': crew,
-      'slots': slots,
-    };
-  }
-
-  factory Requirements.fromMap(Map<String, dynamic> map) {
-    return Requirements(
-      power: map['power']?.toInt() ?? 0,
-      crew: map['crew']?.toInt() ?? 0,
-      slots: map['slots']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Requirements.fromJson(String source) =>
-      Requirements.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'power: $power\ncrew: $crew\nslots: $slots)';
-
-  @override
-  List<Object> get props => [power, crew, slots];
+  factory Requirements.fromJson(Map<String, dynamic> json) => _$RequirementsFromJson(json);
 }

@@ -1,41 +1,13 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'survey_deposit.freezed.dart';
+part 'survey_deposit.g.dart';
 
-class SurveyDeposit extends Equatable {
-  final String symbol;
-  const SurveyDeposit({
-    required this.symbol,
-  });
+@freezed
+class SurveyDeposit with _$SurveyDeposit {
+  const factory SurveyDeposit({
+    @Default('') String symbol,
+  }) = _SurveyDeposit;
 
-  SurveyDeposit copyWith({
-    String? symbol,
-  }) {
-    return SurveyDeposit(
-      symbol: symbol ?? this.symbol,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-    };
-  }
-
-  factory SurveyDeposit.fromMap(Map<String, dynamic> map) {
-    return SurveyDeposit(
-      symbol: map['symbol'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory SurveyDeposit.fromJson(String source) =>
-      SurveyDeposit.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'SurveyDeposit(symbol: $symbol)';
-
-  @override
-  List<Object> get props => [symbol];
+  factory SurveyDeposit.fromJson(Map<String, dynamic> json) => _$SurveyDepositFromJson(json);
 }

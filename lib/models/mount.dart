@@ -1,88 +1,23 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
-
-import 'package:equatable/equatable.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:space_traders/models/requirements.dart';
 
-class Mount extends Equatable {
-  final String symbol;
-  final String name;
-  final String description;
-  final int strength;
-  final List<String> deposits;
-  final Requirements requirements;
-  const Mount({
-    required this.symbol,
-    required this.name,
-    required this.description,
-    required this.strength,
-    required this.deposits,
-    required this.requirements,
-  });
+part 'mount.freezed.dart';
+part 'mount.g.dart';
 
-  Mount copyWith({
-    String? symbol,
-    String? name,
-    String? description,
-    int? strength,
-    List<String>? deposits,
-    Requirements? requirements,
-  }) {
-    return Mount(
-      symbol: symbol ?? this.symbol,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      strength: strength ?? this.strength,
-      deposits: deposits ?? this.deposits,
-      requirements: requirements ?? this.requirements,
-    );
-  }
+@freezed
+class Mount with _$Mount {
+  const factory Mount({
+    @Default('') String symbol,
+    @Default('') String name,
+    @Default('') String description,
+    @Default(0) int strength,
+    @Default([]) List<String> deposits,
+    @Default(Requirements()) Requirements requirements,
+  }) = _Mount;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'name': name,
-      'description': description,
-      'strength': strength,
-      'deposits': deposits,
-      'requirements': requirements.toMap(),
-    };
-  }
-
-  factory Mount.fromMap(Map<String, dynamic> map) {
-    return Mount(
-      symbol: map['symbol'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      strength: map['strength']?.toInt() ?? 0,
-      deposits:
-          map['deposits'] != null ? List<String>.from(map['deposits']) : [],
-      requirements: Requirements.fromMap(map['requirements']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Mount.fromJson(String source) => Mount.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'symbol: $symbol\nname: $name\ndescription: $description\nstrength: $strength\ndeposits: $deposits\nrequirements: $requirements';
-  }
-
-  @override
-  List<Object> get props {
-    return [
-      symbol,
-      name,
-      description,
-      strength,
-      deposits,
-      requirements,
-    ];
-  }
+  factory Mount.fromJson(Map<String, dynamic> json) => _$MountFromJson(json);
 }
 
 enum MountSymbol {

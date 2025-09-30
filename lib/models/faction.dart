@@ -1,89 +1,23 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:convert';
-
-import 'package:equatable/equatable.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:space_traders/models/faction_trait.dart';
 
-class Faction extends Equatable {
-  final String symbol;
-  final String name;
-  final String description;
-  final String headquarters;
-  final List<FactionTrait> traits;
-  final bool isRecruiting;
-  const Faction({
-    required this.symbol,
-    required this.name,
-    required this.description,
-    required this.headquarters,
-    required this.traits,
-    required this.isRecruiting,
-  });
+part 'faction.freezed.dart';
+part 'faction.g.dart';
 
-  Faction copyWith({
-    String? symbol,
-    String? name,
-    String? description,
-    String? headquarters,
-    List<FactionTrait>? traits,
-    bool? isRecruiting,
-  }) {
-    return Faction(
-      symbol: symbol ?? this.symbol,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      headquarters: headquarters ?? this.headquarters,
-      traits: traits ?? this.traits,
-      isRecruiting: isRecruiting ?? this.isRecruiting,
-    );
-  }
+@freezed
+class Faction with _$Faction {
+  const factory Faction({
+    @Default('') String symbol,
+    @Default('') String name,
+    @Default('') String description,
+    @Default('') String headquarters,
+    @Default([]) List<FactionTrait> traits,
+    @Default(false) bool isRecruiting,
+  }) = _Faction;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'symbol': symbol,
-      'name': name,
-      'description': description,
-      'headquarters': headquarters,
-      'traits': traits.map((x) => x.toMap()).toList(),
-      'isRecruiting': isRecruiting,
-    };
-  }
-
-  factory Faction.fromMap(Map<String, dynamic> map) {
-    return Faction(
-      symbol: map['symbol'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      headquarters: map['headquarters'] ?? '',
-      traits: List<FactionTrait>.from(
-          map['traits']?.map((x) => FactionTrait.fromMap(x)) ?? {}),
-      isRecruiting: map['isRecruiting'] ?? false,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Faction.fromJson(String source) =>
-      Faction.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'Faction(symbol: $symbol, name: $name, description: $description, headquarters: $headquarters, traits: $traits, isRecruiting: $isRecruiting)';
-  }
-
-  @override
-  List<Object> get props {
-    return [
-      symbol,
-      name,
-      description,
-      headquarters,
-      traits,
-      isRecruiting,
-    ];
-  }
+  factory Faction.fromJson(Map<String, dynamic> json) => _$FactionFromJson(json);
 }
 
 enum FactionSymbol {

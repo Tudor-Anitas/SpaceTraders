@@ -1,48 +1,14 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:equatable/equatable.dart';
+part 'refining_goods.freezed.dart';
+part 'refining_goods.g.dart';
 
-class RefiningGoods extends Equatable {
-  final String tradeSymbol;
-  final int units;
-  const RefiningGoods({
-    required this.tradeSymbol,
-    required this.units,
-  });
+@freezed
+class RefiningGoods with _$RefiningGoods {
+  const factory RefiningGoods({
+    @Default('') String tradeSymbol,
+    @Default(0) int units,
+  }) = _RefiningGoods;
 
-  RefiningGoods copyWith({
-    String? tradeSymbol,
-    int? units,
-  }) {
-    return RefiningGoods(
-      tradeSymbol: tradeSymbol ?? this.tradeSymbol,
-      units: units ?? this.units,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'tradeSymbol': tradeSymbol,
-      'units': units,
-    };
-  }
-
-  factory RefiningGoods.fromMap(Map<String, dynamic> map) {
-    return RefiningGoods(
-      tradeSymbol: map['tradeSymbol'] ?? '',
-      units: map['units']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory RefiningGoods.fromJson(String source) =>
-      RefiningGoods.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'RefiningGoods(tradeSymbol: $tradeSymbol, units: $units)';
-
-  @override
-  List<Object> get props => [tradeSymbol, units];
+  factory RefiningGoods.fromJson(Map<String, dynamic> json) => _$RefiningGoodsFromJson(json);
 }

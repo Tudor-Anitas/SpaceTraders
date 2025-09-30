@@ -7,13 +7,13 @@ class FactionsApi {
     Response response = await dio.get('/factions');
     return (
       response.statusCode!,
-      List.from(response.data['data'].map((x) => Faction.fromMap(x)))
+      List.from(response.data['data'].map((x) => Faction.fromJson(x)))
           as List<Faction>
     );
   }
 
   Future<(int, Faction)> getFaction(String factionSymbol) async {
     Response response = await dio.get('/factions/$factionSymbol');
-    return (response.statusCode!, Faction.fromMap(response.data['data']));
+    return (response.statusCode!, Faction.fromJson(response.data['data']));
   }
 }

@@ -74,7 +74,7 @@ class ShipsCubit extends Cubit<ShipsState> {
 
     if (responseCode >= 400) {
       _showSnackbarText('Cannot get ships from this shipyard :(');
-      return Shipyard.fromMap(const {});
+      return Shipyard.fromJson(const {});
     } else {
       return shipyard;
     }
@@ -129,8 +129,8 @@ class ShipsCubit extends Cubit<ShipsState> {
       context.read<HomeCubit>().showMessage(
           StateMessage(text: States.reload.name, key: UniqueKey()));
       Ship updatedShip = getCurrentShip(shipSymbol);
-      updatedShip.copyWith(fuel: updatedFuel, nav: updatedNav);
-      insertUpdatedShip(updatedShip);
+      insertUpdatedShip(
+          updatedShip.copyWith(fuel: updatedFuel, nav: updatedNav));
     } else {
       _showSnackbarText(e!.response!.data['error']['message']);
     }
@@ -141,10 +141,9 @@ class ShipsCubit extends Cubit<ShipsState> {
     var (agent, fuel, transaction, nav) =
         await ActionsRepository().finishTransit(shipSymbol);
     Ship updatedShip = getCurrentShip(shipSymbol);
-    updatedShip.copyWith(fuel: fuel, nav: nav);
     context.read<HomeCubit>().addTransaction(transaction);
     context.read<HomeCubit>().setAgent(agent);
-    insertUpdatedShip(updatedShip);
+    insertUpdatedShip(updatedShip.copyWith(fuel: fuel, nav: nav));
   }
 
   Future<void> mineAsteroid(String shipSymbol, int nrOfExtractions) async {

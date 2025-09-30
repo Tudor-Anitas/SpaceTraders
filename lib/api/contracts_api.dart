@@ -13,7 +13,7 @@ class ContractsApi {
 
       List<Contract> contracts = List.generate(
         response.data['data'].length,
-        (index) => Contract.fromMap(
+        (index) => Contract.fromJson(
           response.data['data'][index],
         ),
       );
@@ -27,7 +27,10 @@ class ContractsApi {
 
   Future<(int, Contract)> acceptContract(String id) async {
     Response response = await dio.post('/my/contracts/$id/accept');
-    return (response.statusCode!, Contract.fromMap(response.data['data']['contract']));
+    return (
+      response.statusCode!,
+      Contract.fromJson(response.data['data']['contract'])
+    );
   }
 
   /// returns a updated [Contract] and updated [ContractDeliverGood] of the ship that delivered
@@ -45,8 +48,8 @@ class ContractsApi {
 
     return (
       response.statusCode!,
-      Contract.fromMap(response.data['data']['contract']),
-      ContractDeliverGood.fromMap(response.data['data']['cargo'])
+      Contract.fromJson(response.data['data']['contract']),
+      ContractDeliverGood.fromJson(response.data['data']['cargo'])
     );
   }
 

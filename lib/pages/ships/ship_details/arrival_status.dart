@@ -91,15 +91,7 @@ class _ShipArrivalStatusState extends State<ShipArrivalStatus> {
           } else if (stopReload) {
             timer.cancel();
             if (mounted && fuel.current < fuel.capacity) {
-              context.read<ShipsCubit>().finishTransit(
-                  context,
-                  context
-                      .read<ShipsCubit>()
-                      .state
-                      .ships
-                      .firstWhere(
-                          (element) => element.symbol == widget.shipSymbol)
-                      .symbol);
+              context.read<ShipsCubit>().finishTransit(context, ship.symbol);
             }
           }
         });
