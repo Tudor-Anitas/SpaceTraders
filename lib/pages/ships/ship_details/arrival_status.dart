@@ -6,7 +6,6 @@ import 'package:space_traders/blocs/ships/ships_cubit.dart';
 import 'package:space_traders/components/progress_bar.dart';
 import 'package:space_traders/methods/duration.dart';
 import 'package:space_traders/models/route.dart' as ship;
-import 'package:space_traders/models/ship_nav.dart';
 
 class ShipArrivalStatus extends StatefulWidget {
   final String shipSymbol;

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:space_traders/models/ship.dart';
 
 class ShipsState extends Equatable {

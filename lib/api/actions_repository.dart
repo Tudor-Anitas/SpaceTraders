@@ -5,6 +5,7 @@ import 'package:space_traders/api/factions_api.dart';
 import 'package:space_traders/api/fleet_api.dart';
 import 'package:space_traders/api/local_storage.dart';
 import 'package:space_traders/api/systems_api.dart';
+import 'package:space_traders/envied.dart';
 import 'package:space_traders/models/agent.dart';
 import 'package:space_traders/models/chart.dart';
 import 'package:space_traders/models/construction.dart';
@@ -37,17 +38,16 @@ import 'package:space_traders/notifications/notification_service.dart';
 
 class ActionsRepository {
   Future<String> getToken() async {
-    return await LocalStorage().getToken();
+    return Env.accountToken;
   }
 
   //! Agent methods
-  Future<(int, Agent, Contract, Faction, Ship)> register(
+  Future<(int, Agent, Contract, Faction, List<Ship>)> register(
       String name, FactionSymbol factionSymbol) async {
-    var (statusCode, agent, contract, faction, ship, token) =
+    var (statusCode, agent, contract, faction, ships, token) =
         await AgentApi().register(name, factionSymbol);
 
-    await LocalStorage().storeToken(token);
-    return (statusCode, agent, contract, faction, ship);
+    return (statusCode, agent, contract, faction, ships);
   }
 
   Future<(Agent?, List<Contract>?, List<Ship>?)> getLoginData() async {

@@ -36,7 +36,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<bool> register(
       BuildContext context, String name, FactionSymbol factionSymbol) async {
-    final (statusCode, agent, contract, _, ship) =
+    final (statusCode, agent, contract, _, ships) =
         await ActionsRepository().register(name, factionSymbol);
 
     if (statusCode == 201) {
@@ -46,7 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
           contracts: [contract],
         ),
       );
-      context.read<ShipsCubit>().setShips([ship]);
+      context.read<ShipsCubit>().setShips(ships);
       return true;
     }
     return false;

@@ -6,6 +6,7 @@ import 'package:space_traders/components/app_bar.dart';
 import 'package:space_traders/components/custom_button.dart';
 import 'package:space_traders/components/sizes.dart';
 import 'package:space_traders/components/unfocus.dart';
+import 'package:space_traders/contants.dart';
 import 'package:space_traders/methods/validators.dart';
 import 'package:space_traders/methods/widget_keys.dart';
 import 'package:space_traders/models/faction.dart';
@@ -49,6 +50,7 @@ class _RegisterState extends State<Register> {
                           key: WidgetKeys.nameField,
                           controller: controller,
                           validator: nameValidator,
+                          maxLength: Constants.registerMaxLength,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -83,7 +85,6 @@ class _RegisterState extends State<Register> {
                   key: WidgetKeys.completeRegisterButton,
                   text: 'Register',
                   onPressed: () async {
-                    // formKey.currentState?.reset();
                     try {
                       isRegistered = await context
                           .read<HomeCubit>()

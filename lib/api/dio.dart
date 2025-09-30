@@ -11,11 +11,9 @@ final dio = Dio(
 
 InterceptorsWrapper networkInterceptor = InterceptorsWrapper(
   onRequest: (options, handler) async {
-    if (options.path != '/register') {
-      Map newHeaders = options.headers;
-      String token = await ActionsRepository().getToken();
-      newHeaders.addEntries({'Authorization': 'Bearer $token'}.entries);
-    }
+    Map newHeaders = options.headers;
+    String token = await ActionsRepository().getToken();
+    newHeaders.addEntries({'Authorization': 'Bearer $token'}.entries);
     return handler.next(options);
   },
   onResponse: (response, handler) {

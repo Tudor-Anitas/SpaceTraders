@@ -7,7 +7,7 @@ import 'package:space_traders/models/faction.dart';
 import 'package:space_traders/models/ship.dart';
 
 class AgentApi {
-  Future<(int, Agent, Contract, Faction, Ship, String)> register(
+  Future<(int, Agent, Contract, Faction, List<Ship>, String)> register(
       String name, FactionSymbol faction) async {
     try {
       Response response = await dio.post(
@@ -22,7 +22,7 @@ class AgentApi {
         Agent.fromMap(data['agent']),
         Contract.fromMap(data['contract']),
         Faction.fromMap(data['faction']),
-        Ship.fromMap(data['ship']),
+        List<Ship>.from(data['ships']?.map((ship) => Ship.fromMap(ship))),
         data['token'] as String
       );
     } on DioException catch (e) {
@@ -31,7 +31,7 @@ class AgentApi {
         Agent.empty(),
         Contract.fromMap(const {}),
         Faction.fromMap(const {}),
-        Ship.fromMap(const {}),
+        List<Ship>.from([].map((ship) => Ship.fromMap(const {}))),
         ''
       );
     }

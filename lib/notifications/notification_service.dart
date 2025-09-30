@@ -192,17 +192,16 @@ class NotificationService {
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
     Map<String, String?>? payload = receivedAction.payload;
-    if (payload == null) return;
 
     var context = router.routerDelegate.navigatorKey.currentContext;
     NotificationAction action =
-        NotificationAction.values.asNameMap()[payload['action']]!;
+        NotificationAction.values.asNameMap()[payload?['action']]!;
 
     switch (action) {
       case NotificationAction.navigateShip:
-        context!.push('/shipDetails', extra: payload['shipName']);
+        context!.push('/shipDetails', extra: payload?['shipName']);
       case NotificationAction.extractResources:
-        context!.push('/shipDetails', extra: payload['shipName']);
+        context!.push('/shipDetails', extra: payload?['shipName']);
     }
   }
 }

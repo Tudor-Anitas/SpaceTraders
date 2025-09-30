@@ -89,6 +89,7 @@ class Ship extends Equatable {
   }
 
   factory Ship.fromMap(Map<String, dynamic> map) {
+    print(map);
     return Ship(
       symbol: map['symbol'] ?? '',
       registration: Registration.fromMap(map['registration'] ?? {}),
