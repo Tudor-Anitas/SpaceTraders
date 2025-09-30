@@ -4,4 +4,14 @@ class LocalStorage {
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
+
+  Future<void> saveAgentToken(String token) async {
+    const storage = FlutterSecureStorage();
+    await storage.write(key: 'agentToken', value: token);
+  }
+
+  Future<String> getAgentToken() async {
+    const storage = FlutterSecureStorage();
+    return await storage.read(key: 'agentToken') ?? '';
+  }
 }

@@ -47,6 +47,8 @@ class ActionsRepository {
     var (statusCode, agent, contract, faction, ships, token) =
         await AgentApi().register(name, factionSymbol);
 
+    await LocalStorage().saveAgentToken(token);
+
     return (statusCode, agent, contract, faction, ships);
   }
 

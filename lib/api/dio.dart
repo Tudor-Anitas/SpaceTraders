@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:space_traders/api/actions_repository.dart';
+import 'package:space_traders/api/local_storage.dart';
 
 final dio = Dio(
   BaseOptions(
@@ -12,7 +13,9 @@ final dio = Dio(
 InterceptorsWrapper networkInterceptor = InterceptorsWrapper(
   onRequest: (options, handler) async {
     Map newHeaders = options.headers;
-    String token = await ActionsRepository().getToken();
+    String agentToken = await LocalStorage().getAgentToken();
+    String appToken = await ActionsRepository().getToken();
+    String token = options.path == '/register' ? appToken : agentToken;
     newHeaders.addEntries({'Authorization': 'Bearer $token'}.entries);
     return handler.next(options);
   },
